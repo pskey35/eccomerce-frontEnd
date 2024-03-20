@@ -1,0 +1,709 @@
+.ventana {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.ventana .container {
+  flex: 1;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.container .producto {
+  border-radius: 5px;
+  border: 2px solid rgb(34, 34, 34);
+  background: black;
+  display: flex;
+  max-width: 2050px;
+  min-height: 850px;
+  flex-wrap: wrap;
+  margin: 15px 30px;
+  width: 95%;
+}
+
+/*-----------PRODUCTO LEFT---------*/
+.producto .left {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 9;
+  min-width: 500px;
+  padding:5%;
+}
+
+.producto .left .contenidoImagen {
+  width: 100%;
+  height: 70%;
+  position: relative;
+  min-height:360px;
+  border-radius:5px;
+  overflow:hidden;
+}
+
+.fondoImagen{
+  position:absolute;
+  height:100%;
+  width:100%;
+  object-fit: cover;
+  z-index:10;
+  border-radius:20px;
+}
+
+
+.producto .left .contenidoImagen .imagen {
+  width: 100%;
+  height: 100%;
+  position:absolute;
+  z-index:20;
+  backdrop-filter: blur(130px);
+ /* background: linear-gradient(0deg, black, #00000069);*/
+}
+
+
+.producto .left .contenidoImagen .imagen img {
+  width: 100%;
+  height: 100%;
+  object-fit: scale-down;
+  border-radius:10px;
+}
+
+.producto .left .contenidoImagen .flechas {
+  position: absolute;
+  bottom: 10%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 5px 0;
+  height: 55px;
+  z-index:50;
+}
+
+.producto .left .contenidoImagen .flechas .flechas_content {
+  border-radius: 20px;
+  /*padding:7px 17px;*/
+  backdrop-filter: blur(50px);
+  width: 20%;
+  background: rgb(119 119 119 / 38%);
+  display: flex;
+  justify-content: space-around;
+  border:1px solid rgb(255 255 255 / 34%);
+  height: 100%;
+  min-width: 150px;
+}
+
+.producto .left .contenidoImagen .flechas .flechas_content>div {
+  width: 30px;
+  height: 100%;
+  cursor: pointer;
+  transition: all 250ms;
+  flex: 1;
+  padding: 8px;
+  transform: scale(1);
+}
+
+.flechas_content>div:nth-child(1) {
+  padding: 5px 0 5px 8.5px;
+}
+
+.flechas_content>div:nth-child(3) {
+  padding: 5px 8.5px 5px 0;
+}
+
+.flechas .flechas_content>div:hover svg {
+  transform: scale(1.1);
+}
+
+.flechas .flechas_content>div svg {
+  transition: all 200ms;
+  fill: red;
+}
+
+.flechas .flechas_content>div:hover svg {
+  fill: blue;
+}
+
+.flechas .flechas_content>span {
+  width: 2px;
+  background: gray;
+  border-radius: 50%;
+  display: inline-block;
+  margin: 5px 0;
+}
+
+.flechas_content>div>svg {
+  width: 100%;
+  height: 100%;
+}
+
+.producto .left .otherImages {
+  width: 100%;
+  margin-top: 20px;
+  min-width: 320px;
+}
+
+.producto .left .otherImages .otherImages_content {
+  display: flex;
+  justify-content: center;
+}
+
+.otherImages_content .itemImagen {
+  height: 60px;
+  width: 60px;
+  border-radius: 8px;
+  border: 1px solid rgba(128, 128, 128, 0.506);
+  transition: all 150ms;
+  margin: 0 5px;
+  padding: 5px;
+  cursor: pointer;
+}
+
+.otherImages_content .itemImagen:hover {
+  border: 3px solid rgb(0 132 255 / 84%);
+}
+
+.otherImages_content .itemImagen>img {
+  width: 100%;
+  height: 100%;
+  object-fit: scale-down;
+  transform: scale(1);
+  transition: all 500ms;
+}
+
+.otherImages_content .itemImagen:hover img {
+  transform: scale(1.1);
+}
+
+/*--------PRODUCTO RIGHT-----*/
+.producto .right {
+  flex: 6;
+  min-width:300px;
+}
+
+
+.producto .right_content {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding:30px;
+  padding-left:0;
+}
+
+
+@media (max-width:867px){
+  .producto .right .right_content{
+    padding-left:30px;
+  }
+}
+
+.right_content>h1 {
+  font-weight: 700;
+  color: white;
+  padding: 20px;
+  padding-left: 0;
+  font-size: 60px;
+  width: 100%;
+  overflow-wrap: break-word;
+  hyphens: revert
+}
+
+.right_content .precio {
+  padding: 6px 15px;
+    border-radius: 15px;
+    background: rgb(22 94 255 / 81%);
+    color: white;
+    width: max-content
+}
+
+.right_content .right_linea {
+  width: 100%;
+  height: 2px;
+  border-radius: 50%;
+  display: inline-block;
+  background: rgba(128, 128, 128, 0.411);
+  margin-top: 20px;
+}
+
+.right_content .descripcion {
+  color: gray;
+  padding: 20px 0;
+  min-height:140px;
+}
+
+.right_content .addCarrito {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.right_content .addCarrito .addCarrito_content {
+  width: 80%;
+  border-radius: 30px;
+  height: 100%;
+  display: grid;
+  place-items: center;
+  position: relative;
+  background: rgb(0 132 255 / 84%);
+  padding: 13px 0;
+  cursor: pointer;
+  transition: all 150ms;
+}
+
+.right_content .addCarrito .addCarrito_content:hover {
+  background: rgb(0 132 255);
+  ;
+}
+
+.addCarrito_content .iconoAdd {
+  position: absolute;
+  left: 10%;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  width: 20px;
+  height: 20px;
+}
+
+.addCarrito_content .iconoAdd svg {
+  width: 100%;
+  height: 100%;
+}
+
+.addCarrito_content .iconoAdd .circles{
+  display:flex;
+  justify-content:space-around;
+  align-items:center;
+  height:20px;
+}
+
+.circles > span{
+  width:4px;
+  padding-right:4px;
+  height:4px;
+  border-radius:50%;
+  background:white;
+}
+
+.cirscles > span:nth-child(1){
+  animation:circles-anim 1.4s infinite both 0ms;
+}
+
+.circles > span:nth-child(2){
+  animation:circles-anim 1.4s infinite both 200ms;
+}
+
+.circles > span:nth-child(3){
+  animation:circles-anim 1.4s infinite both 400ms;
+}
+
+
+@keyframes circles-anim{
+  0%{
+    opacity:.2
+  }
+
+  20%{
+    opacity:1
+  }
+  100%{
+    opacity:.2
+  }
+}
+
+.addCarrito_content .texto {
+  font-weight: 700;
+  color: white;
+}
+
+@media (max-width: 981px) {}
+
+/*----------------PRODUCTOS RELACIONADOS CONTAINER----------------------*/
+.relacionado {
+  width: 100%;
+  margin-top: 30px;
+  padding-left: 30px;
+  margin-bottom: 160px;
+}
+
+.relacionado_content {
+  width: 100%;
+  padding: 10px 0 10px 0;
+  display:grid;
+  flex-wrap:wrap;
+  justify-content: flex-start;
+  gap:20px;
+  grid-template-columns: repeat(4,minmax(270px,300px));
+  grid-template-rows:repeat(auto-fit,clamp(270px,300px,350px));
+  place-items:center;
+  justify-content:center;
+  grid-auto-columns:minmax(270px,300px);
+  grid-auto-rows:minmax(270px,300px);
+  position:relative;
+
+}
+
+
+.loader{
+  width: 30px;
+  height: 30px;
+  border: 3px solid #3787ff;
+  border-bottom-color: transparent;
+  border-radius: 50%;
+  display: block;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+  margin: 10px auto;
+}
+
+
+@keyframes rotation{
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width:1200px){
+  .relacionado .relacionado_content{
+    grid-template-columns:repeat(3,minmax(270px,300px));
+    grid-template-rows:repeat(auto-fit,clamp(270px,300px,350px));
+    justify-content:center;
+  }
+
+  .loader{
+    position:absolute;
+    bottom:-10%;
+
+  }
+}
+
+@media(max-width:900px){
+  .relacionado{
+    padding:15px;
+  }
+
+  .relacionado .relacionado_content{
+    grid-template-columns:repeat(2,48%);
+    grid-template-rows:repeat(auto-fit,clamp(270px,300px,350px));
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width:700px){
+  .relacionado{
+    padding:15px;
+  }
+
+  .relacionado_content{
+    
+  }
+
+
+  .relacionado .relacionado_content .productoRelacionadoItem{
+    
+  }
+}
+
+.relacionado_content .detect{
+    visibility: hidden;
+    bottom: 0;
+    transform: translateY(80%);
+    height: 200px;
+    width: 100%;
+    position:absolute;
+}
+
+.relacionado_content .productoRelacionadoItem{
+  height:100%;
+}
+
+
+.relacionado h1 {
+  color: white;
+  text-align:center;
+}
+
+.relacionado_content .itemRelacionado {
+  width: 270px;
+  height: 230px;
+  border-radius: 7px;
+  border: 2px solid rgba(128, 128, 128, 0.377);
+  margin-right: 10px;
+  min-width: 270px;
+  transition: all 200ms;
+}
+
+
+.relacionado_content .itemRelacionado:hover {
+  border: 2px solid rgb(0, 110, 255);
+}
+
+.relacionado_content .itemRelacionado_content {
+  height: 100%;
+  width: 100%;
+  position: relative;
+  background: black;
+  border-radius: 7px;
+  cursor: pointer;
+}
+
+
+.relacionado_content .imagen {
+  width: 100%;
+  height: 100%;
+}
+
+
+.relacionado_content .itemRelacionado .imagen img {
+  width: 100%;
+  height: 100%;
+  object-fit: scale-down;
+  transition: all 500ms;
+}
+
+.relacionado_content .itemRelacionado_content:hover>.imagen img {
+  transform: scale(1.1);
+}
+
+
+
+.relacionado_content .infoPrecio {
+  position: absolute;
+  border: 1px solid rgb(19 168 255 / 70%);
+  bottom: 10px;
+  left: 10px;
+  color: white;
+  border-radius: 30px;
+  display: flex;
+  backdrop-filter: blur(10px);
+  align-items: center;
+  justify-content: space-between;
+  padding: 2px 2px 2px 7px;
+
+}
+
+.relacionado_content .infoPrecio .nombreArticulo {
+  font-weight: 700;
+  margin-right: 10px;
+}
+
+.relacionado_content .infoPrecio .precio {
+  background: rgb(26, 144, 255);
+  border-radius: 15px;
+  padding: 7px 10px;
+}
+
+
+
+
+.relacionado_content::-webkit-scrollbar {
+  width: 10px;
+}
+
+.relacionado_content::-webkit-scrollbar-track {
+  background-color: #70707044;
+}
+
+.relacionado_content::-webkit-scrollbar-thumb {
+  background-color: #3f3f3f;
+  border-radius: 3px;
+  transition: all 3s;
+}
+
+.relacionado_content::-webkit-scrollbar-thumb:hover {
+  background-color: #bdbdbd;
+  /* Color del scroll al pasar el cursor */
+}
+
+
+
+@media (max-width:560px) {
+  .container .producto {
+    min-height: auto;
+  }
+
+  .producto .left {
+    min-width: 314px;
+  }
+
+  .right_content>h1 {
+    font-size: 40px;
+  }
+}
+
+
+@media (max-width:500px) {
+  .container .producto {
+    margin: 10px;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+/*-------------SECCION DE SKELETONS-----------*/
+.container .ldngProducto {
+  border-radius: 5px;
+  border: 2px solid #222;
+  background: black;
+  display: flex;
+  max-width: 2050px;
+  min-height: 850px;
+  flex-wrap: wrap;
+  margin: 15px 30px;
+  width: 95%;
+}
+
+.ldngProducto .ldngLeft {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex:4;
+}
+
+.ldngProducto .ldngContenidoImagen {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 70%;
+}
+
+.ldngContenidoImagen .ldngImagen {
+  width: 70%;
+  height: 80%;
+  border-radius: 15px;
+  border: 1px solid rgba(75, 75, 75, 0.301);
+  animation:animLoad 1.5s linear infinite alternate;
+}
+
+
+
+
+
+
+.ldngProducto .ldngOtherImages {
+  min-width: 314px;
+  height:65px;
+  width: 100%;
+  margin-top: 20px;
+}
+
+.ldngOtherImages .ldngOtherImages_content{
+  display: flex;
+  justify-content: center;
+  height:100%;
+  width:100%;
+ 
+}
+
+.ldngOtherImages .ldngOtherImages_content .ldngItemImages {
+  height: 60px;
+  width: 60px;
+  border-radius: 8px;
+  border: 1px solid rgba(128, 128, 128, 0.506);
+  transition: all 150ms;
+  margin: 0 5px;
+  padding: 5px;
+  animation:animLoad 1.5s linear infinite alternate;
+}
+
+
+
+.ldngProducto .ldngRight{
+  flex:3;
+}
+
+.ldngRight .ldngRight_content{
+  width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 30px;
+}
+
+
+
+
+.ldngRight .ldngRight_content .ldngH1{
+  height:30px;
+  width:100%;
+  animation:animLoad 1.5s linear infinite alternate;
+  border-radius:10px;
+}
+
+.ldngRight .ldngRight_content .ldngPrecio{
+  height:30px;
+  border-radius:15px;
+  animation:animLoad 1.5s linear infinite alternate;
+  width:100px;
+  margin:40px 0;
+}
+
+.ldngRight_content .ldngDescripcion{
+  width:100%;
+  height:40%;
+
+}
+
+.ldngDescripcion .ldngParrafo{
+  width:100%;
+  height:20px;
+  border-radius:5px;
+  background:gray;
+  border-radius:3px;
+  margin:10px 0;
+  animation:animLoad 1.5s linear infinite alternate;
+}
+
+.ldngParrafo:nth-child(1){
+  width:100%;
+}
+
+.ldngParrafo:nth-child(2){
+  width:70%;
+}
+
+.ldngParrafo:nth-child(3){
+  width:50%;
+}
+
+.ldngParrafo:nth-child(4){
+  width:80%;
+}
+
+
+
+
+.ldngRight .ldngRight_content .ldngAddCarrito{
+  width:200px;
+  border-radius:30px;
+  height:30px;
+  animation:animLoad 1.5s linear infinite alternate;
+}
+
+
+@keyframes animLoad{
+  0%{
+    background-color:hsl(0, 0%, 9%)
+  }
+
+  100%{
+    background-color:hsl(0, 0%, 44%)
+  }
+}

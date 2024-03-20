@@ -1,0 +1,144 @@
+.ventana,
+.container {
+    height: 100%;
+    width: 100%;
+}
+
+.container {
+    display: grid;
+    place-items: center;
+}
+
+.formulario {
+    width: 80%;
+    height: 90%;
+    max-width: 2000px;
+    max-height: 1200px;
+    background: black;
+    border-radius: 10px;
+    border: 1px solid gray;
+    overflow: hidden;
+}
+
+.formulario {
+    display: flex;
+}
+
+.formulario .left {
+    width: 50%;
+}
+
+.formulario .left img {
+    width: 100%;
+    height: 100%;
+}
+
+.formulario .right {
+    width: 50%;
+}
+
+
+.formulario .right .right_content {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: rgb(15, 18, 20);
+}
+
+.formulario .right .right_content h1 {
+    color: white;
+}
+
+.formulario .right .right_content .logo {
+    width: 80px;
+    height: 80px;
+    margin:30px 0;
+}
+
+.formulario .right .right_content .logo img {
+    width: 100%;
+    height: 100%;
+}
+
+.formulario .right .right_content .inputs {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding:0 30px;
+    padding-bottom:0;
+}
+
+.right_content .inputs>div {
+    width: 100%;
+    margin: 10px 0;
+    height:40px;
+    padding-left:5px;
+    position:relative;
+    border-radius:2px;
+    overflow:hidden;
+}
+
+.right_content .inputs .login {
+    background: blue;
+    text-align: center;
+    position:static;
+    display:grid;
+    place-items:center;
+    color:white;
+    width:75%;
+    border-radius:7px;
+    margin-top:40px;
+    cursor:pointer;
+}
+
+.right_content .inputs>div input {
+    width: 100%;
+    background: gray;
+    color: white;
+    height:100%;
+    position:absolute;
+    top:0;
+    left:0;
+    padding:0 7px;
+}
+
+
+.right_content .inputs>div input::placeholder{
+    color:rgba(0, 0, 0, 0.678);
+}
+
+
+/*subete a mi moto nunca song ...
+si culpable soy yo me enamore sin comprenderte ciego de pasion song
+*/
+
+
+@media (max-width:700px) {
+    .formulario {
+        width: 90%;
+        height:55%;
+    }
+
+    .formulario .left {
+        display: none;
+    }
+
+    .formulario .right {
+        width: 100%;
+    }
+
+    .formulario .right .right_content{
+        padding:40px 0;
+    }
+
+    .right_content .inputs .login{
+        width:100%;
+        border-radius:10px;
+        height:45px;
+    }
+}

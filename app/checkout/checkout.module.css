@@ -1,0 +1,830 @@
+.ventana{
+	height:100%;
+	width:100%;
+	font-famiy:monospace;
+}
+
+
+
+/*Toda esta parte es el skeleton Loader*/
+.loaderContent{
+	width:100%;
+	height:100%;
+	display:flex;
+	padding:0 50px;
+}
+
+
+.loaderContent .left{
+	width:60%;
+	height:100%;
+	display:flex;
+	flex-direction:column;
+	padding:30px;
+	padding-left:50px;
+	padding-top:45px;
+}
+
+
+.left .logo img{
+	width:60px;
+	height:60px;
+	border-radius:5px;
+	object-fit:scale-down;
+}
+
+
+.left .orderMobile{
+	display:none;
+}
+
+.left .left_second{
+	flex:1;
+}
+
+
+
+
+
+/*Este es el primer bloque del Left skeleton*/
+
+.left .left_second .second_1{
+	display:flex;
+	flex-direction:column;
+	align-items: center;
+	justify-content: center;
+	margin:35px 0;
+	
+}
+
+
+
+.second_1 .first{
+	width:100%;
+	padding:10px 0;
+	border-radius:5px;
+
+}
+
+.second_1 .first span{
+	display:block;
+	background:#373737;
+	width:30%;
+	border-radius:5px;
+	height:15px;
+	margin:auto;
+}
+
+
+
+.second_1 div:nth-child(2){
+	width:100%;
+	display:flex;
+	justify-content: space-between;
+	flex-wrap:wrap;
+}
+
+.second_1 div:nth-child(2) > span{
+	display:inline-block;
+	width:32%;
+	height:40px;
+	border-radius:5px;
+	background:#373737;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/*Este es el segundo bloque de Left Skeleton*/
+.left_second .second_2{
+	width:100%;
+	padding:20px 0;
+	border-top:1px solid gray;
+	border-bottom:1px solid gray;
+}
+
+
+
+.second_2 span{
+	display:inline-block;
+	background:#373737;
+	margin-bottom:6px;
+	border-radius:5px;
+	height: 15px;
+}
+
+.second_2 span:nth-child(1){
+	width:25%;
+	height:19px;
+	margin-bottom:14px;
+}
+
+.second_2 span:nth-child(2){
+	width:100%;
+}
+
+.second_2 span:nth-child(3){
+	width:100%;
+}
+
+
+
+
+
+/*Este es el bloque 3 de left Skeleton Loader*/
+.second_3{
+	width:100%;
+	margin-top:20px;
+}
+
+.second_3 span{
+	margin-bottom:6px;
+	height:15px;
+	background:#373737;
+	border-radius:5px;
+	display:inline-block;
+}
+
+.second_3 span:nth-child(1){
+	width:25%;
+	height:19px;
+	border-radius:5px;
+	margin-bottom:14px;
+}
+
+.second_3 span:nth-child(2){
+	width:100%;
+}
+
+.second_3 span:nth-child(3){
+	width:100%;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*Esto y es el right*/
+.loaderContent .right{
+	height:100%;
+	width:40%;
+	padding:30px;
+	border-left:1p solid gray;
+}
+
+
+.right_top{
+	height:65px;
+	width:100%;
+	display:flex;
+	align-items: center;
+}
+
+.right_top .top_left{
+	width:60px;
+	height:60px;
+	border-radius:5px;
+	background:#373737;
+
+}
+
+
+.right_top .top_right{
+	display:flex;
+	justify-content: space-around;
+	flex:1;
+	padding-left:10px;
+	height:100%;
+
+}
+
+
+
+/*---------right-top-Left-*/
+
+.top_right .top_r_left{
+	flex:1;
+	display:flex;
+	justify-content: center;
+	flex-direction: column;
+}
+
+.top_right .top_r_left span:nth-child(1){
+	background:#373737;
+	display:inline-block;
+	border-radius:5px;
+	height:15px;
+	width:60%;
+	margin-bottom:10px;
+}
+
+.top_right .top_r_left span:nth-child(2){
+	background:#373737;
+	display:inline-block;
+	border-radius:5px;
+	height:15px;
+	width:30%;
+}
+
+
+.top_right .top_r_right{
+	width:70px;
+	background:#373737;
+	height:15px;
+	border-radius:5px;
+	margin:auto;
+}
+
+
+
+
+
+
+/*RIGHT BOTTOM*/
+
+.right .right_bottom{
+	display:flex;
+	width:100%;
+	margin-top:20px;
+}
+
+.bottom_left{
+	display:flex;
+	flex-direction: column;
+	width:50%;
+}
+
+
+.bottom_left span{
+	display:inline-block;
+	background:#373737;
+	height:14px;
+	margin-bottom:12px;
+	border-radius:5px;
+}
+
+.bottom_left span:nth-child(1){
+	width:30%;
+}
+
+.bottom_left span:nth-child(2){
+    width:30%;
+}
+
+.bottom_left span:nth-child(3){
+	width:30%;
+}
+
+.bottom_left span:nth-child(4){
+	width:60%;
+	height:17px;
+}
+
+
+
+
+
+.bottom_right{
+	display:flex;
+	flex-direction: column;
+	width:50%;
+	align-items: flex-end;
+
+}
+
+.bottom_right span{
+   display:inline-block;
+   background:#373737;
+   height:14px;
+	margin-bottom:12px;
+	border-radius:5px;
+
+}
+
+.bottom_right span:nth-child(1){
+	width:30%;
+}
+
+
+.bottom_right span:nth-child(2){
+	width:30%;
+}
+
+
+.bottom_right span:nth-child(3){
+	width:30%;
+}
+
+.bottom_right span:nth-child(4){
+   width:60%;
+   height:17px;
+}
+
+
+
+@media (max-width:1000px){
+	.right{
+		display:none;
+	}
+
+
+	.loaderContent{
+		padding:0;
+		padding-top:30px;
+
+	}
+
+	.loaderContent .left{
+		width:100%;
+		padding:0;
+		display:flex;
+		flex-direction: column;
+		align-items:center;
+	}
+
+
+	.loaderContent .left .logo{
+		align-self:flex-start;
+		margin-left:20px;
+	}
+
+	.loaderContent .left .left_second{
+		width:90%;
+		max-width:570px;
+	}
+
+	.loaderContent  .left .orderMobile{
+		width:100%;
+		display:flex;
+		justify-content:space-between;
+		padding:25px 17px;
+		border-top:1px solid #373737;;
+		border-bottom:1px solid #373737;;
+		margin-top:50px;
+		margin-bottom:20px;
+	}
+
+	.loaderContent  .left .orderMobile span{
+		background:#373737;
+		display:inline-block;
+		border-radius:5px;
+		height:20px;
+	}
+
+	.loaderContent  .left .orderMobile span:nth-child(1){
+		width:40%;
+	}
+
+
+	.loaderContent .left .orderMobile span:nth-child(2){
+		width:34%;
+	}
+
+
+
+
+	.loaderContent .left .second_1 .first span{
+		width:45%;
+		max-width:200px;
+	}
+
+
+
+
+	.loaderContent .second_1 div:nth-child(2) > span:nth-child(1){
+		width:100%;
+		margin-bottom:10px;
+	}
+
+	.loaderContent .second_1  div:nth-child(2) > span:nth-child(2){
+		width:48.5%;
+	}
+
+	.loaderContent .second_1  div:nth-child(2) > span:nth-child(3){
+		width:48.5%;
+	}
+}
+
+
+
+
+
+/*---------HEADER-----------*/
+
+.header{
+	width:100%;
+	padding:21px;
+}
+
+.header .logo{
+	width:60px;
+	height:60px;
+	border-radius:5px;
+}
+
+
+.header .logo img{
+	width:100%;
+	height:100%;
+	object-fit:scale-down;
+}
+
+
+
+/*--------CarritoRight------------*/
+
+.carritoRight{
+	width:45%;
+	padding:30px;
+	border-left:1px solid gray;
+}
+
+
+.carritoRight .carritoRight_content{
+	width:100%;
+	height:max-content;
+	position:sticky;
+	top:30px; /*este 30px es por el padding que tiene arriba*/
+}
+
+.carritoRight_content .productoContainer{
+	width:100%;
+	margin-bottom:60px;
+}
+
+.carritoRight .carritoRight_content .infoProducto{
+	width:100%;
+	color:white;
+
+}
+
+.infoProducto > div{
+	width:100%;
+	display:flex;
+	justify-content:space-between;
+	font-weight:700;
+	margin-bottom:6px;
+}
+
+.infoProducto .subTotal > span:nth-child(1){
+	font-size:16px;
+}
+
+.infoProducto .subTotal > span:nth-child(2){
+	font-size:18px;
+}
+
+
+
+
+.infoProducto .shipping > span:nth-child(1){
+	font-size:15px;
+}
+
+.infoProducto .shipping > span:nth-child(2){
+	font-size:13px;
+}
+
+
+
+.infoProducto .total > span{
+	font-size:22px;
+	font-weight:10000;
+}
+
+
+.infoProducto .total > div > span:nth-child(1){
+	color:#7d7d7d;
+	margin-right:5px;
+}
+
+.infoProducto .total > div > span:nth-child(2){
+	font-size:25px;
+}
+
+
+/*---Componente producto*----*/
+.producto{
+	width:100%,;
+	height:64px;
+	margin-bottom:20px;
+}
+
+.producto_content{
+	width:100%;
+	height:100%;
+	display:flex;
+	align-items:center;
+}
+
+.producto_content .image{
+	width:62px;
+	height:62px;
+	background:rgb(24,24,24);
+	border:1px solid #4b4b4b;
+	position:relative;
+	border-radius:5px;
+}
+
+
+.producto_content .image img{
+	width:100%;
+	height:100%;
+	object-fit:scale-down;
+}
+
+
+.producto_content .image .cantidad{
+	width:20px;
+	height:20px;
+	border-radius:50%;
+	background:#9f9f9f;
+	position:absolute;
+	inset:0 0 auto auto ;
+	display:grid;
+	place-items:center;
+	transform:translate(50%,-50%);
+	line-height:10px;
+	font-weight:700;
+	color:black;
+}
+
+.producto_content .productoRight{
+	flex:1;
+	height:100%;
+	display:flex;
+	justify-content:space-between;
+	align-items:center;
+	margin-left:10px;
+	padding-right:15px;
+}
+
+.producto_content .productoRight .precioItem{
+	margin-left:15px;
+}
+
+
+
+@media (max-width:1000px){
+	.carritoRight{
+		display:none;
+	}
+}
+
+
+
+
+
+
+
+
+
+/*-----------CARRITO MOBILE--------*/
+.carroMb{
+	width:100%;
+	cursor:pointer;
+}
+
+
+.carroMb .carroMb_content{
+	width:100%;
+	display:flex;
+	justify-content:space-between;
+	background:transparent;
+	border-top:1px solid #474747;
+/*	border-bottom:1px solid #474747;*/
+	animation:entrada 400ms ease forwards;
+	padding:17px 21px;
+}
+
+@keyframes entrada{
+	0%{
+		background:transparent;
+	}
+
+	100%{
+		background:#101010
+	}
+}
+
+.carroMb_content .carroMb_left{
+	display:flex;
+	align-items:center;
+}
+
+
+.carroMb_left .carroIcon{
+	height:18px;
+	width:18px;
+}
+
+.carroMb_left .carroIcon svg{
+	height:100%;
+	width:100%;
+	fill:#101010;
+	stroke:#1a61ff;
+}
+
+
+.carroMb_left .showCarMessage{
+	color:#1a61ff;
+	backgrund:red;
+	margin:0 10px;
+}
+
+
+
+.carroMb_left .flechaIcon{
+	height:18px;
+	width:18px;
+	transition:all 200ms;
+}
+
+.carroMb_left .flechaIcon svg{
+	width:100%;
+	height:100%;
+	fill:#101010;
+	stroke:#1a61ff;
+}
+
+.carroMb_content .carroMb_right{
+	font-size:25px;
+	font-weight:700;
+
+}
+
+
+
+
+/*esta es la parte del productoContainerxd*/
+
+
+.carroMb .carroProducto{
+	width:100%;
+	height:330px;
+	border-bottom:1px solid #474747;
+	transition:all 350ms ease;
+	overflow:hidden;
+}
+
+.carroMb .carroProducto .carritoRight_mb{
+	height:100%;
+	width:100%;
+	padding:17px 21px 17px 21px;
+}
+
+
+.carroProducto .carritoRight_content_mb{
+	width:100%;
+	height:100%;
+}
+
+.carritoRight_content_mb .productoContainer_mb{
+	width:100%;
+	margin-bottom:40px;
+}
+
+.carritoRight_mb .carritoRight_content_mb .infoProducto_mb{
+	width:100%;
+	color:white;
+
+}
+
+.infoProducto_mb > div{
+	width:100%;
+	display:flex;
+	justify-content:space-between;
+	font-weight:700;
+	margin-bottom:6px;
+}
+
+.infoProducto_mb .subTotal_mb > span:nth-child(1){
+	font-size:16px;
+}
+
+.infoProducto_mb .subTotal > span:nth-child(2){
+	font-size:18px;
+}
+
+
+
+
+.infoProducto_mb .shipping_mb > span:nth-child(1){
+	font-size:15px;
+}
+
+.infoProducto_mb .shipping_mb > span:nth-child(2){
+	font-size:13px;
+}
+
+
+
+.infoProducto_mb .total_mb > span{
+	font-size:22px;
+	font-weight:10000;
+}
+
+
+.infoProducto_mb .total_mb > div > span:nth-child(1){
+	color:#7d7d7d;
+	margin-right:5px;
+}
+
+.infoProducto_mb .total_mb > div > span:nth-child(2){
+	font-size:25px;
+}
+
+
+
+
+
+/*este breakpoint esta porque ps el carritoMobile solo es para mobiles xd*/
+@media (min-width:1000px){
+	.carroMb{
+		display:none;
+	}
+}
+
+
+
+
+
+/*------------NAVBAR---------------*/
+
+.navBar{
+	width:100%;
+	margin-bottom:18px;
+}
+
+.navBar .navBar_content{
+	width:85%;
+	display:flex;
+	justify-content: space-between;
+	max-width:300px;
+}
+
+
+.navBar_content .navBar_li{
+	width:max-content;
+}
+
+.navBar_content .navBar_li > a{
+  color:#1a61ff;
+  font-weight:700;
+  text-decoration:none;
+  transition:color 130ms ease;
+}
+
+
+.navBar_content .navBar_li a:hover{
+	color:lightblue;
+}
+
+.navBar_content .rightFlecha{
+	height:10px;
+	width:10px;
+	display:inline-block;
+	margin-left:3px;
+	position:relative;
+	top:1.4px;
+}
+
+.rightFlecha svg{
+	width:100%;
+	height:100%;
+	fill:black;
+	/*stroke:#1a61ff;*/
+	stroke:white;
+
+}
+
+
+
+/*-----------este es el FOOTER algo pequeño xd--------*/
+.footerCheckout{
+	width:100%;
+	padding-top:14px;
+	text-align:start;
+	border-top:1px solid gray;
+}
+

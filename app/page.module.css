@@ -1,0 +1,122 @@
+.ventana {
+  background: rgb(14, 14, 14);
+}
+
+.ventana .cajaTop{
+}
+
+
+.ventana .inputContainer{
+  width:90%;
+  margin:auto;
+  position:sticky;
+  top:60px;
+  z-index:50;
+  padding-top:10px;
+  background:rgb(14, 14, 14);
+  display:none;
+}
+
+@media (max-width:768px){
+  .ventana .inputContainer{
+    display:block;
+  }
+}
+
+/*---------Component Input-----------------*/
+
+
+
+
+/*en esta pagina noma se vera asi el productoContainer*/
+.ventana .productoBloque {
+  display:grid;
+  place-items:center;
+  padding: 30px;
+}
+
+.ventana .productoBloque .productoContainer {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0px, 1fr));
+  grid-template-rows: repeat(2, minmax(400px, 1fr));
+  grid-gap: 16px;
+  max-width: 1500px;
+  width:100%;
+}
+
+.ventana .productoBloque .productoContainer>div {
+  width: 100%;
+  height: 100%;
+  background: black;
+}
+
+.ventana .productoBloque .productoContainer>div:nth-child(1) {
+  grid-column: 1 / span 3;
+  grid-row: span 2;
+}
+
+.ventana .productoBloque .productoContainer>div:nth-child(2) {
+  grid-column: span 2;
+}
+
+.ventana .productoBloque .productoContainer>div:nth-child(3) {
+  /* background:lightblue;*/
+  grid-column: span 2;
+}
+
+@media (max-width: 768px) {
+  .ventana .productoBloque{
+    padding-top:20px;
+  }
+  .ventana .productoBloque .productoContainer {
+    grid-template-columns: repeat(1, 1fr);
+    grid-template-rows: repeat(3, 450px);
+    grid-column-gap: 0px;
+  }
+
+  .ventana .productoBloque .productoContainer>div:nth-child(1) {
+    grid-column: 1 / span 1;
+    grid-row: span 1;
+  }
+
+  .ventana .productoContainer>div:nth-child(2) {}
+}
+
+/*------------------CONTAINER DESLIZANTE--------*/
+.containerDeslizante {
+  width: 100%;
+  height: auto;
+}
+
+.containerDeslizante .containerDeslizante_content {
+  display: flex;
+  overflow: auto;
+  padding: 10px 17px;
+}
+
+.containerDeslizante .containerDeslizante_content > div {
+  min-width: 300px;
+  height: 250px;
+  margin:0 15px;
+  background:blacK;
+}
+
+
+.containerDeslizante_content::-webkit-scrollbar {
+  width: 10px;
+}
+
+.containerDeslizante_content::-webkit-scrollbar-track {
+  background-color: #70707044;
+}
+
+.containerDeslizante_content::-webkit-scrollbar-thumb {
+  background-color: #3f3f3f;
+  border-radius: 3px;
+  transition: all 3s;
+}
+
+.containerDeslizante_content::-webkit-scrollbar-thumb:hover {
+  background-color: #bdbdbd;
+  /* Color del scroll al pasar el cursor */
+}

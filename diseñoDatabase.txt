@@ -1,0 +1,91 @@
+se creara diferentes usuarios y cada usuario subira sus propios productos
+solamente un usuario que subio ese producto podra eliminar su propio producto.
+esto lo hare por seguridad en caso de que se agregue a otro usuario y este se pase de habil
+y borre todo los productos. en todo caso si se quiere eliminar un producto que hable con el 
+creador de la web (osea yo xd)
+
+pk = primary Key
+fk = foreign key
+
+el nombre en administradores validar que no tenga numeros ni mayusculas ni caracteres especiales
+Administradores:
+    id(Primary Key)           nombre(Varchar 500)         password(Varchar 500)
+         1                             juan                      pass
+         2                             luis                      wazapass23
+         3                             pablito                   pass123
+
+
+
+
+el precio que se guarde en dolares en la database y usar una api para convertir esos dolares a pesos mx o soles etc
+no esta la urlDeImgs porq ya tengo una tabla por aparte y ahi estan todas las imagenes
+aqui he agregado tipo de categorias y tambien agregare la fecha en que se  creo ese producto 
+esto de la decha creacion del producto que sera en time epoc lo usare para ordenar en el /search
+por "novedades" osea los mas recientes
+ya probe y no se puede poner un id auto_increment tiene que ser si o si un primary key() sino, no te deja.
+mejor lo dejare ahi noma haha 
+Productos:  
+       id(PK)         idAdmin_que_subioProducto(FK)     nombre_producto          descripcion(TEXT)                       precio_en_dolares(DECIMAL(20,2))    categoria (TEXT)      fecha_creacion(int milisegundos epoc)
+      ab354-Kl                  3                          audifonosB-12       "esto es un audifono color...."                100.00                            "vestimentas"              5803495
+
+
+
+
+
+
+
+
+como un producto debe de tener como  5 imagenes como maximo lo mejor seria crear otra tabla llamada imagenes
+el numeroImg = se refiere ala posicion ps enbes de poner primero segundo o tercero simplemente pongo numeros
+IMAGENES:
+  id(PK)   idProducto(foreingKey)       indiceImg       imagenURL
+  1                  2                       3                 /parrot.jpg
+  2                   2                      3                /ekis.svg
+  3                    1                      1                 /soporte.jpg
+
+
+
+
+
+
+
+
+
+en esta tabla se guardaran los productos en el carrito del usuario temporalmente se eliminaran por defecto en 10 dias
+y si vuelve a entrar ala pagina y se ve que tiene ese id en sessionStorage entonces volvemos a poner que dentro de 10 dias se borrar ese carrito
+el id tiene que ser un uuid ya que se guardara en sessionStorage del usuario
+CARRITO_TEMPORAL_DE_USUARIOS:
+    id           idSessionStorage                   idProducto(foreignKey)                  diasRestantes(default= 10)        cantidadProducto(default=0)
+     1                 abFG32-fk                               asdf-23                                   10                              3
+     2                 abFG32-fk                              asdf-23
+ 
+
+
+
+ 
+lo mejor seria crear un id por session storage y guardarlo en la database
+
+y por defecto eliminarlo en 10 dias si en el dia 1 de enero se entra a la web
+entonces se crea ese id para el usuario
+luego de despues de 9 dias si el usuario vuelve a entrar a su web y sigue 
+guardado ese idsession storage ahi entonces poner denuevo que le quedan 10 dias
+mas para eliminar ese carrito de la database
+
+creo que lo mejor seria usar un useEffect en layout.jsx y ahi verificar si ese
+id ya existia y si existia ps ponerle un valor de 10 dias restantes
+
+
+la 
+
+
+
+
+
+
+
+
+creo que tambien se deberia de crear otra tabla como la de "cantidad de compradores de un producto"
+o la de "todas las transaccione" y ver si fue exitosa la compra si le llego 
+
+como las compras se van a hacer manual lo mejor sera ni bien se llega la compra mandar notificacion a un correo
+o mejor seria enviarlo por whatsapp

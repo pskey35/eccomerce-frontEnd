@@ -1,0 +1,186 @@
+/*----------------FOOTER-----------*/
+
+.footer {
+  width: 100%;
+  margin-top: 10px;
+  color: white;
+}
+
+.footer_content .first {
+  display: flex;
+  padding: 20px 50px;
+  flex-wrap: wrap;
+}
+
+.footer_content .first .logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  min-width: 175px;
+}
+
+.footer_content .first .logo .logo_content {
+  display: flex;
+  align-items: center;
+
+}
+
+
+.footer_content .first .about {
+  flex: 1;
+  min-width: 250px;
+}
+
+.footer_content .first .about ul {
+  list-style: none;
+}
+
+.footer_content .first .about ul li {
+  padding: 5px 10px;
+  transition: all 200ms;
+  color: gray;
+  cursor: pointer;
+}
+
+
+.footer_content .first .about ul li:hover {
+  color: white;
+  text-decoration: underline;
+}
+
+.footer_content .first .logo .image {
+  width: 35px;
+  height: 35px;
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid gray;
+}
+
+.footer_content .first .logo .image img {
+  width: 100%;
+  height: 100%;
+}
+
+.first .other {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+
+.first .other .siguenos {}
+
+.first .other .siguenos>p {
+  margin-bottom: 10px;
+}
+
+.first .other .socialMediaIconos {
+  display: flex;
+  justify-content: space-around;
+  list-style: none;
+}
+
+.first .other .socialMediaIconos li {
+  height: 30px;
+  width: 30px;
+  transition: all 150ms;
+  cursor: pointer;
+}
+
+.first .other .socialMediaIconos li:hover {
+  box-shadow: 0 0 20px 1.5px rgb(0, 132, 255);
+  border-radius: 50%;
+
+}
+
+.first .other .metodoPagos {
+  margin-top: 90px;
+
+}
+
+.first .other .metodoPagos>p {
+  text-align: end;
+}
+
+
+
+.first .other .metodoPagos .metodoPagosIconos {
+  display: flex;
+  justify-content: space-around;
+  list-style: none;
+  margin-top: 10px;
+}
+
+.first .other .metodoPagos .metodoPagosIconos li {
+  padding: 0 5px;
+}
+
+
+
+.footer_content .second {
+  display: flex;
+  justify-content: space-between;
+  border-top: 1px solid #39393a;
+  align-items: center;
+  padding: 20px;
+  margin-top: 30px;
+}
+
+
+
+
+
+.footer_contetn .first>div {}
+
+
+
+
+
+@media (max-width:825px) {
+  .first .other .siguenos {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 30px;
+  }
+
+
+  .first .other .socialMediaIconos {
+    width: 70%;
+  }
+
+  .first .other .metodoPagos {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+
+  .first .other .metodoPagos>p {
+    text-align: center;
+  }
+
+  .first .other {
+    align-items: center;
+  }
+
+  .first .other .metodoPagos .metodoPagosIconos {
+    width: 100%;
+  }
+}
+
+
+@media (max-width:530px) {
+  .footer .first .logo {
+    margin: 100px 0;
+  }
+
+  .footer_content .first{
+    padding:20px;
+  }
+}

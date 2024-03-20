@@ -1,0 +1,94 @@
+
+
+----------INTERFAZ WEB---------------
+paleta de colores:
+fondo:background: rgb(26, 27, 27);
+
+fondoAbajo eso lo use en el home:    background: rgb(14, 14, 14);
+
+
+
+ border:1px solid rgba(6, 135, 255, 0.712);
+
+
+
+
+
+--------PRODUCT----
+en la ruta product/[productName]/[idProduct]
+eso tiene que cambiar a : product/[idProduct]/[productName]
+
+esto porque no se puede poner el query en product/zapato?imgIndice=0/jla3-Asd
+aqui el problema es que si se da click en un itemImagen le puse un router.push("/product/zapato?imgIndice=0/")
+ahi en el final ese / lo convierte a %2F ya que eso esta encodeado URL por eso nose como ponerlo
+
+
+creo que si se puede poner eso nose bueno falta probar da sueño aaa...F
+esque probe ponerlo manualmente en la url del navegador y si te deja pero no se como poner eso en un router.push()
+
+falta mejorar el indice imagen tambien y comenzar desde 1 no de 0 como lo hize eso en el back y ruta /admin
+
+
+-------blocdeNOTAS copiado-----
+hay problemas al nombre producto si pones esto en nombre producto
+"audifonos b23"
+
+ps en la url se transforma ese audifonos b23 = audifonos%20b-23
+y cuando en la pagina producto se hace el useEffect
+ps toma el parametro de [productName] pero le saldra todo esos
+simbolos para solucionarlo solo es decodearlo y despues de eso
+recien hacer la consulta y listo
+
+
+
+
+
+
+
+
+
+
+
+
+------------NOTAS-----------
+en la ruta /products creo que por cada producto le pondre un uuid para evitar
+que en la url haya bugs como si por casualidad suben un producto con el mismo producto
+
+servidor.com/product/zapatillas/bd-kjA34
+
+
+estara algo asi :
+>product
+    >>[productName]
+          >>>[idProduct]
+
+
+
+tambien el idCar session storage que se guarda ahi ps en la database
+esta en la tabla carrito_tempo.....usuarios una columna llamada diasRestantes
+osea en layout se le pondra un useEffect por si entra en cualquier pagina y enviarle por un fetch
+de la informacion de que ese usuario se sigue conectando todavia osea simplemente sera en el backend
+poner un UPDATE carrito_tempor.....usuarios 
+keeAlive llamarle asi al resolver que se pondra en ese header.jsx para resetear los diasRestantes a 10 
+
+
+
+productos que habran en mi eccomerce:
+casacas
+mochilas
+zapatillas
+celulares
+relojes
+
+
+
+
+categoria en /search:
+
+
+
+
+
+------------ADMIN PAGE-------
+ahi en la ruta servidor.com/admin falta poner una seccion 
+para introducir la seccion de categoria 

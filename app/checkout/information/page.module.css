@@ -1,0 +1,400 @@
+.ventana{
+	min-height:100%;
+	width:100%;
+	background:black;
+	color:white;
+
+}
+
+.container{
+	width:100%;
+	height:100%;
+}
+
+.container .container_content{
+	width:100%;
+	height:100%;
+	display:flex;
+
+}
+
+
+
+
+
+
+
+
+
+/*----InputContainer componente----*/
+
+ .input{
+	width:100%;
+
+	/*margin:10px 0;*/
+}
+
+ .input .input_content{
+ 	width:100%;
+ 	position:relative;
+ }
+
+.input .input_content label{
+	position:absolute;
+	font-weight:700;
+	top:0;
+	bottom:0;
+	margin:auto;
+	display:inline;
+	height:15px;
+	left:11px;
+	transition:all 150ms ease;
+	opacity:0;
+	color:gray;
+}
+
+.input .input_content input{
+	width:100%;
+	height:100%;
+	padding:13px 11px;
+	border-radius:5px;
+	background:inherit;
+	outline:1.5px solid #474747;
+	transition:outline 300ms ease;
+	color:white;
+	transition:padding 150ms ease;
+	height:48px;
+}
+
+.input .input_content input:focus{
+	outline:1.5px solid #1165cd;
+}
+
+
+
+/*--LEFT------*/
+.container_content .leftContainer{
+    width:55%;
+	height:100%;
+	display:flex;
+	flex-direction:column;
+	padding:30px;
+	padding-left:50px;
+	padding-top:45px;
+
+}
+
+
+.leftContainer .leftContainer_content{
+	width:100%;
+	height:100%;
+}
+
+.leftContainer_content .bottomLeft{
+	padding:21px;
+	max-width:550px;
+	margin:auto;
+}
+
+.leftContainer_content .bottomLeft .informationContainer{
+	width:100%;
+	margin-bottom:50px;
+}
+
+.informationContainer .contact{
+ 	margin-bottom:28px;
+}
+
+.informationContainer .contact > h2{
+	font-size:20px;
+	font-weight:1000;
+}
+
+.informationContainer .contact .inputContact{
+	width:100%;
+	margin:10px 0;
+}
+
+.contact .checkboxContainer{
+	display:flex;
+	cursor:pointer;
+}
+
+.contact .checkbox_content{
+	width:15px;
+	height:15px;
+}
+
+.contact .checkbox_content input{
+	width:100%;
+	height:100%;
+	cursor:pointer;
+}
+
+.contact .checkbox_content input:checked{
+	background:red;
+}
+
+
+.contact .checkboxLabel{
+	padding-left:7px;
+	cursor:pointer;
+}
+
+
+
+
+
+
+
+
+
+
+/*shippingAddres*/
+
+.informationContainer .shippingAddress{
+	width:100%;
+
+}
+
+.informationContainer .shippingAddress > h2{
+	margin-bottom:10px;
+}
+
+
+.shippingAddress .selectRegion{
+    border-radius:5px;
+	outline:1.5px solid #474747;
+	display:flex;
+	justify-content:space-between;
+	align-items:center;
+	padding:8px 11px;
+	margin-bottom:15px;
+
+}
+
+.shippingAddress .selectRegion:focus{
+	outline:1.5px solid #1165cd;
+}
+
+
+.shippingAddress .selectRegion .selectRegion_content span:nth-child(1){	
+	color:gray;
+}
+
+.shippingAddress .selectRegion .flechaSelect{
+	width:15px;
+	height:15px;
+}
+
+.shippingAddress .selectRegion .flechaSelect svg{
+	height:100%;
+	width:100%;
+	stroke:white;
+	fill:black;
+}
+
+
+
+.shippingAddress .names{
+	width:100%;
+	display:flex;
+	justify-content: space-between;
+	flex-wrap:wrap;
+}
+
+
+.names .firstNameContainer{
+	width:47%
+}
+
+.names .lastNameContainer{
+	width:47%;
+}
+
+
+@media (max-width:755px){
+	.names .firstNameContainer{
+		width:100%;
+		margin-bottom:15px;
+	}
+
+	.names .lastNameContainer{
+		width:100%
+	}
+}
+
+
+
+
+
+.informationContainer .addressContainer{
+	width:100%;
+	outline:1.5px solid #474747;
+	border-radius:5px;
+	margin-top:15px;
+	margin-bottom:15px;
+}
+
+.addressContainer .address_content{
+	width:100%;
+	display:flex;
+	justify-content:space-between;
+	align-items:center;
+}
+
+.addressContainer .address_content .left{
+	position:relative;
+	width:100%;
+
+}
+
+.addressContainer .address_content .left label{
+	position:absolute;
+	top:0;
+	bottom:0;
+	margin:auto;
+	left:11px;
+	height:15px;
+	opacity:0;
+	transition:all 150ms ease;
+	color:gray;
+}
+
+
+.addressContainer .address_content .left input{
+	padding:13px 11px;
+	width:100%;
+	background:inherit;
+	color:white;
+	transition:all 150ms ease;
+	height:48px;
+}
+
+.addressContainer .address_content .iconoLupa{
+	width:20px;
+	height:20px;
+	margin:0 10px;
+}
+
+
+.iconoLupa svg{
+	width:100%;
+	height:100%;
+	stroke:white;
+}
+
+
+/*esto no la usare de momento hasta conseguir una api*/
+.addressContainer .sugerencias{
+	display:none;
+}
+
+
+
+.shippingAddress .otherInfo{
+	width:100%;
+	margin-bottom:15px;
+}
+
+.shippingAddress .location{
+	display:flex;
+	justify-content:space-between;
+	flex-wrap:wrap;
+	width:100%;
+}
+
+.shippingAddress .location > div{
+	width:30%;
+}
+
+
+
+
+.checkBoxSaveInformation{
+	display:flex;
+	margin-top:15px;
+	width:max-content;
+	cursor:pointer;
+}
+
+.checkBoxSaveInformation input{
+	cursor:pointer;
+}
+
+.checkBoxSaveInformation > label{
+	margin-left:10px;
+	cursor:pointer;
+}
+
+
+.botonesOrder{
+	width:100%;
+	display:flex;
+	justify-content: space-between;
+	align-items:center;
+	margin-top:30px;
+}
+
+.botonesOrder  .returnCart > a{
+	color:blue;
+	text-decoration:none;
+	display:flex;
+	color:#1a61ff;
+}
+
+.botonesOrder .returnCart > a .flechaLeft{
+	width:15px;
+	height:15px;
+	display:inline-block;
+	margin-right:8px;
+}
+
+.botonesOrder .returnCart > a .flechaLeft svg{
+	width:100%;
+	height:100%;
+	fill:black;
+	stroke:#1a61ff;
+}
+
+
+.botonesOrder .botonContinue{
+	padding:21px;
+	border-radius:5px;
+	cursor:pointer;
+	background:#0046b3;
+	transition:background-color 100ms ease;
+	text-align:center;
+}
+
+.botonesOrder .botonContinue:hover{
+   background:#0064ff;
+}
+
+
+/*este breakpoint es solo del botonesOrder*/
+@media (max-width:1000px){
+  .botonesOrder{
+  	flex-direction:column-reverse;
+  	align-items:center;
+  	gap:23px;
+
+  }
+  .botonesOrder .botonContinue{
+  	width:100%;
+  }
+}
+
+/*esta breakpoint es para la ventana en si principal osea el padre total*/
+@media (max-width:1000px){
+	.container .container_content{
+	padding:0;
+}
+
+	.container_content .leftContainer{
+ 	   width:100%;
+		height:100%;
+		padding:0;
+	}
+
+}
