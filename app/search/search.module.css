@@ -247,10 +247,13 @@
   cursor: pointer;
   border-radius: 5px;
   text-transform:capitalize;
+  margin-bottom:3px;
 }
 
-.left ul li:hover {
-  background: rgba(109, 109, 109, 0.315);
+
+
+.left ul .hoverClassList:hover{
+  background:rgba(128, 128, 128, 0.438) !important;
 }
 
 .searchCaja_content .cajaMobileOpciones .cajaMobileOpciones .leftListaMobile {
@@ -470,13 +473,17 @@
     transition: all 200ms ease;
     justify-content: space-around;
     flex-direction: column;
-    padding-left: 10px;
     border-radius: 7px;
     color: white;
     backdrop-filter: blur(30px);
     display: flex;
     z-index: 10;
     visibility: hidden;
+  }
+
+  .searchCaja_content .cajaMobileOpciones .leftListaMobile .lista > div {
+    padding:12px 0;
+    padding-left:10px;
   }
 
   .lista > .tecn,
@@ -524,6 +531,7 @@
   height: min-content;
   position: sticky;
   top: 85px;
+
 }
 
 .right ul {
@@ -542,6 +550,7 @@
   transition: all 200ms ease;
   border-radius: 5px;
   cursor: pointer;
+  margin-bottom:3px;
 }
 
 .right > ul li:hover {
@@ -550,6 +559,11 @@
 
 .cajaMobileOpciones .rightListaMobile {
   display: none;
+}
+
+.cajaMobileOpciones .rightListaMobile .rightLista > div{
+  padding:12px 0;
+  padding-left:10px;
 }
 
 @media (max-width: 765px) {
@@ -578,7 +592,6 @@
     transition: all 200ms ease;
     justify-content: space-around;
     flex-direction: column;
-    padding-left: 10px;
     border-radius: 7px;
     color: white;
     backdrop-filter: blur(30px);

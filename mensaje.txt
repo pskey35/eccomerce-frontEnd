@@ -92,3 +92,11 @@ categoria en /search:
 ------------ADMIN PAGE-------
 ahi en la ruta servidor.com/admin falta poner una seccion 
 para introducir la seccion de categoria 
+
+
+
+
+
+--------SECCION DE PAGO--------
+usare la api de google autocomplete place 
+para autocompletar en los inputs

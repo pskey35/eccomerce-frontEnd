@@ -45,3 +45,9 @@ html,body,.globals{
   
   
 }
+
+
+::selection{
+  background:rgb(0, 163, 238);
+  color:rgb(250, 250, 250);
+}

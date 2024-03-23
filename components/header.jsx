@@ -679,9 +679,9 @@ function MenuPage() {
           <Input></Input>
         </div>
         <ul className={header.menu_lista}>
+          <li>Tecnología</li>
+          <li>Novedades</li>
           <li>Todo</li>
-          <li>Camisetas</li>
-          <li>Zapatillas</li>
         </ul>
       </div>
     </div>

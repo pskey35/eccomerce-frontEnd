@@ -21,7 +21,7 @@ export default function Footer() {
               <div className={footer.image}>
                 <img src="/parrot.jpg"></img>
               </div>
-              <div>DIGITAL SPACE</div>
+              <div style={{marginLeft:"10px"}}>DIGITAL SPACE</div>
               </div>
             </div>
             <div className={footer.other}>
