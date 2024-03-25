@@ -221,6 +221,8 @@ export function InputCaja() {
   );
 }
 
+
+//probandoxdfdsfsd
 export default function App() {
   const [itemProductos, setItemProductos] = useState([]);
 
