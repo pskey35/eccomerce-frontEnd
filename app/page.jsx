@@ -112,8 +112,8 @@ handleMediaQueryChange(mediaQuery);
         {itemProductos &&
           itemProductos.map((dataUnidad, indice) => {
             return (
-              <div>
-                <ProductoItem key={indice} data={dataUnidad}></ProductoItem>
+              <div key={indice}>
+                <ProductoItem  data={dataUnidad}></ProductoItem>
               </div>
             );
           })}

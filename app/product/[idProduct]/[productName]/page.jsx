@@ -418,7 +418,7 @@ function ProductosRelacionados() {
             <div className={page.relacionado_content}>
                 {productosRelacionados && productosRelacionados.map((dataUnidad, indice) => {
                     return (
-                        <div className={page.productoRelacionadoItem}>
+                        <div className={page.productoRelacionadoItem} key={`${dataUnidad.idProducto}-item`}>
                             <ProductoItem key={dataUnidad.idProducto} data={dataUnidad}></ProductoItem>
                         </div>
                     )

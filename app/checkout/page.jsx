@@ -289,7 +289,7 @@ export function CarroMobile(){
       <div className={checkout.carritoRight_content_mb}>
         <div className={checkout.productoContainer_mb}>
           {dataCarritoForCaja.map((dataUnidad, ind) => {
-            return <ProductoCar data={dataUnidad}></ProductoCar>;
+            return <ProductoCar data={dataUnidad} key={ind}></ProductoCar>;
           })}
         </div>
         <div className={checkout.infoProducto_mb}>
@@ -346,7 +346,7 @@ export function CarroRight(){
       <div className={checkout.carritoRight_content}>
         <div className={checkout.productoContainer}>
         {dataCarritoForCaja.map((dataUnidad,ind)=>{
-          return(<ProductoCar data={dataUnidad}></ProductoCar>)
+          return(<ProductoCar data={dataUnidad} key={ind}></ProductoCar>)
         })}
         </div>
         <div className={checkout.infoProducto}>

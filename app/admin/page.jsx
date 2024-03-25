@@ -134,7 +134,7 @@ function AllProducts() {
         <div className={page.cajaProductos}>
           {dataProducts.map((dataUnidad, indice) => {
             return (
-              <div className={page.productoUnidad}>
+              <div className={page.productoUnidad} key={indice}>
                 <div className={page.imagen}>
                   <img src="/images/audi.png"></img>
                 </div>
