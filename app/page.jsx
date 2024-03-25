@@ -5,6 +5,8 @@ import Header, { Input } from "@/components/header";
 import Footer from "@/components/footer";
 import { useRouter } from "next/navigation";
 import { ProductoItem, SkeletonProductoItem } from "@/components/producto-item";
+
+const ContextHome = createContext();
 //your already lets go shaolin soccer end escena, song
 
 //esto de aqui sera el producto caja
@@ -29,35 +31,29 @@ export function ProductoItem({ style }) {
 */
 
 function ContainerDeslizante() {
-  const [dataItems, setDataItems] = useState([
-    { nombre: "juan" },
-    { nombre: "juanasdf" },
-    { nombre: "juanasd" },
-    { nombre: "juanasdf" },
-    { nombre: "juanasdf" },
-    { nombre: "juanasdf" },
-    { nombre: "juanasdf" },
-    { nombre: "juanasdf" },
-    { nombre: "juanasdf" }
-  ]);
+ 
+  const {itemProductos,setItemProductos} = useContext(ContextHome)
 
+  //esto le puse 330 ..porq tiene 300 de width 15px en cada lado
+  let pixeles_a_mover = 330;
 
-  //esto le puse 330 ..porq tiene 300 de width 15px en cada lado 
-  let pixeles_a_mover = 330
+  const clickLeftRow = (data) => {
+    const containerD_contentElement = document.querySelector(
+      `.${page.containerDeslizante_content}`
+    );
 
-  const clickLeftRow = (data)=>{
-    const containerD_contentElement = document.querySelector(`.${page.containerDeslizante_content}`)
-   
-    const posicionScroll_X = containerD_contentElement.scrollLeft
-    containerD_contentElement.scrollLeft = posicionScroll_X - pixeles_a_mover
-  }
+    const posicionScroll_X = containerD_contentElement.scrollLeft;
+    containerD_contentElement.scrollLeft = posicionScroll_X - pixeles_a_mover;
+  };
 
-  const clickRightArrow = (data)=>{
-    const containerD_contentElement = document.querySelector(`.${page.containerDeslizante_content}`)
-    
-    const posicionScroll_X = containerD_contentElement.scrollLeft
-    containerD_contentElement.scrollLeft = posicionScroll_X + pixeles_a_mover
-  }
+  const clickRightArrow = (data) => {
+    const containerD_contentElement = document.querySelector(
+      `.${page.containerDeslizante_content}`
+    );
+
+    const posicionScroll_X = containerD_contentElement.scrollLeft;
+    containerD_contentElement.scrollLeft = posicionScroll_X + pixeles_a_mover;
+  };
 
   /*
   
@@ -88,15 +84,19 @@ handleMediaQueryChange(mediaQuery);
   return (
     <div className={page.containerDeslizante}>
       {/*el leftSlide solo se mostrara si se hizo click en rightSlide*/}
-      <div className={page.leftSlide} >
-        <div className={page.leftArrow} onClick={()=>clickLeftRow(40)}>
+      <div className={page.leftSlide}>
+        <div className={page.leftArrow} onClick={() => clickLeftRow(40)}>
           <svg
             width="100%"
             height="100%"
             viewBox="0 0 24 24"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
-            style={{ transform: "rotate(180deg)",position:"relative",right:"3px" }}
+            style={{
+              transform: "rotate(180deg)",
+              position: "relative",
+              right: "3px",
+            }}
           >
             <path
               d="M9 5L14.15 10C14.4237 10.2563 14.6419 10.5659 14.791 10.9099C14.9402 11.2539 15.0171 11.625 15.0171 12C15.0171 12.375 14.9402 12.7458 14.791 13.0898C14.6419 13.4339 14.4237 13.7437 14.15 14L9 19"
@@ -109,8 +109,8 @@ handleMediaQueryChange(mediaQuery);
         </div>
       </div>
       <div className={page.containerDeslizante_content}>
-        {dataItems &&
-          dataItems.map((dataUnidad, indice) => {
+        {itemProductos &&
+          itemProductos.map((dataUnidad, indice) => {
             return (
               <div>
                 <ProductoItem key={indice} data={dataUnidad}></ProductoItem>
@@ -119,14 +119,14 @@ handleMediaQueryChange(mediaQuery);
           })}
       </div>
       <div className={page.rightSlide}>
-        <div className={page.rightArrow} onClick={()=>clickRightArrow(40)}>
+        <div className={page.rightArrow} onClick={() => clickRightArrow(40)}>
           <svg
             width="100%"
             height="100%"
             viewBox="0 0 24 24"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
-            style={{position:"relative",left:"3px"}}
+            style={{ position: "relative", left: "3px" }}
           >
             <path
               d="M9 5L14.15 10C14.4237 10.2563 14.6419 10.5659 14.791 10.9099C14.9402 11.2539 15.0171 11.625 15.0171 12C15.0171 12.375 14.9402 12.7458 14.791 13.0898C14.6419 13.4339 14.4237 13.7437 14.15 14L9 19"
@@ -222,33 +222,59 @@ export function InputCaja() {
 }
 
 export default function App() {
+  const [itemProductos, setItemProductos] = useState([]);
 
-  useEffect(()=>{
+  useEffect(() => {
+    async function dataRecoleccion() {
+      const query = `query{getProducts(texto_a_buscar:"null",categoria:"novedades", numeroDePagina:1,itemsPorPagina:8)
+      {
+       nombre_producto
+       precio_en_dolares,
+       firstUrlImagen,
+       categoria,
+       idProducto
+     }
+  }`;
+      const peticion = await fetch(`${process.env.NEXT_PUBLIC_api}/graphql`, {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify({ query: query }),
+      });
 
-  },[])
+      const resu = await peticion.json();
+
+      //aqui tengo que hacer la peticion los 8 normalmente pero recortarlo a 3
+      setItemProductos(resu.data.getProducts);
+    }
+
+    dataRecoleccion();
+  }, []);
+
+  const value = {itemProductos,setItemProductos}
   return (
-    <div className={page.ventana}>
-      <Header></Header>
-      <div className={page.inputContainer}>
-        <Input></Input>
-      </div>
-      <div className={page.productoBloque}>
-        <div className={page.productoContainer}>
-          <div>
-            <ProductoItem></ProductoItem>
-          </div>
-
-          <div>
-            <ProductoItem></ProductoItem>
-          </div>
-
-          <div>
-            <ProductoItem></ProductoItem>
+    <ContextHome.Provider value={value}>
+      <div className={page.ventana}>
+        <Header></Header>
+        <div className={page.inputContainer}>
+          <Input></Input>
+        </div>
+        <div className={page.productoBloque}>
+          <div className={page.productoContainer}>
+            {itemProductos &&
+              itemProductos.map((dataUnidad, indice) => {
+                return (
+                  <div key={dataUnidad.idProducto}>
+                    <ProductoItem data={dataUnidad}></ProductoItem>
+                  </div>
+                );
+              })}
           </div>
         </div>
+        <ContainerDeslizante></ContainerDeslizante>
+        <Footer></Footer>
       </div>
-      <ContainerDeslizante></ContainerDeslizante>
-      <Footer></Footer>
-    </div>
+    </ContextHome.Provider>
   );
 }
