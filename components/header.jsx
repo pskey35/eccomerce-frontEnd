@@ -5,9 +5,9 @@ import { ContextGlobal } from "@/app/layout"
 import io from "socket.io-client"
 import {useRouter} from "next/navigation"
 
-
-const socket = io("http://localhost:9000");
-
+//servidor vercel back:https://back-next-eccomerce-7e7kj42g7-pskey35.vercel.app
+//const socket = io("http://localhost:9000");
+const socket = io("https://back-next-eccomerce-7e7kj42g7-pskey35.vercel.app")
 export function Input() {
   const inputSearch = useRef()
   const router = useRouter()
