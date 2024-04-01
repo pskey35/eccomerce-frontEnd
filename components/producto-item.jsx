@@ -23,7 +23,8 @@ export function ProductoItem({ data, delayAnimation}) {
         style={{/*animation:`${producto.entrada} 700ms ease forwards ${delayAnimation}ms`*/}}
         onClick={clickProducto}>
             <div className={producto.imagen}>
-                <img src={`/${data?.firstUrlImagen}`}/>
+               {/*<img src={`/${data?.firstUrlImagen}`}/>*/}
+                <img src="/images/audi.png"></img>
             </div>
             <div className={producto.infoBoton}>
                 <p>{data?.nombre_producto}</p>

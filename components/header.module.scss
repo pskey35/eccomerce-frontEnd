@@ -1,0 +1,1279 @@
+.container {
+  position: sticky;
+  z-index: 70;
+  top: 0;
+}
+
+/*---------Component Input-----------------*/
+.inputContainer {
+  display: flex;
+  align-items: center;
+  background: inherit;
+  padding: 1px;
+  border-radius: 10px;
+  width: 100%;
+  position: relative;
+  color: white;
+}
+
+/* Cambia el fondo del padre .inputContainer cuando el input está enfocado */
+/*.inputContainer:focus-within{
+  outline:2px solid rgb(124, 124, 124);
+}*/
+
+.inputChild {
+  display: flex;
+  border-radius: 9px;
+  /* padding:8px;*/
+  border: 1px solid #3d3d3d;
+  width: 100%;
+  overflow: hidden;
+  align-items: center;
+}
+
+.inputChild input {
+  width: 100%;
+  height: 100%;
+  padding: 8px;
+  padding: 8px 0 8px 8px;
+  background: transparent;
+  color: white;
+}
+
+.inputChild > span {
+  width: 20px;
+  height: 20px;
+  margin-right: 8px;
+}
+
+.inputChild > span img {
+  width: 100%;
+  height: 100%;
+}
+
+.inputContainer .sugerenciasInput {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.466);
+  border-radius: 3px 3px 10px 10px;
+  border: 1px solid rgb(49, 49, 49);
+  backdrop-filter: blur(10px);
+  transition: height 100ms ease, opacity 300ms ease;
+  overflow: hidden;
+  opacity: 0;
+  visibility: hidden;
+}
+
+.sugerenciasInput::-webkit-scrollbar {
+  width: 10px;
+}
+
+.sugerenciasInput::-webkit-scrollbar-track {
+  /* background-color: #16161644;*/
+}
+
+.sugerenciasInput::-webkit-scrollbar-thumb {
+  background-color: #464646;
+  border-radius: 5px;
+  transition: all 3s;
+}
+
+.sugerenciasInput::-webkit-scrollbar-thumb:hover {
+  background-color: #bdbdbd; /* Color del scroll al pasar el cursor */
+}
+
+.sugerenciasInput .sugerenciasInput_content {
+  width: 100%;
+  height: 100%;
+}
+
+.sugerenciasInput_content > div {
+  text-align: center;
+  padding: 7px 0;
+  transition: all 200ms ease;
+  background: inherit;
+  cursor: pointer;
+}
+
+.sugerenciasInput_content > div:hover {
+  background: rgb(51, 97, 197);
+}
+
+/*-------header principal---------*/
+.headerPrincipal {
+  background: rgb(30, 31, 34);
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 24px;
+  align-items: center;
+  color: white !important;
+}
+
+.headerPrincipal .menuBoton {
+  display: none;
+  padding: 5px;
+}
+
+.headerPrincipal .menuBoton .menu {
+  height: 20px;
+  width: 20px;
+}
+
+.headerPrincipal .menuBoton .menu img {
+  width: 100%;
+  height: 100%;
+}
+
+.headerPrincipal .headerLeft {
+  display: flex;
+  align-items: center;
+  max-width: 40%;
+  gap: 5px;
+  justify-content: space-between;
+}
+
+.headerLeft .perfilContainer {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.headerLeft .perfil {
+  height: 35px;
+  width: 35px;
+  border-radius: 7px;
+  border: 1px solid gray;
+  padding: 5px;
+  margin-right: 5px;
+}
+
+.headerLeft .nombreTienda {
+  font-weight: 700;
+  color: gray;
+}
+
+.headerLeft .perfil img {
+  width: 100%;
+  height: 100%;
+}
+
+.headerLeft .lista {
+  display: flex;
+  justify-content: space-around;
+  min-width: 200px;
+}
+
+.headerLeft .lista li {
+  list-style-type: none;
+  transition: all 150ms;
+  cursor: pointer;
+}
+
+.headerLeft .lista li:hover {
+  color: white;
+  text-decoration: underline;
+}
+
+.headerPrincipal .center {
+  width: 35%;
+  max-width: 700px;
+}
+
+.headerPrincipal .headerRight {
+  display: flex;
+  align-items: center;
+}
+
+.headerRight .settingsBoton {
+  margin-right: 5px;
+  position: relative;
+}
+
+.headerRight .settingsBoton .settingsIcon {
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  transition: all 130ms ease;
+  cursor: pointer;
+  outline: 1px solid #393939;
+}
+
+.settingsIcon:hover {
+  background: rgb(119, 119, 119);
+}
+
+.settingsIcon svg {
+  height: 36px;
+  width: 36px;
+  padding: 7px;
+  border-radius: 50%;
+}
+
+.settingsBoton .settings_content {
+  position: absolute;
+  bottom: -2px;
+  right: 7px;
+  transform: translateY(100%);
+  background: black;
+  border: 1px solid rgba(126, 126, 126, 0.363);
+  width: 200px;
+  border-radius: 9px;
+  box-shadow: 0 0 10px 1px rgba(85, 85, 85, 0.603);
+  overflow: hidden;
+  height:88px;
+  width:190px;
+  transition:all 60ms ease;
+
+
+  .settings_content_real {
+    text-align: center;
+    cursor: pointer;
+    position: relative;
+    width:100%;
+    height:100%;
+   
+  
+    .settings_cnt_first {
+      width:100%;
+      height:100%;
+   
+      .settings_language {
+        display: flex;
+        align-items: center;
+        padding: 7px 0;
+        padding-left: 7px;
+
+        span {
+          width: 30px;
+          height: 30px;
+          display: inline-block;
+
+          svg {
+            width: 100%;
+            height: 100%;
+            fill: rgb(207, 207, 207);
+          }
+        }
+
+        &:hover {
+          background: rgba(128, 128, 128, 0.308);
+        }
+      }
+
+      .settings_moneda {
+        display: flex;
+        align-items: center;
+        padding: 7px 0;
+        padding-left: 10px;
+
+        span {
+          display: inline-block;
+
+          svg {
+            width: 25px;
+            height: 25px;
+            fill: rgb(207, 207, 207);
+          }
+        }
+
+        p {
+          text-align: center;
+          margin-left: 5px;
+        }
+
+        &:hover {
+          background: rgba(128, 128, 128, 0.308);
+        }
+      }
+    }
+
+    .settings_cnt_second {
+      position: absolute;
+      height:100%;
+      width:100%;
+      z-index: 10;
+      top: 0;
+      right: 0;
+      visibility:hidden;
+      background:black;
+    
+
+      .languageCaja {
+        height: 100%;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+
+        .languageCaja_input {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border:2px solid #616161;
+          border-radius: 5px;
+          transition:all 120ms ease;
+          width:90%;
+          margin:10px 0;
+         
+
+          input {
+            height:100%;
+            width:100%;
+            background:transparent;
+            color:rgb(253, 253, 253);
+            padding:5px;
+            padding-left:10px;
+          }
+
+          span {
+            width: 20px;
+            height: 20px;
+            display: inline-block;
+            stroke:#c5c5c5;
+            margin-right:7px;
+          
+            svg {
+              width: 100%;
+              height: 100%;
+            }
+          }
+        }
+
+        .sugerenciasLanguage{
+          background:black;
+          width:100%;
+          height:90%;
+
+          div{
+            text-align:center;
+            padding:10px 0;
+            transition:all 100ms ease;
+            background:lightblue;
+
+            &:hover{
+              background:rgb(61, 61, 61);
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.registrarse {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  position: relative;
+  margin-right: 5px;
+  transition: all 120ms ease;
+  cursor: pointer;
+  outline: 1px solid #393939;
+}
+
+.registrarse svg {
+  padding: 4px;
+  fill: transparent;
+  border-radius: 50%;
+}
+
+.registrarse:hover {
+  background: rgb(88, 88, 88);
+}
+
+@media (max-width: 1020px) {
+  .headerLeft .perfilContainer > .nombreTienda {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .headerPrincipal .headerLeft {
+    width: 70%;
+    display: flex;
+    justify-content: flex-start;
+  }
+  .headerLeft .perfilContainer span {
+    display: none;
+  }
+
+  .headerPrincipal .menuBoton {
+    display: block;
+    border: 1px solid gray;
+    padding: 6px;
+    border-radius: 5px;
+    margin-right: 5px;
+  }
+
+  .headerPrincipal {
+  }
+
+  .headerPrincipal .center {
+    display: none;
+  }
+
+  .headerLeft .lista {
+    display: none;
+  }
+
+  /*
+  .settingsIcon{
+    outline: 1px solid #393939
+  }
+
+  .registrarse{
+    outline: 1px solid #393939
+  }*/
+}
+
+.carritoBoton {
+  position: relative;
+  border: 1px solid rgb(104, 104, 104);
+  padding: 9px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 120ms ease;
+}
+
+.carritoBoton:hover {
+  background: rgb(61, 61, 61);
+}
+
+.carritoBoton .carritoImagen {
+  height: 16px;
+  width: 16px;
+}
+
+.carritoBoton .carritoImagen {
+}
+
+.carritoBoton .carritoConteo {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: lightblue;
+  transform: translate(50%, -50%);
+  color: white;
+  border-radius: 4px;
+  display: grid;
+  place-items: center;
+  font-size: 11px;
+  width: 16px;
+  height: 16px;
+  background: rgb(37, 99, 235);
+  font-weight: 700;
+}
+
+/*-----------carrito Page-----------*/
+.carritoPage {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  animation: entradaCarrito 300ms ease forwards;
+  display: flex;
+  justify-content: flex-end;
+  overflow: hidden;
+  background: none;
+  position: fixed;
+  z-index: 100;
+  background: none;
+  display: flex;
+}
+@keyframes entradaCarrito {
+  to {
+    background: rgba(0, 0, 0, 0.2);
+  }
+}
+
+.carritoPageSalida {
+  animation: salidaCarrito 200ms ease forwards;
+}
+@keyframes salidaCarrito {
+  to {
+    background: rgba(0, 0, 0, 0);
+    backdrop-filter: blur(0);
+  }
+}
+
+.carritoPage .carritoLeft {
+  width: calc(
+    100% - 400px
+  ); /*aqui restamos menos 400px porque es lo que mide .carritoRight*/
+  height: 100%;
+  animation: carritoLeftEntrada 1s ease forwards;
+  background: none;
+}
+
+@keyframes carritoLeftEntrada {
+  to {
+    background: rgba(0, 0, 0, 0.048);
+    backdrop-filter: blur(0.8px);
+  }
+}
+
+/*esta animacion de aqui abajo se agrega en el style de .carritoLeft*/
+@keyframes carritoLeftSalida {
+  to {
+    background: none;
+    backdrop-filter: blur(0px);
+  }
+}
+
+.carritoPage .carritoRight {
+  background: linear-gradient(180deg, rgb(0 0 0) 10%, rgb(0 0 0 / 34%) 100%);
+  width: 400px;
+  transform: translateX(100%);
+  animation: rightEntrada 250ms ease forwards;
+  padding: 20px;
+  border-left: 2px solid rgb(37, 37, 37);
+  backdrop-filter: blur(7px);
+  overflow: auto;
+}
+@keyframes rightEntrada {
+  to {
+    transform: translateX(0%);
+  }
+}
+
+.carritoPage .carritoRightSalida {
+  animation: rightSalida 180ms ease forwards;
+  transform: translateX(0%);
+  opacity: 1;
+}
+@keyframes rightSalida {
+  to {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}
+
+.carritoPage .carritoRight .carrito_first {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.carritoPage .carritoRight .carrito_first div:nth-child(1) {
+  color: white;
+}
+
+.carritoRight .carrito_first .botonContainer {
+  padding: 7px;
+  border-radius: 5px;
+  border: 1px solid gray;
+  cursor: pointer;
+}
+
+.carritoRight .carrito_first .botonContainer:hover .botonEkis img {
+  transform: scale(1.2);
+}
+
+.carritoRight .carrito_first .botonEkis {
+  height: 22px;
+  width: 22px;
+  transition: all 100ms ease;
+}
+.carrito_first .botonEkis img {
+  height: 100%;
+  width: 100%;
+  transition: all 100ms;
+}
+
+/*esto es en caso de que el carrito este vacio, saldra esto*/
+.carritoRight .carrito_vacio {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin-top: 70px;
+}
+
+.carritoRight .carrito_vacio > div {
+  height: 63px;
+  width: 63px;
+}
+
+.carritoRight .carrito_vacio > div > img {
+  width: 100%;
+  height: 100%;
+}
+
+.carritoRight .carrito_vacio > p {
+  text-align: center;
+  margin-top: 7px;
+  color: rgb(214, 214, 214);
+}
+
+@media (max-width: 768px) {
+  .carritoPage .carritoRight {
+    width: 100%;
+    height: 100%;
+  }
+
+  .carritoPage .carritoLeft {
+    display: none;
+  }
+}
+
+/*------------cajaCompras-------------------*/
+.cajaCompras {
+  height: 92%; /*le puse 92% como aproximacion mas el padding que tiene .carritoRight y mas la altura de .carrito_first */
+  color: white;
+}
+
+.cajaCompras .caja {
+  height: 70%; /*le puse asi en aproximacion al .cajaCompras menos .detalles */
+  max-height: 77.5%;
+  overflow: auto;
+}
+
+.cajaCompras .otros {
+}
+
+.cajaCompras .otros .otros_caja {
+  display: flex;
+  justify-content: space-between;
+  padding: 5px;
+  border-bottom: 1px solid rgb(44, 44, 44);
+  margin-bottom: 7px;
+}
+
+.cajaCompras .otros .otros_botonPagar {
+  background: rgb(37, 99, 235);
+  opacity: 0.9;
+  text-align: center;
+  padding: 10px;
+  border-radius: 20px;
+  color: white;
+  cursor: pointer;
+  margin-top: 20px;
+  transition: all 100ms;
+}
+
+.cajaCompras .otros .otros_botonPagar:hover {
+  background: rgb(40 166 255);
+}
+
+/*si el carrito tiene productos saldra esto*/
+/*-------producto--------*/
+.productoContainer {
+  margin: 10px 0;
+  height: calc(
+    62px + 16px + 16px
+  ); /*el height es 62 mas padding de .producto +16px de arriba y padding de abajo seria 16*2*/
+  transform: scale(1);
+  opacity: 1;
+  overflow: hidden;
+  /* animation:salidaProducto 1s ease;*/
+  transition: height 200ms ease;
+  border-bottom: 1px solid #434343;
+}
+
+@keyframes salidaProducto {
+  to {
+    transform: scale(0.7);
+    opacity: 0;
+  }
+}
+
+.productoContainer .producto {
+  display: flex;
+  justify-content: space-between;
+  padding: 16px 4px;
+  border-bottom: 1px solid red;
+}
+
+/*este es del componente loaderJSX se usa en sumar delete y restar productos*/
+.circles {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 16px;
+  width: 16px;
+}
+
+.circles > span {
+  width: 3px;
+  padding-right: 3px;
+  height: 3px;
+  animation: circles-anim 1400ms infinite both;
+  border-radius: 50%;
+  background: white;
+}
+
+.cirscles > span:nth-child(1) {
+  animation: circles-anim 1.4s infinite both 0ms;
+}
+
+.circles > span:nth-child(2) {
+  animation: circles-anim 1.4s infinite both 200ms;
+}
+
+.circles > span:nth-child(3) {
+  animation: circles-anim 1.4s infinite both 400ms;
+}
+
+@keyframes circles-anim {
+  0% {
+    opacity: 0.2;
+  }
+
+  20% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.2;
+  }
+}
+
+.producto .producto_left {
+  display: flex;
+}
+
+.producto_left .cajaImagen {
+  position: relative;
+}
+
+.producto_left .cajaImagen .imagenContainer {
+  width: 62px;
+  height: 62px;
+  border-radius: 5px;
+  overflow: hidden;
+  background: #101010;
+  border: 1px solid rgb(31, 31, 31);
+}
+
+.producto_left .cajaImagen .imagenContainer img {
+  width: 100%;
+  height: 100%;
+  object-fit: scale-down;
+}
+
+.producto_left .cajaImagen .ekis {
+  position: absolute;
+  top: 0;
+  right: 0;
+  transform: translate(40%, -40%);
+  cursor: pointer;
+}
+
+.producto_left .cajaImagen .ekis .boton {
+  height: 16px;
+  width: 16px;
+  border-radius: 100%;
+  background: rgba(255, 255, 255, 0.418);
+  backdrop-filter: blur(1px);
+  border: 1px solid rgba(255, 255, 255, 0.726);
+  box-shadow: 0 0 3px 0.2px red;
+}
+
+.producto_left .cajaImagen .ekis .boton img {
+  width: 100%;
+  height: 100%;
+}
+
+.producto_left .detalles {
+  margin-left: 15px;
+}
+
+.producto_right {
+}
+
+.producto_right .top {
+  text-align: end;
+}
+
+.producto_right .bottom {
+  display: flex;
+  border-radius: 15px;
+  border: 1px solid gray;
+  align-items: center;
+  justify-content: space-between;
+  padding: 3px 7px;
+}
+
+.producto_right .bottom .totalItem {
+  padding: 0 10px;
+}
+
+.producto_right .bottom .imagen {
+  height: 26px;
+  width: 26px;
+  padding: 5px;
+  cursor: pointer;
+}
+
+.producto_right .bottom .imagen img {
+  width: 100%;
+  height: 100%;
+}
+
+/*----------Menu Page--------------*/
+.menuPage {
+  animation: entradaMenu 300ms ease forwards;
+  top: 0;
+  left: 0;
+  height: 100%;
+  transform: translateX(-100%);
+  width: 100%;
+  position: fixed;
+  z-index: 100;
+  background: rgb(26, 27, 27);
+  color: white;
+}
+
+@keyframes entradaMenu {
+  to {
+    opacity: 1;
+    transform: translateX(0%);
+  }
+}
+
+.menuPageSalida {
+  animation: salidaMenu 200ms ease forwards;
+  opacity: 1;
+  transform: translateX(0%);
+}
+
+@keyframes salidaMenu {
+  to {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+}
+
+.menuPage .menuContainer {
+  padding: 10px;
+}
+
+.menuPage .menuPageEkis {
+  border-radius: 4px;
+  border: 1px solid gray;
+  padding: 5px;
+  width: max-content;
+  display: grid;
+  place-items: center;
+}
+
+.menuPage .menuPageEkis img {
+  width: 20px;
+  height: 20px;
+}
+
+.menuPage .menu_inputContainer {
+  margin-top: 10px;
+}
+
+.menuPage .menuContainer .menu_lista {
+  margin-top: 20px;
+}
+
+.menuPage .menuContainer .menu_lista > li {
+  padding: 10px;
+  padding-left: 0;
+  margin-bottom: 10px;
+  font-size: 18px;
+}
+
+.menuPage .menuContainer .menu_lista > li:hover {
+  color: rgb(218, 218, 218);
+}
+
+/*---Modal registro-----*/
+.registroCaja {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: rgba(53, 53, 53, 0.568);
+  backdrop-filter: blur(0.7px);
+  z-index: 50;
+  display: grid;
+  place-items: center;
+  z-index: 100;
+}
+
+.registroCaja .registroCaja_content {
+  background: white;
+  height: 80%;
+  max-width: 400px;
+  width: 37%;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+
+  .registro_first {
+    display: flex;
+    justify-content: flex-end;
+    padding: 10px 20px;
+
+    .ekisIcon {
+      width: 30px;
+      height: 30px;
+      padding: 8px;
+      transition: all 100ms ease;
+      cursor: pointer;
+      border-radius: 50%;
+      background: rgb(218, 218, 218);
+
+      svg {
+        width: 100%;
+        height: 100%;
+        fill: rgb(124, 124, 124);
+      }
+
+      &:hover {
+        // background: rgb(235, 235, 235);
+      }
+
+      @media (max-width: 900px) {
+        width: 40px;
+        height: 40px;
+        padding: 10px;
+      }
+    }
+
+    @media (max-width: 900px) {
+      padding: 6vh 20px;
+    }
+  }
+
+  .registro_second {
+    display: flex;
+    justify-content: center;
+    flex: 1;
+
+    .registro_second_content {
+      width: 80%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      h1 {
+        width: 100%;
+      }
+
+      & > p {
+        margin-bottom: 18px;
+      }
+
+      a {
+        text-decoration: none;
+        color: rgb(0, 110, 255);
+      }
+
+      .registroGoogle {
+        width: 80%;
+        border-radius: 30px;
+        border: 1px solid #e1e1e1;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        padding: 6px 15px;
+        margin-bottom: 10px;
+        transition: all 100ms ease;
+
+        svg {
+          width: 20px;
+          height: 20px;
+        }
+
+        span {
+          flex: 1;
+          text-align: center;
+        }
+
+        &:hover {
+          background: rgba(230, 245, 255, 0.075);
+          border: 1px solid rgb(196, 231, 255);
+        }
+      }
+
+      .registroApple {
+        width: 80%;
+        border-radius: 30px;
+        border: 1px solid #e1e1e1;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        margin-bottom: 10px;
+        transition: all 100ms ease;
+        padding: 6px 15px;
+
+        svg {
+          width: 20px;
+          height: 20px;
+        }
+
+        span {
+          flex: 1;
+          text-align: center;
+        }
+
+        &:hover {
+          background: rgba(230, 245, 255, 0.075);
+          border: 1px solid rgb(196, 231, 255);
+        }
+      }
+
+      .barra {
+        display: flex;
+        width: 100%;
+        align-items: center;
+        margin-top: 20px;
+        margin-bottom: 30px;
+
+        span:nth-child(1) {
+          width: 45%;
+          height: 2px;
+          background: #e1e1e1;
+          display: inline-block;
+          border-radius: 10px;
+        }
+
+        span:nth-child(2) {
+          margin: 0 10px;
+        }
+
+        span:nth-child(3) {
+          width: 45%;
+          height: 2px;
+          background: #e1e1e1;
+          display: inline-block;
+          border-radius: 10px;
+        }
+      }
+
+      .inputsContainer {
+        width: 100%;
+
+        .cajaInput:nth-child(1) {
+          margin-bottom: 10px;
+        }
+
+        .cajaInput {
+          width: 100%;
+          border-radius: 10px;
+          position: relative;
+
+          label {
+            position: absolute;
+            top: 2px;
+            bottom: 0;
+            left: 10px;
+            right: 0;
+            margin: auto;
+            height: min-content;
+            color: rgb(58, 58, 58);
+            transition: all 100ms ease;
+          }
+
+          input {
+            width: 100%;
+            height: 100%;
+            border: none;
+            outline: none;
+            padding: 20px 10px 10px 10px;
+            background: rgb(233, 233, 233);
+            border-radius: 10px;
+            transition: all 100ms ease;
+
+            &:hover {
+              background: rgb(228, 228, 228);
+            }
+          }
+        }
+      }
+
+      .ayuda {
+        width: 100%;
+      }
+
+      @media (max-width: 900px) {
+        width: 90%;
+      }
+    }
+  }
+
+  .registro_third {
+    border-top: 2px solid rgb(218, 218, 218);
+    height: 8vh;
+    display: grid;
+    place-items: center;
+
+    .signInBoton {
+      background: #d7f0ff;
+      width: 70%;
+      height: 60%;
+      display: grid;
+      place-items: center;
+      border-radius: 20px;
+    }
+  }
+
+  @media (max-width: 900px) {
+    height: 100%;
+    width: 100%;
+    background: white;
+    border-radius: 0;
+    max-width: 100vw;
+  }
+}
+
+//esto solo funcionara en mobiles
+.settingsContainer {
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: white;
+  z-index: 10;
+  padding: 10px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  display: none;
+
+  .firstBlock {
+    flex: 1;
+    .ekis {
+      width: 100%;
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 20px;
+      padding: 30px 0;
+
+      span {
+        width: 40px;
+        height: 40px;
+        background: rgb(214, 214, 214);
+        transition: all 100ms ease;
+        border-radius: 50%;
+        padding: 10px;
+        cursor: pointer;
+
+        &:hover {
+          background: rgb(156, 156, 156);
+        }
+
+        svg {
+          width: 100%;
+          height: 100%;
+        }
+      }
+    }
+
+    & > h1 {
+      font-size: 45px;
+      margin-bottom: 20px;
+    }
+
+    & h4 {
+      font-size: 22px;
+      color: rgb(156, 156, 156);
+    }
+
+    .idiomaContainer {
+    }
+
+    //esta clase se usa en 2 componentes
+    //la de idioma y de moneda
+
+    .inputSettings {
+      position: relative;
+
+      .inputSettings_content {
+        display: flex;
+        position: relative;
+        height: 35px;
+        border-radius: 5px;
+        align-items: center;
+        border: 1px solid rgb(179, 179, 179);
+
+        & > input {
+          height: 100%;
+          flex: 1;
+          padding: 10px;
+          padding-left: 12px;
+          border-radius: 5px 0 0 5px;
+        }
+        .iconoLupa {
+          width: 30px;
+          height: 30px;
+          display: inline-block;
+          padding: 3px;
+          margin-right: 5px;
+
+          svg {
+            width: 100%;
+            height: 100%;
+          }
+        }
+      }
+
+      .inputSettings_autoCmptd {
+        position: absolute;
+        bottom: -3px;
+        transform: translateY(100%);
+        width: 100%;
+        height: 170px;
+        border: 1px solid rgb(179, 179, 179);
+        border-radius: 4px 4px 8px 8px;
+        max-height: 100px;
+        overflow: auto;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 100ms ease;
+
+        .inputSettings_autoCmptd_content {
+          overflow: hidden;
+          background: white;
+
+          .autoCmptd_item {
+            text-align: center;
+            transition: all 100ms ease;
+            cursor: pointer;
+            padding: 6px 0;
+
+            &:hover {
+              background: rgb(226, 226, 226);
+            }
+          }
+        }
+      }
+    }
+
+    .monedaContainer {
+      margin-top: 50px;
+    }
+  }
+
+  .saveChangesButton {
+    background: rgb(201, 235, 255);
+    padding: 10px 0;
+    text-align: center;
+    width: 90%;
+    max-width: 300px;
+    border-radius: 50px;
+    border: 1px solid rgb(4, 155, 255);
+    transition: all 150ms ease;
+    cursor: pointer;
+
+    &:hover {
+      background: rgb(0, 171, 201);
+    }
+  }
+
+  @media (max-width: 900) {
+    display: block;
+  }
+}

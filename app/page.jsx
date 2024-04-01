@@ -32,7 +32,9 @@ export function ProductoItem({ style }) {
 
 function ContainerDeslizante() {
  
-  const {itemProductos,setItemProductos} = useContext(ContextHome)
+  const {itemProductosSlider,setItemProductosSlider} = useContext(ContextHome)
+ 
+  let posicionScroll = 0
 
   //esto le puse 330 ..porq tiene 300 de width 15px en cada lado
   let pixeles_a_mover = 330;
@@ -109,8 +111,8 @@ handleMediaQueryChange(mediaQuery);
         </div>
       </div>
       <div className={page.containerDeslizante_content}>
-        {itemProductos &&
-          itemProductos.map((dataUnidad, indice) => {
+        {itemProductosSlider &&
+          itemProductosSlider.map((dataUnidad, indice) => {
             return (
               <div key={indice}>
                 <ProductoItem  data={dataUnidad}></ProductoItem>
@@ -224,7 +226,12 @@ export function InputCaja() {
 
 //probandoxdfdsfsd
 export default function App() {
-  const [itemProductos, setItemProductos] = useState([]);
+
+  //aqui solo se guardaran 3 productos que son para el grid
+  const [itemProductosGrid, setItemProductosGrid] = useState([]);
+
+  //aqui se guardaran los productos del slider
+  const [itemProductosSlider,setItemProductosSlider] = useState([])
 
   useEffect(() => {
     async function dataRecoleccion() {
@@ -247,14 +254,23 @@ export default function App() {
 
       const resu = await peticion.json();
 
+
+   
       //aqui tengo que hacer la peticion los 8 normalmente pero recortarlo a 3
-      setItemProductos(resu.data.getProducts);
+      setItemProductosGrid(
+        resu.data.getProducts.filter((e,ind)=>ind < 3)
+      )
+ 
+      setItemProductosSlider(
+        resu.data.getProducts.filter((e,ind)=>ind > 3)
+      );
     }
 
     dataRecoleccion();
   }, []);
 
-  const value = {itemProductos,setItemProductos}
+  const value = {itemProductosSlider,setItemProductosSlider}
+ 
   return (
     <ContextHome.Provider value={value}>
       <div className={page.ventana}>
@@ -264,8 +280,8 @@ export default function App() {
         </div>
         <div className={page.productoBloque}>
           <div className={page.productoContainer}>
-            {itemProductos &&
-              itemProductos.map((dataUnidad, indice) => {
+            {itemProductosGrid &&
+              itemProductosGrid.map((dataUnidad, indice) => {
                 return (
                   <div key={dataUnidad.idProducto}>
                     <ProductoItem data={dataUnidad}></ProductoItem>

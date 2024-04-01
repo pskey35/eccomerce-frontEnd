@@ -6,7 +6,7 @@ import { useState, useEffect, useRef, createContext, useContext } from "react";
 import { ProductoItem } from "@/components/producto-item";
 import { useRouter } from "next/navigation";
 import { ContextGlobal } from "@/app/layout";
-import header from "@/components/header.module.css";
+import header from "@/components/header.module.scss";
 
 function SkeletonSearch() {
   return (

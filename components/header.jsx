@@ -1,54 +1,58 @@
-import header from "./header.module.css";
+import header from "./header.module.scss";
 import { useState, createContext, useContext, useRef, useEffect } from "react";
-import Link from "next/link"
-import { ContextGlobal } from "@/app/layout"
-import io from "socket.io-client"
-import {useRouter} from "next/navigation"
+import Link from "next/link";
+import { ContextGlobal } from "@/app/layout";
+import io from "socket.io-client";
+import { useRouter } from "next/navigation";
 
 //servidor vercel back:https://back-next-eccomerce-7e7kj42g7-pskey35.vercel.app
 //const socket = io("http://localhost:9000");
-const socket = io("https://back-next-eccomerce-7e7kj42g7-pskey35.vercel.app")
+const socket = io("http://localhost:9000");
+
 export function Input() {
-  const inputSearch = useRef()
-  const router = useRouter()
-  const sugerenciasInputRef = useRef()
+  const inputSearch = useRef();
+  const router = useRouter();
+  const sugerenciasInputRef = useRef();
 
-  const {setInputHeader} = useContext(ContextGlobal)
-  
+  const { setInputHeader } = useContext(ContextGlobal);
+
   useEffect(() => {
-   inputSearch.current.value = new URL(window.location.href).searchParams.get("q")
-   
-   const inputChild = document.querySelector(`.${header.inputChild} > input`)
-   //ponemos esto en el Context global para usarlo en el /search y poder limpiar cuando se da click en categorias al input
-   setInputHeader(header)
-  }, [])
+    inputSearch.current.value = new URL(window.location.href).searchParams.get(
+      "q"
+    );
 
-  const [listaSugerencias, setListaSugerencias] = useState([])
+    const inputChild = document.querySelector(`.${header.inputChild} > input`);
+    //ponemos esto en el Context global para usarlo en el /search y poder limpiar cuando se da click en categorias al input
+    setInputHeader(header);
+  }, []);
+
+  const [listaSugerencias, setListaSugerencias] = useState([]);
   // const { mostrarMenu, setAnimMenu, setMostrarMenu } = useContext(ContextHeader)
   //onKeyUp
-
 
   //esta funcion es la del "click" evento es que quiero saber cual es el siguiente click del usuario
 
   let clickAfuera = null;
   function funcionNextClick(event) {
     //aqui nose requiere del i> 1 porq se esta llamando dentro de un onInput y no de un onClick como normalmente lo solia usar
-    //osea que la funcion window.addEvent..... se llama en keyValueInput y este es de tipo onInput 
+    //osea que la funcion window.addEvent..... se llama en keyValueInput y este es de tipo onInput
 
     //aqui para determinar el siguiente click
 
-
-   // console.log("determinando siguiente click....")
-    const sugerenciasListaElements = document.querySelectorAll(`.${header.sugerenciasInput_content} > div`)
-    const idElementoClick = event.target.getAttribute("id")
+    // console.log("determinando siguiente click....")
+    const sugerenciasListaElements = document.querySelectorAll(
+      `.${header.sugerenciasInput_content} > div`
+    );
+    const idElementoClick = event.target.getAttribute("id");
     //console.log(sugerenciasListaElements)
     //console.log("idelementoClick:" + idElementoClick)
     //este idElementoClick para evitar errores
     if (idElementoClick) {
-
       for (let e = 0; e < sugerenciasListaElements.length; e++) {
         //si no es igual entonces le ponemos clickAfuera = true;
-        if (idElementoClick !== sugerenciasListaElements[e].getAttribute("id")) {
+        if (
+          idElementoClick !== sugerenciasListaElements[e].getAttribute("id")
+        ) {
           clickAfuera = false;
         } else {
           clickAfuera = true;
@@ -67,25 +71,25 @@ export function Input() {
       //  const sugerenciasCajaElement = document.querySelector(`.${header.sugerenciasInput}`)
       // sugerenciasCajaElement.style.cssText = "visibility:hidden;opacity:0"
 
-
-      //verificamos que este definido sale error porque porque seguro es porque se reutiliza 
+      //verificamos que este definido sale error porque porque seguro es porque se reutiliza
       //el input de mobile desaparece en en pc pero con un display none por eso no lo encuetnra
       if (sugerenciasInputRef.current) {
-        sugerenciasInputRef.current.style.cssText = "visibility:hidden;opacity:0"
-       
-       // console.log("AAAAAAAAAAAA")
-       // console.log(sugerenciasInputRef)
+        sugerenciasInputRef.current.style.cssText =
+          "visibility:hidden;opacity:0";
+
+        // console.log("AAAAAAAAAAAA")
+        // console.log(sugerenciasInputRef)
       }
 
-      window.removeEventListener("click", funcionNextClick)
+      window.removeEventListener("click", funcionNextClick);
     }
-
-
   }
 
   const keyValueInput = (e) => {
     //aqui recortamos el valor por si tiene mas de un espacio
-    const valorRecortado = inputSearch.current.value.replace(/\s+/g, " ").trim();
+    const valorRecortado = inputSearch.current.value
+      .replace(/\s+/g, " ")
+      .trim();
 
     if (valorRecortado.length > 0) {
       ///console.log("Holalaa")
@@ -100,187 +104,204 @@ export function Input() {
               setMostrarMenu(false)
             }, 400)*/
         //redirect(`/search?q=${valorRecortado}`)
-        router.push(`/search?q=${valorRecortado}`)
+        router.push(`/search?q=${valorRecortado}`);
       }
 
       //aqui usaremos fetch para mostrar sugerencias hay una tecnica llamada bounce usar eso
       const query = `query{giveSugerenciasInput(textoSearch:"${valorRecortado}"){
         nombre_producto
-      }}`
+      }}`;
 
       fetch(`${process.env.NEXT_PUBLIC_api}/graphql`, {
         method: "POST",
         headers: {
-          "Content-type": "Application/json"
+          "Content-type": "Application/json",
         },
-        body: JSON.stringify({ query })
-      }).then(e => e.json())
-        .then(e => {
-         // console.log(e)
-          setListaSugerencias(e.data.giveSugerenciasInput)
+        body: JSON.stringify({ query }),
+      })
+        .then((e) => e.json())
+        .then((e) => {
+          // console.log(e)
+          setListaSugerencias(e.data.giveSugerenciasInput);
 
           if (e.data.giveSugerenciasInput.length == 0) {
-
-            sugerenciasInputRef.current.style.cssText = "visibility:visible;opacity:1;height:30px;"
+            sugerenciasInputRef.current.style.cssText =
+              "visibility:visible;opacity:1;height:30px;";
           } else {
-
-
-
             //aqui puse * 29 porq cada ItemLista mide eso con todo y padding
-            const calcularHeight = 29 * e.data.giveSugerenciasInput.length  
-            
+            const calcularHeight = 29 * e.data.giveSugerenciasInput.length;
+
             //aqui sume +2 porque si no aparecia el scroll de overflow bueno eso lo soluciona
-            sugerenciasInputRef.current.style.cssText = `visibility:visible;opacity:1;height:${calcularHeight + 2}px;max-height:400px;overflow:auto`
-
-
-
-
+            sugerenciasInputRef.current.style.cssText = `visibility:visible;opacity:1;height:${
+              calcularHeight + 2
+            }px;max-height:400px;overflow:auto`;
           }
 
           //este evento click es para determinar donde sera su siguiente click para poder cerrar ese cuadro ps xd
-          window.addEventListener("click", funcionNextClick)
-
-        })
-
+          window.addEventListener("click", funcionNextClick);
+        });
     } else if (e.target.value.length == 0) {
       //si en caso de que el usuario escribio texto y luego borro todo eso de quitar esa sugerenciasElement
 
-      sugerenciasInputRef.current.style.cssText = "visibility:hidden;opacity:0"
-
+      sugerenciasInputRef.current.style.cssText = "visibility:hidden;opacity:0";
     }
-
-  }
-
+  };
 
   const clickSugerenciaItem = (textoRecibido) => {
-
     //redirigimos a su busqueda
-    router.push(`/search?q=${textoRecibido}`)
-    inputSearch.current.value = textoRecibido
+    router.push(`/search?q=${textoRecibido}`);
+    inputSearch.current.value = textoRecibido;
 
     //quitamos las sugerencias una vez dado click ya que como es a la misma pagina que redirige
     //ps no recarga ni nada lo cual es bueno para el performance xd
 
-    sugerenciasInputRef.current.style.cssText = "visibility:hidden;opacity:0"
-  }
-
+    sugerenciasInputRef.current.style.cssText = "visibility:hidden;opacity:0";
+  };
 
   //cada itemLista mide 29px con todo y padding
   //
 
-
-
   const clickSearch = () => {
-    const valorRecortado = inputSearch.current.value.replace(/\s+/g, " ").trim()
+    const valorRecortado = inputSearch.current.value
+      .replace(/\s+/g, " ")
+      .trim();
     if (valorRecortado.length > 0) {
-      sugerenciasInputRef.current.style.cssText = `visibility:visible;opacity:1`
-
+      sugerenciasInputRef.current.style.cssText = `visibility:visible;opacity:1`;
 
       //este evento click es para determinar donde sera su siguiente click para poder cerrar ese cuadro ps xd
-      window.addEventListener("click", funcionNextClick)
+      window.addEventListener("click", funcionNextClick);
     }
-  }
+  };
 
-  const clickLupa = ()=>{
-
+  const clickLupa = () => {
     //aqui basicamente hace todo como si hubiera sido dado click a uno de los items de sugerencias
-    clickSugerenciaItem(inputSearch.current.value)
-  }
+    clickSugerenciaItem(inputSearch.current.value);
+  };
   return (
-    <div className={header.inputContainer} >
+    <div className={header.inputContainer}>
       <div className={header.inputChild}>
-        <input autocomplete="off" ref={inputSearch} onClick={clickSearch} onKeyUp={keyValueInput} id="wazaInput" type="text" placeholder="Buscar productos..." />
+        <input
+          autocomplete="off"
+          ref={inputSearch}
+          onClick={clickSearch}
+          onKeyUp={keyValueInput}
+          id="wazaInput"
+          type="text"
+          placeholder="Buscar productos..."
+        />
         <span onClick={clickLupa}>
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="white" aria-hidden="true" class="h-4"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"></path></svg>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="white"
+            aria-hidden="true"
+            class="h-4"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
+            ></path>
+          </svg>
         </span>
       </div>
       <div className={header.sugerenciasInput} ref={sugerenciasInputRef}>
         <div className={header.sugerenciasInput_content}>
-          {listaSugerencias.length == 0 ?
-            (
-              <div className={header.noExiste} style={{display:"flex",justifyContent:"center",alignItems:"center"}}>
-                <div style={{height:"20px",width:"20px",marginRight:"5px"}}>
-                  <svg style={{height:"100%",width:"100%"}} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="exclamation-triangle"><path fill="#e55119" d="M12,16a1,1,0,1,0,1,1A1,1,0,0,0,12,16Zm10.67,1.47-8.05-14a3,3,0,0,0-5.24,0l-8,14A3,3,0,0,0,3.94,22H20.06a3,3,0,0,0,2.61-4.53Zm-1.73,2a1,1,0,0,1-.88.51H3.94a1,1,0,0,1-.88-.51,1,1,0,0,1,0-1l8-14a1,1,0,0,1,1.78,0l8.05,14A1,1,0,0,1,20.94,19.49ZM12,8a1,1,0,0,0-1,1v4a1,1,0,0,0,2,0V9A1,1,0,0,0,12,8Z"></path></svg>
-                </div>
-                <div>no se encontró tu busqueda</div>
+          {listaSugerencias.length == 0 ? (
+            <div
+              className={header.noExiste}
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <div
+                style={{ height: "20px", width: "20px", marginRight: "5px" }}
+              >
+                <svg
+                  style={{ height: "100%", width: "100%" }}
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  id="exclamation-triangle"
+                >
+                  <path
+                    fill="#e55119"
+                    d="M12,16a1,1,0,1,0,1,1A1,1,0,0,0,12,16Zm10.67,1.47-8.05-14a3,3,0,0,0-5.24,0l-8,14A3,3,0,0,0,3.94,22H20.06a3,3,0,0,0,2.61-4.53Zm-1.73,2a1,1,0,0,1-.88.51H3.94a1,1,0,0,1-.88-.51,1,1,0,0,1,0-1l8-14a1,1,0,0,1,1.78,0l8.05,14A1,1,0,0,1,20.94,19.49ZM12,8a1,1,0,0,0-1,1v4a1,1,0,0,0,2,0V9A1,1,0,0,0,12,8Z"
+                  ></path>
+                </svg>
               </div>
-         
-            ) :
-            (
-              listaSugerencias.map((dataUnidad, indice) => {
-                return (
-                  <div key={`sugerencia-${indice}`}
-                    id={`sugerenciaID_${indice}`}
-                    onClick={() => clickSugerenciaItem(dataUnidad.nombre_producto)}
-                  >
-                    {dataUnidad.nombre_producto}
-                  </div>
-                )
-              })
-            )
-          }
+              <div>no se encontró tu busqueda</div>
+            </div>
+          ) : (
+            listaSugerencias.map((dataUnidad, indice) => {
+              return (
+                <div
+                  key={`sugerencia-${indice}`}
+                  id={`sugerenciaID_${indice}`}
+                  onClick={() =>
+                    clickSugerenciaItem(dataUnidad.nombre_producto)
+                  }
+                >
+                  {dataUnidad.nombre_producto}
+                </div>
+              );
+            })
+          )}
         </div>
       </div>
     </div>
   );
 }
 
-
-
 function ProductoCar({ data, id, indice }) {
   //el indice lo usare para saber que posicion del producto es el que esta sumando o restando para actualizar el estado carrito
-  const { setConteoCar } = useContext(ContextHeader)
-  const { dataCarrito, setDataCarrito,setModifyProduct } = useContext(ContextGlobal)
+  const { setConteoCar } = useContext(ContextHeader);
+  const { dataCarrito, setDataCarrito, setModifyProduct } =
+    useContext(ContextGlobal);
 
   //este loader es para cuando se da click en borrarProducto sumar o restar
   const [loader, setLoader] = useState({
     deleteLoader: { isLoading: false, saveInDatabase: null },
     sumaLoader: { isLoading: false, saveInDatabase: null },
-    restaLoader: { isLoading: false, saveInDatabase: null }
-  }
-  )
+    restaLoader: { isLoading: false, saveInDatabase: null },
+  });
 
-
-  const ekisElementRef = useRef()
-  const sumaElementRef = useRef()
-  const restaElementRef = useRef()
+  const ekisElementRef = useRef();
+  const sumaElementRef = useRef();
+  const restaElementRef = useRef();
 
   const clickBorrarProducto = (idRecibido) => {
-   // console.log("borrando.....")
-    const ekisElement = ekisElementRef.current
-   // console.log(ekisElement)
-    ekisElement.style.cursor = "not-allowed"
-    setLoader(prevState => ({
+    // console.log("borrando.....")
+    const ekisElement = ekisElementRef.current;
+    // console.log(ekisElement)
+    ekisElement.style.cursor = "not-allowed";
+    setLoader((prevState) => ({
       ...prevState,
-      deleteLoader: { isLoading: true, savingInDatabase: false }
-    }))
+      deleteLoader: { isLoading: true, savingInDatabase: false },
+    }));
 
-
-
-   // console.log("borrando producto....")
+    // console.log("borrando producto....")
     //primero se elimina el producto de la database y luego recien se ejecuta la animacion esa de eliminacion
-    const prodCar = localStorage.getItem("prodCar")
-
-
+    const prodCar = localStorage.getItem("prodCar");
 
     const query = `mutation{deleteProducto(idCar:"${prodCar}",idProducto:"${idRecibido}"){
       error
-    }}`
-
+    }}`;
 
     fetch(`${process.env.NEXT_PUBLIC_api}/graphql`, {
       method: "POST",
       headers: {
-        "Content-type": "Application/json"
+        "Content-type": "Application/json",
       },
-      body: JSON.stringify({ query })
-    }).then(e => e.json())
-      .then(e => {
-
-
+      body: JSON.stringify({ query }),
+    })
+      .then((e) => e.json())
+      .then((e) => {
         if (e.data.deleteProducto.error == false) {
-
-          const x = document.querySelector(`#prod-${idRecibido}`)
+          const x = document.querySelector(`#prod-${idRecibido}`);
           //x.style.opacity = "0"
           //x.style.animation = "salidaProducto 1s ease"
           /* x.style.animationName = "salidaProducto";
@@ -290,48 +311,35 @@ function ProductoCar({ data, id, indice }) {
           //aqui no se nota ese error porque pasa rapido pero hay un pequeño transicion brusco
           //ese error era por el margin creo ya no me acuerdo
           //busca el archivo errorAnimacion.html ahi solucionalo
-          x.style.animation = `${header.salidaProducto} 200ms ease forwards`
+          x.style.animation = `${header.salidaProducto} 200ms ease forwards`;
           setTimeout(() => {
-            x.style.height = "0px"
+            x.style.height = "0px";
             setTimeout(() => {
-
-
               //terminado toda la animacion recien elimanos realmente de la interfaz
-              setDataCarrito(prevState => {
-                let newItems = [...prevState]
+              setDataCarrito((prevState) => {
+                let newItems = [...prevState];
                 //usar filter con el idProducto
-                let filtrado = newItems.filter(dataUnidad => dataUnidad.idProducto !== id)
+                let filtrado = newItems.filter(
+                  (dataUnidad) => dataUnidad.idProducto !== id
+                );
 
                 return filtrado;
-              })
+              });
 
-              setLoader(prevState => ({
+              setLoader((prevState) => ({
                 ...prevState,
-                deleteLoader: { isLoading: false, saveInDatabase: true }
-              }))
-              ekisElement.style.cursor = "pointer"
+                deleteLoader: { isLoading: false, saveInDatabase: true },
+              }));
+              ekisElement.style.cursor = "pointer";
               //poner esto de setConteoCar..me salia -1 en el carrito al eliminar
               // setConteoCar(prev => prev) //aqui ya no se resta ya que hay un useEffect que detecta cuando se cambia el estao carrito y automaticamente se resta
 
-              setModifyProduct(prev=>!prev)
-            }, 200)
-          }, 200)
-
-
+              setModifyProduct((prev) => !prev);
+            }, 200);
+          }, 200);
         }
-
-
-      })
-
-
-
-
-  }
-
-
-
-
-
+      });
+  };
 
   const clickRestaProducto = (idRecibido, cantidadProducto) => {
     /*Por otro lado, cuando utilizas paréntesis () alrededor del cuerpo de la función de flecha (prev => (...)), JavaScript asume 
@@ -345,152 +353,149 @@ function ProductoCar({ data, id, indice }) {
  restaLoader: true
 }));*/
     //aqui usare esto de momento xd
-    restaElementRef.current.style.cursor = "not-allowed"
-    setLoader(prev => {
-      return (
-        {
-          ...prev,
-          restaLoader: { isLoading: true, saveInDatabase: false }
-        }
-      )
-    })
+    restaElementRef.current.style.cursor = "not-allowed";
+    setLoader((prev) => {
+      return {
+        ...prev,
+        restaLoader: { isLoading: true, saveInDatabase: false },
+      };
+    });
     //console.log(loader.restaLoader)
     //si aqui vemos que cantidadProducto tiene 1 entonces se resta y seria 0 asi que mejor usar la funcion eliminar
     if (cantidadProducto == 1) {
-    //  console.log("se detecto que es 1 entonces mejor se elimina el producto")
-      clickBorrarProducto(idRecibido)
+      //  console.log("se detecto que es 1 entonces mejor se elimina el producto")
+      clickBorrarProducto(idRecibido);
       return;
     }
-   // console.log("restando producto....")
-    const prodCar = localStorage.getItem("prodCar")
+    // console.log("restando producto....")
+    const prodCar = localStorage.getItem("prodCar");
     const query = `mutation{restaProducto(idCar:"${prodCar}",idProducto:"${idRecibido}"){
       error,
       cantidadProducto
-    }}`
+    }}`;
 
     fetch(`${process.env.NEXT_PUBLIC_api}/graphql`, {
       method: "POST",
       headers: {
-        "Content-type": "application/json"
+        "Content-type": "application/json",
       },
-      body: JSON.stringify({ query })
-    }).then(e => e.json())
-      .then(e => {
+      body: JSON.stringify({ query }),
+    })
+      .then((e) => e.json())
+      .then((e) => {
+        setDataCarrito((prevState) => {
+          let newItems = [...prevState]; //copiamos el array de objetos
 
-
-
-        setDataCarrito(prevState => {
-          let newItems = [...prevState] //copiamos el array de objetos
-
-          //modificamos lo necesario 
-          newItems[indice].cantidadProducto = e.data.restaProducto.cantidadProducto
+          //modificamos lo necesario
+          newItems[indice].cantidadProducto =
+            e.data.restaProducto.cantidadProducto;
           return newItems;
-        })
+        });
 
-        setLoader(prev => ({
+        setLoader((prev) => ({
           ...prev,
-          restaLoader: { isLoading: false, saveInDatabase: true }
-        }))
+          restaLoader: { isLoading: false, saveInDatabase: true },
+        }));
 
+        restaElementRef.current.style.cursor = "pointer";
 
-        restaElementRef.current.style.cursor = "pointer"
-
-        setModifyProduct(prev=>!prev)
-      })
-  }
+        setModifyProduct((prev) => !prev);
+      });
+  };
 
   //aqui se ejecuta cuando se da click al icono de sumar.svg
   const clickSumaProducto = (idRecibido) => {
-   
-   sumaElementRef.current.style.cursor = "not-allowed"
+    sumaElementRef.current.style.cursor = "not-allowed";
 
-    setLoader(prevState => ({
+    setLoader((prevState) => ({
       ...prevState,
-      sumaLoader: { isLoading: true, saveInDatabase: false }
-    }))
+      sumaLoader: { isLoading: true, saveInDatabase: false },
+    }));
 
-
-   // console.log("sumandoPRoducto...")
-    const prodCar = localStorage.getItem("prodCar")
+    // console.log("sumandoPRoducto...")
+    const prodCar = localStorage.getItem("prodCar");
 
     const query = `mutation{addProducto(idCar:"${prodCar}",idProducto:"${idRecibido}"){
       error,
       cantidadProducto,
       idProducto
-    }}`
+    }}`;
     fetch(`${process.env.NEXT_PUBLIC_api}/graphql`, {
       method: "POST",
       headers: {
-        "content-type": "application/json"
+        "content-type": "application/json",
       },
-      body: JSON.stringify({ query })
-    }).then(e => e.json())
-      .then(e => {
-      //  console.log(e)
+      body: JSON.stringify({ query }),
+    })
+      .then((e) => e.json())
+      .then((e) => {
+        //  console.log(e)
 
         //aqui ya no se usa setConteoCar --- porq el useEffect detecta cuando cambia el estado carrito automaticamente cambia ese valor del conteo
-        setDataCarrito(prevState => {
-          let newItems = [...prevState]
-
+        setDataCarrito((prevState) => {
+          let newItems = [...prevState];
 
           //este indice se saca del prop (ProductoCar)
-          newItems[indice].cantidadProducto = e.data.addProducto.cantidadProducto
+          newItems[indice].cantidadProducto =
+            e.data.addProducto.cantidadProducto;
           return newItems;
+        });
 
-        })
-
-        setLoader(prevState => ({
+        setLoader((prevState) => ({
           ...prevState,
-          sumaLoader: { isLoading: false, saveInDatabase: true }
-        }))
+          sumaLoader: { isLoading: false, saveInDatabase: true },
+        }));
 
-        sumaElementRef.current.style.cursor = "pointer"
-    
-        //este modify es para poder escuchar eventos en socket io en el carrito 
-        setModifyProduct(prev=>!prev)
-      })
-  }
+        sumaElementRef.current.style.cursor = "pointer";
+
+        //este modify es para poder escuchar eventos en socket io en el carrito
+        setModifyProduct((prev) => !prev);
+      });
+  };
 
   useEffect(() => {
     const funcionAsync = (recibeKey) => {
       if (recibeKey == "deleteLoader") {
-       // console.log("DELETEADOOOO")
-        clickBorrarProducto(id)
+        // console.log("DELETEADOOOO")
+        clickBorrarProducto(id);
       } else if (recibeKey == "sumaLoader") {
-        clickSumaProducto(id)
+        clickSumaProducto(id);
       } else if (recibeKey == "restaLoader") {
-        clickRestaProducto(id, data.cantidadProducto)
+        clickRestaProducto(id, data.cantidadProducto);
       }
-    }
+    };
     // console.log("****//**")
-    Object.keys(loader).forEach(key => {
+    Object.keys(loader).forEach((key) => {
       //const valor = loader.key.saveInDatabase //esto no funciona porque se lee como "key" literal
-      const valor = loader[key].saveInDatabase //esto si funciona porque transforma ese string de variable key a metodo
+      const valor = loader[key].saveInDatabase; //esto si funciona porque transforma ese string de variable key a metodo
       // console.log(valor)
       if (valor == false) {
-        funcionAsync(key)
+        funcionAsync(key);
       } else if (valor == true) {
       }
-
-    })
-
-  }, [loader.deleteLoader.saveInDatabase, loader.sumaLoader.saveInDatabase, loader.restaLoader.saveInDatabase])
-
+    });
+  }, [
+    loader.deleteLoader.saveInDatabase,
+    loader.sumaLoader.saveInDatabase,
+    loader.restaLoader.saveInDatabase,
+  ]);
 
   const LoaderJSX = () => {
-    return (<div className={header.circles}>
-      <span></span>
-      <span></span>
-      <span></span>
-    </div>)
-  }
+    return (
+      <div className={header.circles}>
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    );
+  };
 
   const clickModifyState = (typeLoader) => {
-    setLoader(prevState => ({
+    setLoader((prevState) => ({
       ...prevState,
-      [typeLoader]: { isLoading: true, saveInDatabase: false }
-    }))
-  }
+      [typeLoader]: { isLoading: true, saveInDatabase: false },
+    }));
+  };
 
   //necesito que setDataCarrito(dataCarrito.filter(e=>e.product)
   return (
@@ -501,15 +506,31 @@ function ProductoCar({ data, id, indice }) {
             <div className={header.imagenContainer}>
               <img src={`/${data.imgUrl_first}`} />
             </div>
-            <div className={header.ekis} ref={ekisElementRef} onClick={() => clickModifyState("deleteLoader")}>
-              {loader.deleteLoader.isLoading == true ?
+            <div
+              className={header.ekis}
+              ref={ekisElementRef}
+              onClick={() => clickModifyState("deleteLoader")}
+            >
+              {loader.deleteLoader.isLoading == true ? (
                 <LoaderJSX></LoaderJSX>
-                :
+              ) : (
                 <div className={header.boton}>
-                  <svg fill="white" viewBox="0 0 24 24" stroke-width="1.5" stroke="black" aria-hidden="true" class="hover:text-accent-3 mx-[1px] h-4 w-4 text-white dark:text-black"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path></svg>
+                  <svg
+                    fill="white"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="black"
+                    aria-hidden="true"
+                    class="hover:text-accent-3 mx-[1px] h-4 w-4 text-white dark:text-black"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M6 18L18 6M6 6l12 12"
+                    ></path>
+                  </svg>
                 </div>
-              }
-
+              )}
             </div>
           </div>
           <div className={header.detalles}>
@@ -524,21 +545,28 @@ function ProductoCar({ data, id, indice }) {
             <p>{data.precio_en_dolares}$USD</p>
           </div>
           <div className={header.bottom}>
-            <div className={header.imagen} ref={restaElementRef} onClick={() => clickModifyState("restaLoader")}>
-
-              {loader.restaLoader.isLoading == true ?
+            <div
+              className={header.imagen}
+              ref={restaElementRef}
+              onClick={() => clickModifyState("restaLoader")}
+            >
+              {loader.restaLoader.isLoading == true ? (
                 <LoaderJSX></LoaderJSX>
-
-                : <img src="/resta.svg" />
-              }
+              ) : (
+                <img src="/resta.svg" />
+              )}
             </div>
             <div className={header.totalItem}>{data.cantidadProducto}</div>
-            <div className={header.imagen} ref={sumaElementRef} onClick={() => clickModifyState("sumaLoader")}>
-              {loader.sumaLoader.isLoading == true ?
+            <div
+              className={header.imagen}
+              ref={sumaElementRef}
+              onClick={() => clickModifyState("sumaLoader")}
+            >
+              {loader.sumaLoader.isLoading == true ? (
                 <LoaderJSX></LoaderJSX>
-                : <img src="/suma.svg" />
-              }
-
+              ) : (
+                <img src="/suma.svg" />
+              )}
             </div>
           </div>
         </div>
@@ -548,41 +576,43 @@ function ProductoCar({ data, id, indice }) {
 }
 
 function CajaCompras() {
-  const router = useRouter()
+  const router = useRouter();
   //este ContextGlobal esta en el archivo layout.jsx
   const { setDataCarrito, dataCarrito } = useContext(ContextGlobal);
 
   useEffect(() => {
-    let total_a_pagar = 0
+    let total_a_pagar = 0;
 
     dataCarrito.map((dataUnidad, indice) => {
       //aqui sacamos la cuenta cuanto cuesta el producto y cuantos  a agregado al carrito
-      const totalPorItem = dataUnidad.cantidadProducto * dataUnidad.precio_en_dolares
+      const totalPorItem =
+        dataUnidad.cantidadProducto * dataUnidad.precio_en_dolares;
 
       total_a_pagar = totalPorItem;
-    })
+    });
 
-    const headerCajaElement = document.querySelector(`#total_a_pagar`)
-    headerCajaElement.textContent = `${total_a_pagar} $USD`
-   // console.log("pagar...")
-   // console.log(total_a_pagar)
-  }, [dataCarrito])
+    const headerCajaElement = document.querySelector(`#total_a_pagar`);
+    headerCajaElement.textContent = `${total_a_pagar} $USD`;
+    // console.log("pagar...")
+    // console.log(total_a_pagar)
+  }, [dataCarrito]);
 
-
-  const clickGoCaja = ()=>{
-    //esto te redirige a la ruta checkout 
-    router.push(`/checkout/information`)
-  }
+  const clickGoCaja = () => {
+    //esto te redirige a la ruta checkout
+    router.push(`/checkout/information`);
+  };
   return (
     <div className={header.cajaCompras}>
       <div className={header.caja}>
         {dataCarrito.map((dataUnidad, indice) => {
-
-          return <ProductoCar key={dataUnidad.idProducto}
-            id={dataUnidad.idProducto}
-            data={dataUnidad}
-            indice={indice}
-          ></ProductoCar>;
+          return (
+            <ProductoCar
+              key={dataUnidad.idProducto}
+              id={dataUnidad.idProducto}
+              data={dataUnidad}
+              indice={indice}
+            ></ProductoCar>
+          );
         })}
       </div>
       <div className={header.otros}>
@@ -598,15 +628,13 @@ function CajaCompras() {
           <p>Total</p>
           <p id="total_a_pagar"></p>
         </div>
-        <div className={header.otros_botonPagar} onClick={clickGoCaja}>Pasar por la caja</div>
+        <div className={header.otros_botonPagar} onClick={clickGoCaja}>
+          Pasar por la caja
+        </div>
       </div>
     </div>
   );
 }
-
-
-
-
 
 function CarritoPage() {
   const { animCarrito, setAnimCarrito, setMostrarCarrito, conteoCar } =
@@ -621,19 +649,26 @@ function CarritoPage() {
   };
 
   const clickCarritoLeft = () => {
-    clickCerrarCarrito()
-  }
-
+    clickCerrarCarrito();
+  };
 
   return (
     <div
-      className={`${header.carritoPage} ${animCarrito ? "" : header.carritoPageSalida
-        }`}
+      className={`${header.carritoPage} ${
+        animCarrito ? "" : header.carritoPageSalida
+      }`}
     >
-      <div className={header.carritoLeft} style={{ animation: animCarrito ? "" : "carritoLeftSalida ease 100ms forwards" }} onClick={clickCarritoLeft}></div>
       <div
-        className={`${header.carritoRight} ${animCarrito ? "" : header.carritoRightSalida
-          }`}
+        className={header.carritoLeft}
+        style={{
+          animation: animCarrito ? "" : "carritoLeftSalida ease 100ms forwards",
+        }}
+        onClick={clickCarritoLeft}
+      ></div>
+      <div
+        className={`${header.carritoRight} ${
+          animCarrito ? "" : header.carritoRightSalida
+        }`}
       >
         <div className={header.carrito_first}>
           <div>Mi Carrito</div>
@@ -664,13 +699,15 @@ function MenuPage() {
   const { setMostrarMenu, animMenu, setAnimMenu } = useContext(ContextHeader);
 
   const clickCerrarMenu = () => {
-    setAnimMenu(false)
+    setAnimMenu(false);
     setTimeout(() => {
-      setMostrarMenu(false)
-    }, 400)
-  }
+      setMostrarMenu(false);
+    }, 400);
+  };
   return (
-    <div className={`${header.menuPage} ${animMenu ? "" : header.menuPageSalida}`}>
+    <div
+      className={`${header.menuPage} ${animMenu ? "" : header.menuPageSalida}`}
+    >
       <div className={header.menuContainer}>
         <div className={header.menuPageEkis} onClick={clickCerrarMenu}>
           <img src="/ekis.svg" />
@@ -690,100 +727,328 @@ function MenuPage() {
 
 export const ContextHeader = createContext();
 
+function Login() {
+  const focusInput = (event) => {
+    if (event.target.getAttribute("id") == "email") {
+      const labelEmail = document.querySelector("#labelEmail");
+      labelEmail.style.cssText = "font-size:10px;top:-15px";
+    } else if (event.target.getAttribute("id") == "password") {
+      const labelPassword = document.querySelector("#labelPassword");
+      labelPassword.style.cssText = "font-size:10px;top:-10px";
+    }
+  };
 
+  const blurInput = (event) => {
+    if (event.target.getAttribute("id") == "email") {
+      const labelEmail = document.querySelector("#labelEmail");
+      labelEmail.style.cssText = "font-size:16px;top:4px";
+    } else if (event.target.getAttribute("id") == "password") {
+      const labelPassword = document.querySelector("#labelPassword");
+      labelPassword.style.cssText = "font-size:16px;top:4px";
+    }
+  };
 
+  return (
+    <div className={header.registroCaja}>
+      <div className={header.registroCaja_content}>
+        <div className={header.registro_first}>
+          <div className={header.ekisIcon}>
+            <svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+              <path d="m18.442 2.442-.884-.884L10 9.116 2.442 1.558l-.884.884L9.116 10l-7.558 7.558.884.884L10 10.884l7.558 7.558.884-.884L10.884 10l7.558-7.558Z"></path>
+            </svg>
+          </div>
+        </div>
+        <div className={header.registro_second}>
+          <div className={header.registro_second_content}>
+            <h1>Iniciar sesion</h1>
+            <p>
+              <span>Al continuar, aceptar nuestro </span>
+              <Link href="/">Acuerdo del usuario</Link>
+              <span> confirmas que has entendido la </span>
+              <Link href="/">Politica de privacidad</Link>
+            </p>
+            <div className={header.registroGoogle}>
+              <svg viewBox="0 0 48 48" class="LgbsSe-Bz112c">
+                <g>
+                  <path
+                    fill="#EA4335"
+                    d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"
+                  ></path>
+                  <path
+                    fill="#4285F4"
+                    d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"
+                  ></path>
+                  <path
+                    fill="#FBBC05"
+                    d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"
+                  ></path>
+                  <path
+                    fill="#34A853"
+                    d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"
+                  ></path>
+                  <path fill="none" d="M0 0h48v48H0z"></path>
+                </g>
+              </svg>
+              <span>Continuar con Google</span>
+            </div>
+            <div className={header.registroApple}>
+              <svg
+                viewBox="0 0 18 18"
+                width="18"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fill="currentColor"
+                  strike="inherit"
+                  d="m8.8162 4.15385c.78824 0 1.7763-.54927 2.3647-1.28163.5329-.6637.9215-1.59059.9215-2.517484 0-.125875-.0111-.251748-.0333-.354736-.8771.0343293-1.9318.606484-2.56458 1.37317-.49959.5836-.95477 1.49905-.95477 2.43738 0 .13732.02221.27464.03331.32041.05551.01144.14433.02289.23314.02289zm-2.77549 13.84615c1.07689 0 1.55427-.7438 2.89761-.7438 1.36558 0 1.66528.7209 2.86428.7209 1.1768 0 1.9651-1.1214 2.7089-2.2199.8327-1.2588 1.1768-2.4946 1.199-2.5519-.0777-.0228-2.3314-.9726-2.3314-3.63887 0-2.3115 1.7763-3.35283 1.8762-3.43293-1.1768-1.73935-2.9642-1.78512-3.4527-1.78512-1.3211 0-2.39799.8239-3.07521.8239-.73274 0-1.69861-.77813-2.84211-.77813-2.17599 0-4.38528 1.85378-4.38528 5.35537 0 2.17418.82155 4.47428 1.83183 5.96188.86595 1.2587 1.62088 2.2886 2.70888 2.2886z"
+                ></path>
+              </svg>
+              <span>Continuar con Apple</span>
+            </div>
+            <div className={header.barra}>
+              <span></span>
+              <span>O</span>
+              <span></span>
+            </div>
 
+            <div className={header.inputsContainer}>
+              <div className={header.cajaInput}>
+                <label for="email" id="labelEmail">
+                  Correo electrónico o nombre de usuario *
+                </label>
+                <input
+                  id="email"
+                  onFocus={focusInput}
+                  onBlur={blurInput}
+                ></input>
+              </div>
+              <div className={header.cajaInput}>
+                <label for="password" id="labelPassword">
+                  Contraseña *
+                </label>
+                <input
+                  id="password"
+                  onFocus={focusInput}
+                  onBlur={blurInput}
+                ></input>
+              </div>
+            </div>
+            <div className={header.ayuda}>
+              <Link href="/">Has olvidado tu contraseña?</Link>
+              <p>
+                Es tu primera vez en NOMBRE?
+                <Link href="/">Registrate</Link>
+              </p>
+            </div>
+          </div>
+        </div>
+        <div className={header.registro_third}>
+          <div className={header.signInBoton}>Iniciar sesión</div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function SettingsMobile() {
+  const lista = [
+    "español",
+    "ingles",
+    "frances",
+    "italiano",
+    "portugues",
+    "ruso",
+    "arabe",
+  ];
+  const [listaIdiomas, setListaIdiomas] = useState(lista);
+
+  const refMonedaAutoCmptd = useRef();
+  const refIdiomaCmptd = useRef();
+
+  const onKeyUpIdioma = (event) => {
+    //filtrado para el autocompletado
+    setListaIdiomas(
+      listaIdiomas.filter((item, ind) => {
+        const newLista = item
+          .toLowerCase()
+          .includes(event.target.value.toLowerCase());
+
+        return newLista;
+      })
+    );
+  };
+
+  useEffect(() => {
+    //28 porque es lo que mide un item de un solo sugerencia
+    const cuentaTotal = 28 * listaIdiomas.length;
+    console.log(cuentaTotal);
+  }, [listaIdiomas]);
+  const focusInput = (referencia) => {
+    referencia.current.style.cssText = "opacity:1;visibility:visible";
+  };
+
+  const blurInput = (referencia) => {
+    referencia.current.style.cssText = "opacity:0;visibility:hidden";
+  };
+
+  return (
+    <div className={header.settingsContainer}>
+      {/*probablemente a futuro aqui agrege lo de THEMES light y dark ahora no*/}
+      <div className={header.firstBlock}>
+        <div className={header.ekis}>
+          <span>
+            <svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+              <path d="m18.442 2.442-.884-.884L10 9.116 2.442 1.558l-.884.884L9.116 10l-7.558 7.558.884.884L10 10.884l7.558 7.558.884-.884L10.884 10l7.558-7.558Z"></path>
+            </svg>
+          </span>
+        </div>
+        <h1>Settings</h1>
+        <div className={header.idiomaContainer}>
+          <h4>Idioma</h4>
+          <p>escoje el idioma que quieres vizualir para la pagina</p>
+          <div className={header.inputSettings}>
+            <div className={header.inputSettings_content}>
+              <input
+                placeholder="Español"
+                onFocus={() => focusInput(refIdiomaCmptd)}
+                onBlur={() => blurInput(refIdiomaCmptd)}
+                onKeyUp={onKeyUpIdioma}
+              ></input>
+              <span className={header.iconoLupa}>
+                <svg viewBox="0 0 48 48" fill="#4b4b4b">
+                  <path
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    d="M22 10C15.3726 10 10 15.3726 10 22C10 28.6274 15.3726 34 22 34C28.6274 34 34 28.6274 34 22C34 15.3726 28.6274 10 22 10ZM6 22C6 13.1634 13.1634 6 22 6C30.8366 6 38 13.1634 38 22C38 25.6974 36.7458 29.1019 34.6397 31.8113L43.3809 40.5565C43.7712 40.947 43.7712 41.5801 43.3807 41.9705L41.9665 43.3847C41.5759 43.7753 40.9426 43.7752 40.5521 43.3846L31.8113 34.6397C29.1019 36.7458 25.6974 38 22 38C13.1634 38 6 30.8366 6 22Z"
+                  ></path>
+                </svg>
+              </span>
+            </div>
+            <div
+              className={header.inputSettings_autoCmptd}
+              ref={refIdiomaCmptd}
+            >
+              <div className={header.inputSettings_autoCmptd_content}>
+                {listaIdiomas.map((dataUnidad) => {
+                  return (
+                    <div className={header.autoCmptd_item}>{dataUnidad}</div>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className={header.monedaContainer}>
+          <h4>Moneda</h4>
+          <p>escoje la moneda para poder ver los productos a tu moneda local</p>
+          <div className={header.inputSettings}>
+            <div className={header.inputSettings_content}>
+              <input
+                placeholder="Español"
+                onFocus={() => focusInput(refMonedaAutoCmptd)}
+                onBlur={() => blurInput(refMonedaAutoCmptd)}
+                onKeyUp={onKeyUpIdioma}
+              ></input>
+              <span className={header.iconoLupa}>
+                <svg viewBox="0 0 48 48" fill="#4b4b4b">
+                  <path
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    d="M22 10C15.3726 10 10 15.3726 10 22C10 28.6274 15.3726 34 22 34C28.6274 34 34 28.6274 34 22C34 15.3726 28.6274 10 22 10ZM6 22C6 13.1634 13.1634 6 22 6C30.8366 6 38 13.1634 38 22C38 25.6974 36.7458 29.1019 34.6397 31.8113L43.3809 40.5565C43.7712 40.947 43.7712 41.5801 43.3807 41.9705L41.9665 43.3847C41.5759 43.7753 40.9426 43.7752 40.5521 43.3846L31.8113 34.6397C29.1019 36.7458 25.6974 38 22 38C13.1634 38 6 30.8366 6 22Z"
+                  ></path>
+                </svg>
+              </span>
+            </div>
+            <div
+              className={header.inputSettings_autoCmptd}
+              ref={refMonedaAutoCmptd}
+            >
+              <div className={header.inputSettings_autoCmptd_content}>
+                {listaIdiomas.map((dataUnidad) => {
+                  return (
+                    <div className={header.autoCmptd_item}>{dataUnidad}</div>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className={header.saveChangesButton}>hola</div>
+    </div>
+  );
+}
 
 export default function Header() {
-
   //importamos dataCarrito donde se guarda todos los productos de ContextGlobal
-  const { setDataCarrito, dataCarrito, setAbrirCarritoFuncion,modifyProduct} = useContext(ContextGlobal)
+  const { setDataCarrito, dataCarrito, setAbrirCarritoFuncion, modifyProduct } =
+    useContext(ContextGlobal);
   //aqui servira para poner la animacion de entrada si es false es porque esta en salida
   const [mostrarCarrito, setMostrarCarrito] = useState(false);
 
   //esto de abajo anima la entrada
   const [animCarrito, setAnimCarrito] = useState(false);
 
-  const [mostrarMenu, setMostrarMenu] = useState(false);
+  const [mostrarMenu, setMostrarMenu] = useState(true);
+
   const [animMenu, setAnimMenu] = useState(false);
 
+  const [conteoCar, setConteoCar] = useState(0);
 
+  //esto se mostrara cuando se da click en boton registrar
+  const [mostrarLogin, setMostrarLogin] = useState(false);
 
-  const [conteoCar, setConteoCar] = useState(0)
-
-  useEffect(()=>{
-
-    //aqui cada vez que detecte un cambio en data carrito se actualizara el conteoCar 
+  const [mostrarSettings, setMostrarSettings] = useState(true);
+  useEffect(() => {
+    //aqui cada vez que detecte un cambio en data carrito se actualizara el conteoCar
     //actualizar el conteoCar
     let conteoCar = 0;
     dataCarrito.map((dataUnidad) => {
-      conteoCar += dataUnidad.cantidadProducto
-    })
+      conteoCar += dataUnidad.cantidadProducto;
+    });
 
-    setConteoCar(conteoCar)
-
-  },[dataCarrito])
+    setConteoCar(conteoCar);
+  }, [dataCarrito]);
 
   useEffect(() => {
-
-   // console.clear()
-   // console.log("MODIFIIIII")
-
+    // console.clear()
+    // console.log("MODIFIIIII")
 
     //si cambia el estado de esto es porque se dio a delete sumar o restar producto
 
-    const prodCar = localStorage.getItem("prodCar")
+    const prodCar = localStorage.getItem("prodCar");
 
     const giveAllProductsCarFunction = (dataCarro) => {
-    //  console.log("******")
-    //  console.log(dataCarro)
-      setDataCarrito(dataCarro)
-
-      
-    }
+      //  console.log("******")
+      //  console.log(dataCarro)
+      setDataCarrito(dataCarro);
+    };
 
     //console.log("MODIFICADOOOOO")
     if (prodCar) {
-      socket.emit("envioGiveAllProductsCar", { idCar: prodCar })
+      socket.emit("envioGiveAllProductsCar", { idCar: prodCar });
 
-      socket.on("give_all_products_car", giveAllProductsCarFunction)
-
+      socket.on("give_all_products_car", giveAllProductsCarFunction);
     }
 
-    
-    return (() => {
-      socket.off("give_all_products_car", giveAllProductsCarFunction)
-    })
-
-  }, [,modifyProduct]) //esto se renderiza la primera vez que cargue la pagina y ademas cuando cambie el modifyProduct
-
-
-
-
-
+    return () => {
+      socket.off("give_all_products_car", giveAllProductsCarFunction);
+    };
+  }, [, modifyProduct]); //esto se renderiza la primera vez que cargue la pagina y ademas cuando cambie el modifyProduct
 
   //este boton servira para abrir la pagina del carrito
   const clickMostrarCarrito = () => {
-
-
     setMostrarCarrito(true);
     //por alguna razon esto funciona para las animaciones xd
     setAnimCarrito(true);
-
-
-
   };
-
 
   const clickMostrarMenu = () => {
     setMostrarMenu(true);
     setAnimMenu(true);
   };
 
-
-
-
-/*
+  /*
   useEffect(() => {
     //tenemos que recuperar el carrito
     const prodCar = localStorage.getItem("prodCar")
@@ -824,16 +1089,15 @@ export default function Header() {
 
 */
 
+  useEffect(() => {
+    setAbrirCarritoFuncion(() => clickMostrarCarrito);
+  }, []);
 
-  useEffect(()=>{
-   setAbrirCarritoFuncion(() => clickMostrarCarrito)
-  },[])
+  const router = useRouter();
 
-  const router = useRouter()
-
-  const redirect = (url)=>{
-    router.push(`/search?ctg=${url}`)
-  }
+  const redirect = (url) => {
+    router.push(`/search?ctg=${url}`);
+  };
   const value = {
     animCarrito,
     setAnimCarrito,
@@ -847,51 +1111,205 @@ export default function Header() {
     setConteoCar,
     conteoCar,
 
-    dataCarrito //esto es de contextGlobal
+    dataCarrito, //esto es de contextGlobal
+  };
 
+  const focusInputLanguage = () => {
+    const languageCajaInput = document.querySelector(
+      `.${header.languageCaja_input}`
+    );
+    languageCajaInput.style.cssText = "border:2px solid #02adffdb";
+  };
+
+  const clickSettings = (elementClicked) => {
+    if (elementClicked == "idioma") {
+      //aqui cuando se haga click se mostrara el idioma que quiere escoje
+
+      //agrandamos la caja del language
+      const settings_content = document.querySelector(
+        `.${header.settings_content}`
+      );
+      settings_content.style.cssText = "height:380px;width:270px;";
+      
+      //
+      const settings_cnt_second = document.querySelector(
+        `.${header.settings_cnt_second}`
+      );
+      settings_cnt_second.style.cssText = "visibility:visible";
+   
+   
+    } else if (elementClicked == "moneda") {
+    }
   };
 
 
+  const blurInputLanguage = ()=>{
+    const languageCajaInput = document.querySelector(
+      `.${header.languageCaja_input}`
+    );
+    languageCajaInput.style.cssText = "border:2px solid #616161";
+  }
   return (
     <ContextHeader.Provider value={value}>
       <div className={header.container}>
         <div className={header.headerPrincipal}>
-          <div className={header.menuBoton} onClick={clickMostrarMenu}>
-            <div className={header.menu}>
-              <img src="/menu.svg" />
-            </div>
-          </div>
           <div className={header.headerLeft}>
+            <div className={header.menuBoton} onClick={clickMostrarMenu}>
+              <div className={header.menu}>
+                <img src="/menu.svg" />
+              </div>
+            </div>
             <Link href="/" style={{ textDecoration: "none" }}>
               <div className={header.perfilContainer}>
-
                 <div className={header.perfil}>
                   <img src="/parrot.jpg" />
                 </div>
                 {/*aqui pondre LN store pero de momento DIGITAL SPACE*/}
                 <span className={header.nombreTienda}>DIGITAL SPACE</span>
-
               </div>
             </Link>
             <ul className={header.lista}>
-              <li onClick={()=>redirect("tecnologia")}>Tecnología</li>
-              <li onClick={()=>redirect("novedades")}>Novedades</li>
-              <li onClick={()=>redirect("todo")}>Todo</li>
+              <li onClick={() => redirect("tecnologia")}>Tecnología</li>
+              <li onClick={() => redirect("novedades")}>Novedades</li>
+              <li onClick={() => redirect("todo")}>Todo</li>
             </ul>
           </div>
           <div className={header.center}>
             <Input></Input>
           </div>
-          <div onClick={clickMostrarCarrito} className={header.carritoBoton}>
-            <div className={header.carritoImagen}>
-              <img src="/carrito.svg" />
+          <div className={header.headerRight}>
+            <div className={header.settingsBoton}>
+              <div className={header.settingsIcon}>
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <circle
+                    cx="12"
+                    cy="12"
+                    r="3"
+                    stroke="white"
+                    stroke-width="1.5"
+                  />
+                  <path
+                    d="M13.7654 2.15224C13.3978 2 12.9319 2 12 2C11.0681 2 10.6022 2 10.2346 2.15224C9.74457 2.35523 9.35522 2.74458 9.15223 3.23463C9.05957 3.45834 9.0233 3.7185 9.00911 4.09799C8.98826 4.65568 8.70226 5.17189 8.21894 5.45093C7.73564 5.72996 7.14559 5.71954 6.65219 5.45876C6.31645 5.2813 6.07301 5.18262 5.83294 5.15102C5.30704 5.08178 4.77518 5.22429 4.35436 5.5472C4.03874 5.78938 3.80577 6.1929 3.33983 6.99993C2.87389 7.80697 2.64092 8.21048 2.58899 8.60491C2.51976 9.1308 2.66227 9.66266 2.98518 10.0835C3.13256 10.2756 3.3397 10.437 3.66119 10.639C4.1338 10.936 4.43789 11.4419 4.43786 12C4.43783 12.5581 4.13375 13.0639 3.66118 13.3608C3.33965 13.5629 3.13248 13.7244 2.98508 13.9165C2.66217 14.3373 2.51966 14.8691 2.5889 15.395C2.64082 15.7894 2.87379 16.193 3.33973 17C3.80568 17.807 4.03865 18.2106 4.35426 18.4527C4.77508 18.7756 5.30694 18.9181 5.83284 18.8489C6.07289 18.8173 6.31632 18.7186 6.65204 18.5412C7.14547 18.2804 7.73556 18.27 8.2189 18.549C8.70224 18.8281 8.98826 19.3443 9.00911 19.9021C9.02331 20.2815 9.05957 20.5417 9.15223 20.7654C9.35522 21.2554 9.74457 21.6448 10.2346 21.8478C10.6022 22 11.0681 22 12 22C12.9319 22 13.3978 22 13.7654 21.8478C14.2554 21.6448 14.6448 21.2554 14.8477 20.7654C14.9404 20.5417 14.9767 20.2815 14.9909 19.902C15.0117 19.3443 15.2977 18.8281 15.781 18.549C16.2643 18.2699 16.8544 18.2804 17.3479 18.5412C17.6836 18.7186 17.927 18.8172 18.167 18.8488C18.6929 18.9181 19.2248 18.7756 19.6456 18.4527C19.9612 18.2105 20.1942 17.807 20.6601 16.9999C21.1261 16.1929 21.3591 15.7894 21.411 15.395C21.4802 14.8691 21.3377 14.3372 21.0148 13.9164C20.8674 13.7243 20.6602 13.5628 20.3387 13.3608C19.8662 13.0639 19.5621 12.558 19.5621 11.9999C19.5621 11.4418 19.8662 10.9361 20.3387 10.6392C20.6603 10.4371 20.8675 10.2757 21.0149 10.0835C21.3378 9.66273 21.4803 9.13087 21.4111 8.60497C21.3592 8.21055 21.1262 7.80703 20.6602 7C20.1943 6.19297 19.9613 5.78945 19.6457 5.54727C19.2249 5.22436 18.693 5.08185 18.1671 5.15109C17.9271 5.18269 17.6837 5.28136 17.3479 5.4588C16.8545 5.71959 16.2644 5.73002 15.7811 5.45096C15.2977 5.17191 15.0117 4.65566 14.9909 4.09794C14.9767 3.71848 14.9404 3.45833 14.8477 3.23463C14.6448 2.74458 14.2554 2.35523 13.7654 2.15224Z"
+                    stroke="white"
+                    stroke-width="1.5"
+                  />
+                </svg>
+              </div>
+              <div className={header.settings_content}>
+                <div className={header.settings_content_real}>
+                  <div className={header.settings_cnt_first}>
+                    <div
+                      className={header.settings_language}
+                      onClick={() => clickSettings("idioma")}
+                    >
+                      <span>
+                        <svg
+                          viewBox="0 0 24 24"
+                          fill="white"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            fill-rule="evenodd"
+                            clip-rule="evenodd"
+                            d="M14.6921 5H9.30807C8.15914 5.00635 7.0598 5.46885 6.25189 6.28576C5.44398 7.10268 4.99368 8.20708 5.00007 9.356V14.644C4.99368 15.7929 5.44398 16.8973 6.25189 17.7142C7.0598 18.5311 8.15914 18.9937 9.30807 19H14.6921C15.841 18.9937 16.9403 18.5311 17.7482 17.7142C18.5562 16.8973 19.0064 15.7929 19.0001 14.644V9.356C19.0064 8.20708 18.5562 7.10268 17.7482 6.28576C16.9403 5.46885 15.841 5.00635 14.6921 5Z"
+                            stroke="#000000"
+                            stroke-width="1.5"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          />
+                          <path
+                            d="M8.00012 9C7.58591 9 7.25012 9.33579 7.25012 9.75C7.25012 10.1642 7.58591 10.5 8.00012 10.5V9ZM12.0001 10.5C12.4143 10.5 12.7501 10.1642 12.7501 9.75C12.7501 9.33579 12.4143 9 12.0001 9V10.5ZM11.2501 9.75C11.2501 10.1642 11.5859 10.5 12.0001 10.5C12.4143 10.5 12.7501 10.1642 12.7501 9.75H11.2501ZM12.7501 8C12.7501 7.58579 12.4143 7.25 12.0001 7.25C11.5859 7.25 11.2501 7.58579 11.2501 8H12.7501ZM12.0001 9C11.5859 9 11.2501 9.33579 11.2501 9.75C11.2501 10.1642 11.5859 10.5 12.0001 10.5V9ZM15.5001 10.5C15.9143 10.5 16.2501 10.1642 16.2501 9.75C16.2501 9.33579 15.9143 9 15.5001 9V10.5ZM15.5001 9C15.0859 9 14.7501 9.33579 14.7501 9.75C14.7501 10.1642 15.0859 10.5 15.5001 10.5V9ZM16.0001 10.5C16.4143 10.5 16.7501 10.1642 16.7501 9.75C16.7501 9.33579 16.4143 9 16.0001 9V10.5ZM16.1138 10.1811C16.3519 9.84222 16.2702 9.37443 15.9313 9.13631C15.5923 8.8982 15.1246 8.97992 14.8864 9.31885L16.1138 10.1811ZM11.2737 13.2783C10.9579 13.5464 10.9193 14.0197 11.1874 14.3354C11.4555 14.6512 11.9288 14.6898 12.2445 14.4217L11.2737 13.2783ZM9.29973 14.9003C8.96852 15.149 8.90167 15.6192 9.15041 15.9504C9.39916 16.2816 9.8693 16.3485 10.2005 16.0997L9.29973 14.9003ZM12.2569 14.407C12.5667 14.1321 12.595 13.6581 12.3201 13.3483C12.0453 13.0384 11.5712 13.0101 11.2614 13.285L12.2569 14.407ZM11.1691 14.3091C11.4249 14.6349 11.8963 14.6917 12.2222 14.436C12.548 14.1802 12.6048 13.7088 12.3491 13.3829L11.1691 14.3091ZM11.186 11.4467C11.0185 11.0678 10.5756 10.8966 10.1968 11.0641C9.81796 11.2316 9.64667 11.6745 9.8142 12.0533L11.186 11.4467ZM12.3609 13.4024C12.1137 13.07 11.6439 13.001 11.3115 13.2482C10.9792 13.4954 10.9101 13.9652 11.1573 14.2976L12.3609 13.4024ZM13.8953 16.6608C14.2602 16.8567 14.7149 16.7198 14.9109 16.3548C15.1068 15.9899 14.9699 15.5352 14.605 15.3392L13.8953 16.6608ZM8.00012 10.5H12.0001V9H8.00012V10.5ZM12.7501 9.75V8H11.2501V9.75H12.7501ZM12.0001 10.5H15.5001V9H12.0001V10.5ZM15.5001 10.5H16.0001V9H15.5001V10.5ZM14.8864 9.31885C13.8552 10.7867 12.6412 12.1172 11.2737 13.2783L12.2445 14.4217C13.7091 13.1782 15.0093 11.7532 16.1138 10.1811L14.8864 9.31885ZM10.2005 16.0997C10.7113 15.7161 11.4531 15.1201 12.2569 14.407L11.2614 13.285C10.4871 13.9719 9.77692 14.5419 9.29973 14.9003L10.2005 16.0997ZM12.3491 13.3829C11.8824 12.7884 11.4917 12.1379 11.186 11.4467L9.8142 12.0533C10.1703 12.8586 10.6255 13.6164 11.1691 14.3091L12.3491 13.3829ZM11.1573 14.2976C11.8855 15.2767 12.8203 16.0835 13.8953 16.6608L14.605 15.3392C13.7239 14.8661 12.9578 14.2048 12.3609 13.4024L11.1573 14.2976Z"
+                            fill="#000000"
+                          />
+                        </svg>
+                      </span>
+                      <p>idioma</p>
+                    </div>
+                    <div
+                      className={header.settings_moneda}
+                      onClick={() => clickSettings("moneda")}
+                    >
+                      <span>
+                        <svg
+                          viewBox="0 0 24 24"
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                        >
+                          <path
+                            stroke="#000000"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="m14.5 10-.035-.139A2.457 2.457 0 0 0 12.082 8h-.522a1.841 1.841 0 0 0-.684 3.55l2.248.9A1.841 1.841 0 0 1 12.44 16h-.521a2.457 2.457 0 0 1-2.384-1.861L9.5 14M12 6v2m0 8v2m9-6a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                          />
+                        </svg>
+                      </span>
+                      <p>Moneda</p>
+                    </div>
+                  </div>
+                  <div className={header.settings_cnt_second}>
+                    <div className={header.languageCaja}>
+                      <div className={header.languageCaja_input}>
+                        <input onFocus={focusInputLanguage} onBlur={blurInputLanguage}></input>
+                        <span>
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke-width="1.5"
+                            stroke="white"
+                            aria-hidden="true"
+                            class="h-4"
+                          >
+                            <path
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
+                            ></path>
+                          </svg>
+                        </span>
+                      </div>
+                      <div className={header.sugerenciasLanguage}>
+                        <div>español</div>
+                        <div>ingles</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-            {conteoCar > 0 ? <span className={header.carritoConteo}>{conteoCar}</span> : ""}
+            <div className={header.registrarse}>
+              <svg width="30px" height="30px" viewBox="0 0 24 24">
+                <path
+                  d="M5 21C5 17.134 8.13401 14 12 14C15.866 14 19 17.134 19 21M16 7C16 9.20914 14.2091 11 12 11C9.79086 11 8 9.20914 8 7C8 4.79086 9.79086 3 12 3C14.2091 3 16 4.79086 16 7Z"
+                  stroke="white"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </div>
+            <div onClick={clickMostrarCarrito} className={header.carritoBoton}>
+              <div className={header.carritoImagen}>
+                <img src="/carrito.svg" />
+              </div>
+              {conteoCar > 0 ? (
+                <span className={header.carritoConteo}>{conteoCar}</span>
+              ) : (
+                ""
+              )}
+            </div>
           </div>
         </div>
 
         {mostrarCarrito ? <CarritoPage></CarritoPage> : ""}
         {mostrarMenu ? <MenuPage></MenuPage> : ""}
+        {mostrarLogin ? <Login></Login> : ""}
+        {mostrarSettings ? <SettingsMobile></SettingsMobile> : ""}
       </div>
     </ContextHeader.Provider>
   );
