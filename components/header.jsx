@@ -75,7 +75,7 @@ export function Input() {
       //el input de mobile desaparece en en pc pero con un display none por eso no lo encuetnra
       if (sugerenciasInputRef.current) {
         sugerenciasInputRef.current.style.cssText =
-          "visibility:hidden;opacity:0";
+          "visibility:hidden;opacity:0;max-height:400px;overflow:auto";
 
         // console.log("AAAAAAAAAAAA")
         // console.log(sugerenciasInputRef)
@@ -143,7 +143,8 @@ export function Input() {
     } else if (e.target.value.length == 0) {
       //si en caso de que el usuario escribio texto y luego borro todo eso de quitar esa sugerenciasElement
 
-      sugerenciasInputRef.current.style.cssText = "visibility:hidden;opacity:0";
+      sugerenciasInputRef.current.style.cssText =
+        "visibility:hidden;opacity:0;max-height:400px;overflow:auto";
     }
   };
 
@@ -166,7 +167,7 @@ export function Input() {
       .replace(/\s+/g, " ")
       .trim();
     if (valorRecortado.length > 0) {
-      sugerenciasInputRef.current.style.cssText = `visibility:visible;opacity:1`;
+      sugerenciasInputRef.current.style.cssText = `visibility:visible;opacity:1;max-height:400px;overflow:auto`;
 
       //este evento click es para determinar donde sera su siguiente click para poder cerrar ese cuadro ps xd
       window.addEventListener("click", funcionNextClick);
@@ -878,11 +879,26 @@ function SettingsMobile() {
     );
   };
 
+  const { setMostrarSettings } = useContext(ContextHeader);
+
+  useEffect(() => {
+    setTimeout(() => {
+      //cuando se renderize por primera vez tenemos que aplicar los estilos de mostrar
+      const settingsContainer = document.querySelector(
+        `.${header.settingsContainer}`
+      );
+      settingsContainer.style.visibility = "visible";
+      settingsContainer.style.opacity = "1";
+      console.log(settingsContainer);
+    }, 0);
+  }, []);
+
   useEffect(() => {
     //28 porque es lo que mide un item de un solo sugerencia
     const cuentaTotal = 28 * listaIdiomas.length;
     console.log(cuentaTotal);
   }, [listaIdiomas]);
+
   const focusInput = (referencia) => {
     referencia.current.style.cssText = "opacity:1;visibility:visible";
   };
@@ -891,12 +907,31 @@ function SettingsMobile() {
     referencia.current.style.cssText = "opacity:0;visibility:hidden";
   };
 
+  const clickSettingsEkis = () => {
+    //si se da click al ekis se elimina todo
+    //cuando se renderize por primera vez tenemos que aplicar los estilos de mostrar
+    const settingsContainer = document.querySelector(
+      `.${header.settingsContainer}`
+    );
+    settingsContainer.style.visibility = "hidden";
+    settingsContainer.style.opacity = "0";
+    console.log(settingsContainer);
+
+    settingsContainer.addEventListener("transitionend", () => {
+      setMostrarSettings(false);
+    });
+
+    //simulamos click esto para eliminar las cosas que tiene como outline
+    const spanEkis = document.querySelector(`.${header.settingsIcon}`);
+    spanEkis.click();
+  };
+
   return (
     <div className={header.settingsContainer}>
       {/*probablemente a futuro aqui agrege lo de THEMES light y dark ahora no*/}
       <div className={header.firstBlock}>
         <div className={header.ekis}>
-          <span>
+          <span onClick={clickSettingsEkis}>
             <svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
               <path d="m18.442 2.442-.884-.884L10 9.116 2.442 1.558l-.884.884L9.116 10l-7.558 7.558.884.884L10 10.884l7.558 7.558.884-.884L10.884 10l7.558-7.558Z"></path>
             </svg>
@@ -998,7 +1033,9 @@ export default function Header() {
   //esto se mostrara cuando se da click en boton registrar
   const [mostrarLogin, setMostrarLogin] = useState(false);
 
-  const [mostrarSettings, setMostrarSettings] = useState(true);
+  const [mostrarSettings, setMostrarSettings] = useState(false);
+
+  const [clickedBotonSettings, setClickedBotonSettings] = useState(false);
   useEffect(() => {
     //aqui cada vez que detecte un cambio en data carrito se actualizara el conteoCar
     //actualizar el conteoCar
@@ -1048,48 +1085,8 @@ export default function Header() {
     setAnimMenu(true);
   };
 
-  /*
   useEffect(() => {
-    //tenemos que recuperar el carrito
-    const prodCar = localStorage.getItem("prodCar")
-
-
-
-    const giveAllProductsCarFunction = (dataCarro) => {
-      setDataCarrito(dataCarro)
-    
-      console.log("esto es tu carrito")
-
-      console.log(dataCarro)
-      console.log("@@♠4@")
-    }
-    if (prodCar) {
-
-
-      socket.emit("envioGiveAllProductsCar", { idCar: prodCar })
-
-
-
-
-
-      socket.on("give_all_products_car", giveAllProductsCarFunction)
-
-
-      //esto de aca se usara en la ruta /product...cuando se de click en el boton "agregar al carrito" 
-      //   setabrirCarritoFuncion(JSON.stringify(clickMostrarCarrito))
-      setAbrirCarritoFuncion(() => clickMostrarCarrito)
-    }
-
-
-    return (() => {
-    socket.off("give_all_products_car", giveAllProductsCarFunction)
-    })
-  }, [])
-
-
-*/
-
-  useEffect(() => {
+    //con esto pasamo la funcion clickMostrarCarrito para ser usado en todas las  paginas
     setAbrirCarritoFuncion(() => clickMostrarCarrito);
   }, []);
 
@@ -1112,43 +1109,125 @@ export default function Header() {
     conteoCar,
 
     dataCarrito, //esto es de contextGlobal
-  };
 
-  const focusInputLanguage = () => {
-    const languageCajaInput = document.querySelector(
-      `.${header.languageCaja_input}`
-    );
-    languageCajaInput.style.cssText = "border:2px solid #02adffdb";
+    setMostrarSettings,
   };
 
   const clickSettings = (elementClicked) => {
-    if (elementClicked == "idioma") {
-      //aqui cuando se haga click se mostrara el idioma que quiere escoje
+    //agrandamos la caja del language
+    const settings_content = document.querySelector(
+      `.${header.settings_content}`
+    );
 
-      //agrandamos la caja del language
-      const settings_content = document.querySelector(
-        `.${header.settings_content}`
-      );
-      settings_content.style.cssText = "height:380px;width:270px;";
-      
-      //
-      const settings_cnt_second = document.querySelector(
-        `.${header.settings_cnt_second}`
-      );
-      settings_cnt_second.style.cssText = "visibility:visible";
-   
-   
+    //aqui cuando se haga click se mostrara el idioma que quiere escoje
+    const languageCaja = document.querySelector(`.${header.languageCaja}`);
+    const monedaCaja = document.querySelector(`.${header.monedaCaja}`);
+
+    if (elementClicked == "idioma") {
+      //aqui si se abre la caja idioma tiene que ocultarse la monedaCaja en caso de que haya sido abierto
+
+      monedaCaja.style.cssText = "visibility:hidden";
+      languageCaja.style.cssText = "visibility:visible";
+      settings_content.style.cssText =
+        "height:382px;width:270px;visibility:visible;opacity:1";
     } else if (elementClicked == "moneda") {
+      //ocultamos languageCaja en caso de que este visible
+      languageCaja.style.cssText = "visibility:hidden";
+      monedaCaja.style.cssText = "visibility:visible";
+      settings_content.style.cssText =
+        "height:332px;width:270px;visibility:visible;opacity:1";
+    }
+
+    const settings_cnt_second = document.querySelector(
+      `.${header.settings_cnt_second}`
+    );
+
+    settings_cnt_second.style.visibility = "visible";
+    settings_cnt_second.style.opacity = "1";
+  };
+
+  const focusInput = (elementClicked) => {
+    //solo cambiar los colores de los inputs
+    if (elementClicked == "idioma") {
+      const languageCajaInput = document.querySelector(
+        `.${header.languageCaja_input}`
+      );
+      languageCajaInput.style.cssText = "border:2px solid #02adffdb";
+    } else if (elementClicked == "moneda") {
+      const monedaCajaInput = document.querySelector(
+        `.${header.monedaCajaInput}`
+      );
+
+      monedaCajaInput.style.cssText = "border:2px solid #02adffdb";
     }
   };
 
+  const blurInput = (elementClicked) => {
+    º; //esto hara que simplemente cambie los colores de los inputs
 
-  const blurInputLanguage = ()=>{
-    const languageCajaInput = document.querySelector(
-      `.${header.languageCaja_input}`
+    if (elementClicked == "idioma") {
+      const languageCajaInput = document.querySelector(
+        `.${header.languageCaja_input}`
+      );
+      languageCajaInput.style.cssText = "border:2px solid #616161";
+    } else if (elementClicked == "moneda") {
+      const monedaCajaInput = document.querySelector(
+        `.${header.monedaCaja_input}`
+      );
+
+      monedaCajaInput.style.cssText = "border:2px solid #616161";
+    }
+  };
+
+  const backSettingsHome = () => {
+    const settings_content = document.querySelector(
+      `.${header.settings_content}`
     );
-    languageCajaInput.style.cssText = "border:2px solid #616161";
-  }
+
+    //aqui cuando se haga click se mostrara el idioma que quiere escoje
+    const languageCaja = document.querySelector(`.${header.languageCaja}`);
+    const monedaCaja = document.querySelector(`.${header.monedaCaja}`);
+
+    settings_content.style.cssText = "height:88px;visibility:visible;opacity:1";
+
+    //no importa que haya cerrado a ambos elementos le pondremos hidden
+    languageCaja.style.cssText = "visibility:hidden";
+    monedaCaja.style.cssText = "visibility:hidden";
+
+    const settings_cnt_second = document.querySelector(
+      `.${header.settings_cnt_second}`
+    );
+    settings_cnt_second.style.cssText = "opacity:0";
+  };
+
+  const clickSettingsIcon = () => {
+    const settings_content = document.querySelector(
+      `.${header.settings_content}`
+    );
+    const settingsIcon = document.querySelector(`.${header.settingsIcon}`);
+    setClickedBotonSettings((prevState) => {
+      if (prevState == false) {
+  
+        //aqui entra cuando se da click por primera vez...la tercera...quinta y asi
+
+        settings_content.style.visibility = "visible";
+        settings_content.style.opacity = "1";
+
+        settingsIcon.style.cssText = "outline:#2185ff solid 2px";
+        return true;
+      } else {
+      
+        //aqui entra al segundo click....
+        settings_content.style.visibility = "hidden";
+        settings_content.style.opacity = "0";
+        settingsIcon.style.cssText = "outline:1px solid #393939";
+        return false;
+      }
+    });
+
+    //actualizar este estado solo servira para mostrar el settingContainer mobil
+    setMostrarSettings(true);
+  };
   return (
     <ContextHeader.Provider value={value}>
       <div className={header.container}>
@@ -1162,7 +1241,7 @@ export default function Header() {
             <Link href="/" style={{ textDecoration: "none" }}>
               <div className={header.perfilContainer}>
                 <div className={header.perfil}>
-                  <img src="/parrot.jpg" />
+                  <img src="/logo.avif" />
                 </div>
                 {/*aqui pondre LN store pero de momento DIGITAL SPACE*/}
                 <span className={header.nombreTienda}>DIGITAL SPACE</span>
@@ -1179,7 +1258,7 @@ export default function Header() {
           </div>
           <div className={header.headerRight}>
             <div className={header.settingsBoton}>
-              <div className={header.settingsIcon}>
+              <div className={header.settingsIcon} onClick={clickSettingsIcon}>
                 <svg
                   viewBox="0 0 24 24"
                   fill="none"
@@ -1252,30 +1331,310 @@ export default function Header() {
                     </div>
                   </div>
                   <div className={header.settings_cnt_second}>
-                    <div className={header.languageCaja}>
-                      <div className={header.languageCaja_input}>
-                        <input onFocus={focusInputLanguage} onBlur={blurInputLanguage}></input>
-                        <span>
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke-width="1.5"
-                            stroke="white"
-                            aria-hidden="true"
-                            class="h-4"
-                          >
-                            <path
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
-                            ></path>
-                          </svg>
-                        </span>
+                    <div className={header.settings_cnt_second_real}>
+                      <div className={header.languageCaja}>
+                        <div className={header.back_block}>
+                          <span onClick={backSettingsHome}>
+                            <svg
+                              fill="#000000"
+                              viewBox="0 0 32 32"
+                              data-name="Layer 2"
+                              id="Layer_2"
+                            >
+                              <title />
+                              <path d="M11.17,10.23a33.37,33.37,0,0,0-3.05,3.13c-.51.62-1.28,1.3-1.21,2.17s.81,1.24,1.35,1.76a16.3,16.3,0,0,1,2.57,3.17c.86,1.36,3,.11,2.16-1.26a21.06,21.06,0,0,0-1.82-2.48A16.16,16.16,0,0,0,10,15.52c-.22-.21-.86-1.14-.68-.49l-.13,1a17.85,17.85,0,0,1,3.72-4c1.19-1.08-.58-2.85-1.77-1.76Z" />
+                              <path d="M9.4,17a109.13,109.13,0,0,0,12.53-.1c1.59-.11,1.61-2.61,0-2.5a109.13,109.13,0,0,1-12.53.1c-1.61-.07-1.6,2.43,0,2.5Z" />
+                            </svg>
+                          </span>
+                        </div>
+                        <div className={header.languageCaja_input}>
+                          <input
+                            onFocus={() => focusInput("idioma")}
+                            onBlur={() => blurInput("idioma")}
+                          ></input>
+                          <span>
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke-width="1.5"
+                              stroke="white"
+                              aria-hidden="true"
+                              class="h-4"
+                            >
+                              <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
+                              ></path>
+                            </svg>
+                          </span>
+                        </div>
+                        <div className={header.sugerenciasLanguage}>
+                          <div>
+                            <span className={header.flagIcon}>
+                              <svg
+                                viewBox="0 0 36 36"
+                                aria-hidden="true"
+                                role="img"
+                                class="iconify iconify--twemoji"
+                                preserveAspectRatio="xMidYMid meet"
+                              >
+                                <path
+                                  fill="#C60A1D"
+                                  d="M36 27a4 4 0 0 1-4 4H4a4 4 0 0 1-4-4V9a4 4 0 0 1 4-4h28a4 4 0 0 1 4 4v18z"
+                                ></path>
+                                <path fill="#FFC400" d="M0 12h36v12H0z"></path>
+                                <path
+                                  fill="#EA596E"
+                                  d="M9 17v3a3 3 0 1 0 6 0v-3H9z"
+                                ></path>
+                                <path fill="#F4A2B2" d="M12 16h3v3h-3z"></path>
+                                <path fill="#DD2E44" d="M9 16h3v3H9z"></path>
+                                <ellipse
+                                  fill="#EA596E"
+                                  cx="12"
+                                  cy="14.5"
+                                  rx="3"
+                                  ry="1.5"
+                                ></ellipse>
+                                <ellipse
+                                  fill="#FFAC33"
+                                  cx="12"
+                                  cy="13.75"
+                                  rx="3"
+                                  ry=".75"
+                                ></ellipse>
+                                <path
+                                  fill="#99AAB5"
+                                  d="M7 16h1v7H7zm9 0h1v7h-1z"
+                                ></path>
+                                <path
+                                  fill="#66757F"
+                                  d="M6 22h3v1H6zm9 0h3v1h-3zm-8-7h1v1H7zm9 0h1v1h-1z"
+                                ></path>
+                              </svg>
+                            </span>
+                            <span className={header.countrieName}>Español</span>
+                          </div>
+                          <div>
+                            <span className={header.flagIcon}>
+                              <svg
+                                viewBox="0 0 36 36"
+                                aria-hidden="true"
+                                role="img"
+                                class="iconify iconify--twemoji"
+                                preserveAspectRatio="xMidYMid meet"
+                              >
+                                <path
+                                  fill="#B22334"
+                                  d="M35.445 7C34.752 5.809 33.477 5 32 5H18v2h17.445zM0 25h36v2H0zm18-8h18v2H18zm0-4h18v2H18zM0 21h36v2H0zm4 10h28c1.477 0 2.752-.809 3.445-2H.555c.693 1.191 1.968 2 3.445 2zM18 9h18v2H18z"
+                                ></path>
+                                <path
+                                  fill="#EEE"
+                                  d="M.068 27.679c.017.093.036.186.059.277c.026.101.058.198.092.296c.089.259.197.509.333.743L.555 29h34.89l.002-.004a4.22 4.22 0 0 0 .332-.741a3.75 3.75 0 0 0 .152-.576c.041-.22.069-.446.069-.679H0c0 .233.028.458.068.679zM0 23h36v2H0zm0-4v2h36v-2H18zm18-4h18v2H18zm0-4h18v2H18zM0 9zm.555-2l-.003.005L.555 7zM.128 8.044c.025-.102.06-.199.092-.297a3.78 3.78 0 0 0-.092.297zM18 9h18c0-.233-.028-.459-.069-.68a3.606 3.606 0 0 0-.153-.576A4.21 4.21 0 0 0 35.445 7H18v2z"
+                                ></path>
+                                <path
+                                  fill="#3C3B6E"
+                                  d="M18 5H4a4 4 0 0 0-4 4v10h18V5z"
+                                ></path>
+                                <path
+                                  fill="#FFF"
+                                  d="M2.001 7.726l.618.449l-.236.725L3 8.452l.618.448l-.236-.725L4 7.726h-.764L3 7l-.235.726zm2 2l.618.449l-.236.725l.617-.448l.618.448l-.236-.725L6 9.726h-.764L5 9l-.235.726zm4 0l.618.449l-.236.725l.617-.448l.618.448l-.236-.725l.618-.449h-.764L9 9l-.235.726zm4 0l.618.449l-.236.725l.617-.448l.618.448l-.236-.725l.618-.449h-.764L13 9l-.235.726zm-8 4l.618.449l-.236.725l.617-.448l.618.448l-.236-.725l.618-.449h-.764L5 13l-.235.726zm4 0l.618.449l-.236.725l.617-.448l.618.448l-.236-.725l.618-.449h-.764L9 13l-.235.726zm4 0l.618.449l-.236.725l.617-.448l.618.448l-.236-.725l.618-.449h-.764L13 13l-.235.726zm-6-6l.618.449l-.236.725L7 8.452l.618.448l-.236-.725L8 7.726h-.764L7 7l-.235.726zm4 0l.618.449l-.236.725l.617-.448l.618.448l-.236-.725l.618-.449h-.764L11 7l-.235.726zm4 0l.618.449l-.236.725l.617-.448l.618.448l-.236-.725l.618-.449h-.764L15 7l-.235.726zm-12 4l.618.449l-.236.725l.617-.448l.618.448l-.236-.725l.618-.449h-.764L3 11l-.235.726zM6.383 12.9L7 12.452l.618.448l-.236-.725l.618-.449h-.764L7 11l-.235.726h-.764l.618.449zm3.618-1.174l.618.449l-.236.725l.617-.448l.618.448l-.236-.725l.618-.449h-.764L11 11l-.235.726zm4 0l.618.449l-.236.725l.617-.448l.618.448l-.236-.725l.618-.449h-.764L15 11l-.235.726zm-12 4l.618.449l-.236.725l.617-.448l.618.448l-.236-.725l.618-.449h-.764L3 15l-.235.726zM6.383 16.9L7 16.452l.618.448l-.236-.725l.618-.449h-.764L7 15l-.235.726h-.764l.618.449zm3.618-1.174l.618.449l-.236.725l.617-.448l.618.448l-.236-.725l.618-.449h-.764L11 15l-.235.726zm4 0l.618.449l-.236.725l.617-.448l.618.448l-.236-.725l.618-.449h-.764L15 15l-.235.726z"
+                                ></path>
+                              </svg>
+                            </span>
+                            <span className={header.countrieName}> ingles</span>
+                          </div>
+                          <div>
+                            <span className={header.flagIcon}>
+                              <svg
+                                viewBox="0 0 36 36"
+                                aria-hidden="true"
+                                role="img"
+                                class="iconify iconify--twemoji"
+                                preserveAspectRatio="xMidYMid meet"
+                              >
+                                <path
+                                  fill="#ED2939"
+                                  d="M36 27a4 4 0 0 1-4 4h-8V5h8a4 4 0 0 1 4 4v18z"
+                                ></path>
+                                <path
+                                  fill="#002495"
+                                  d="M4 5a4 4 0 0 0-4 4v18a4 4 0 0 0 4 4h8V5H4z"
+                                ></path>
+                                <path fill="#EEE" d="M12 5h12v26H12z"></path>
+                              </svg>
+                            </span>
+                            <span className={header.countrieName}>frances</span>
+                          </div>
+                          <div>
+                            <span className={header.flagIcon}>
+                              <svg
+                                viewBox="0 0 36 36"
+                                xmlns="http://www.w3.org/2000/svg"
+                                aria-hidden="true"
+                                role="img"
+                                class="iconify iconify--twemoji"
+                                preserveAspectRatio="xMidYMid meet"
+                              >
+                                <path
+                                  fill="#FFCD05"
+                                  d="M0 27a4 4 0 0 0 4 4h28a4 4 0 0 0 4-4v-4H0v4z"
+                                ></path>
+                                <path fill="#ED1F24" d="M0 14h36v9H0z"></path>
+                                <path
+                                  fill="#141414"
+                                  d="M32 5H4a4 4 0 0 0-4 4v5h36V9a4 4 0 0 0-4-4z"
+                                ></path>
+                              </svg>
+                            </span>
+                            <span className={header.countrieName}>Aleman</span>
+                          </div>
+                          <div>
+                            <span className={header.flagIcon}>
+                              <svg
+                                viewBox="0 0 36 36"
+                                aria-hidden="true"
+                                role="img"
+                                class="iconify iconify--twemoji"
+                                preserveAspectRatio="xMidYMid meet"
+                              >
+                                <path
+                                  fill="#138808"
+                                  d="M0 27a4 4 0 0 0 4 4h28a4 4 0 0 0 4-4v-4H0v4z"
+                                ></path>
+                                <path fill="#EEE" d="M0 13h36v10H0z"></path>
+                                <path
+                                  fill="#F93"
+                                  d="M36 13V9a4 4 0 0 0-4-4H4a4 4 0 0 0-4 4v4h36z"
+                                ></path>
+                                <circle
+                                  fill="navy"
+                                  cx="18"
+                                  cy="18"
+                                  r="4"
+                                ></circle>
+                                <circle
+                                  fill="#EEE"
+                                  cx="18"
+                                  cy="18"
+                                  r="3"
+                                ></circle>
+                                <path
+                                  fill="#6666B3"
+                                  d="M18 15l.146 2.264l1.001-2.035l-.73 2.147l1.704-1.498l-1.497 1.705l2.147-.731l-2.035 1.002L21 18l-2.264.146l2.035 1.001l-2.147-.73l1.497 1.704l-1.704-1.497l.73 2.147l-1.001-2.035L18 21l-.146-2.264l-1.002 2.035l.731-2.147l-1.705 1.497l1.498-1.704l-2.147.73l2.035-1.001L15 18l2.264-.146l-2.035-1.002l2.147.731l-1.498-1.705l1.705 1.498l-.731-2.147l1.002 2.035z"
+                                ></path>
+                                <circle
+                                  fill="navy"
+                                  cx="18"
+                                  cy="18"
+                                  r="1"
+                                ></circle>
+                              </svg>
+                            </span>
+                            <span className={header.countrieName}>indio</span>
+                          </div>
+                          <div>
+                            <span className={header.flagIcon}>
+                              <svg
+                                viewBox="0 0 36 36"
+                                aria-hidden="true"
+                                role="img"
+                                class="iconify iconify--twemoji"
+                                preserveAspectRatio="xMidYMid meet"
+                              >
+                                <path
+                                  fill="#CE2028"
+                                  d="M36 27a4 4 0 0 1-4 4H4a4 4 0 0 1-4-4v-4h36v4z"
+                                ></path>
+                                <path fill="#22408C" d="M0 13h36v10H0z"></path>
+                                <path
+                                  fill="#EEE"
+                                  d="M32 5H4a4 4 0 0 0-4 4v4h36V9a4 4 0 0 0-4-4z"
+                                ></path>
+                              </svg>
+                            </span>
+                            <span className={header.countrieName}>ruso</span>
+                          </div>
+                          <div>
+                            <span className={header.flagIcon}>
+                              <svg
+                                viewBox="0 0 36 36"
+                                aria-hidden="true"
+                                role="img"
+                                class="iconify iconify--twemoji"
+                                preserveAspectRatio="xMidYMid meet"
+                              >
+                                <path
+                                  fill="#060"
+                                  d="M36 27a4 4 0 0 1-4 4H4a4 4 0 0 1-4-4V9a4 4 0 0 1 4-4h28a4 4 0 0 1 4 4v18z"
+                                ></path>
+                                <path
+                                  fill="#D52B1E"
+                                  d="M32 5H15v26h17a4 4 0 0 0 4-4V9a4 4 0 0 0-4-4z"
+                                ></path>
+                                <path
+                                  fill="#FFCC4D"
+                                  d="M15 10a8 8 0 0 0-8 8a8 8 0 1 0 16 0a8 8 0 0 0-8-8zm-6.113 4.594l1.602 1.602l-2.46 1.23a6.95 6.95 0 0 1 .858-2.832zm-.858 3.979l4.4 2.207l-2.706 1.804l.014.021a6.963 6.963 0 0 1-1.708-4.032zM14 24.92a6.945 6.945 0 0 1-2.592-.92H14v.92zM14 23h-3.099L14 20.934V23zm0-3.268l-.607.405L9.118 18l2.116-1.058L14 19.707v.025zm0-1.439l-3.543-3.543l3.543.59v2.953zm0-3.992l-4.432-.713A6.983 6.983 0 0 1 14 11.08v3.221zm7.113.293a6.95 6.95 0 0 1 .858 2.833l-2.46-1.23l1.602-1.603zM16 11.08a6.987 6.987 0 0 1 4.432 2.508L16 14.301V11.08zm0 4.26l3.543-.591L16 18.293V15.34zm0 4.367l2.765-2.765L20.882 18l-4.274 2.137l-.608-.405v-.025zm0 5.213V24h2.592a6.945 6.945 0 0 1-2.592.92zM16 23v-2.066L19.099 23H16zm4.264-.395l.014-.021l-2.706-1.804l4.4-2.207a6.976 6.976 0 0 1-1.708 4.032z"
+                                ></path>
+                                <path
+                                  fill="#D52B1E"
+                                  d="M11 13v7a4 4 0 0 0 8 0v-7h-8z"
+                                ></path>
+                                <path
+                                  fill="#FFF"
+                                  d="M12 14v6a3 3 0 0 0 6 0v-6h-6z"
+                                ></path>
+                                <path fill="#829ACD" d="M13 17h4v2h-4z"></path>
+                                <path fill="#829ACD" d="M14 16h2v4h-2z"></path>
+                                <path
+                                  fill="#039"
+                                  d="M12 17h1v2h-1zm2 0h2v2h-2zm3 0h1v2h-1zm-3 3h2v2h-2zm0-6h2v2h-2z"
+                                ></path>
+                              </svg>
+                            </span>
+                            <span className={header.countrieName}>
+                              portugues
+                            </span>
+                          </div>
+                        </div>
                       </div>
-                      <div className={header.sugerenciasLanguage}>
-                        <div>español</div>
-                        <div>ingles</div>
+                      <div className={header.monedaCaja}>
+                        <div className={header.back_block}>
+                          <span onClick={backSettingsHome}>
+                            <svg
+                              fill="#000000"
+                              viewBox="0 0 32 32"
+                              data-name="Layer 2"
+                              id="Layer_2"
+                            >
+                              <title />
+                              <path d="M11.17,10.23a33.37,33.37,0,0,0-3.05,3.13c-.51.62-1.28,1.3-1.21,2.17s.81,1.24,1.35,1.76a16.3,16.3,0,0,1,2.57,3.17c.86,1.36,3,.11,2.16-1.26a21.06,21.06,0,0,0-1.82-2.48A16.16,16.16,0,0,0,10,15.52c-.22-.21-.86-1.14-.68-.49l-.13,1a17.85,17.85,0,0,1,3.72-4c1.19-1.08-.58-2.85-1.77-1.76Z" />
+                              <path d="M9.4,17a109.13,109.13,0,0,0,12.53-.1c1.59-.11,1.61-2.61,0-2.5a109.13,109.13,0,0,1-12.53.1c-1.61-.07-1.6,2.43,0,2.5Z" />
+                            </svg>
+                          </span>
+                        </div>
+                        <div className={header.monedaCaja_input}>
+                          <input placeholder="moneda"></input>
+                          <span>
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke-width="1.5"
+                              stroke="white"
+                              aria-hidden="true"
+                              class="h-4"
+                            >
+                              <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
+                              ></path>
+                            </svg>
+                          </span>
+                        </div>
                       </div>
                     </div>
                   </div>

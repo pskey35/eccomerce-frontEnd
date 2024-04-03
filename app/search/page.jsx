@@ -448,6 +448,9 @@ function CajaCenter() {
       )}
       {loaderProductos &&
         (loaderProductos ? <span className={search.loader}></span> : "")}
+      <div className={search.loadMore}>
+        Cargar mas...
+      </div>
     </div>
   );
 }

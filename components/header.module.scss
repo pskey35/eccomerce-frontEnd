@@ -162,7 +162,7 @@
 .headerLeft .lista {
   display: flex;
   justify-content: space-around;
-  min-width: 200px;
+  min-width: 250px;
 }
 
 .headerLeft .lista li {
@@ -187,7 +187,7 @@
 }
 
 .headerRight .settingsBoton {
-  margin-right: 5px;
+  margin-right: 15px;
   position: relative;
 }
 
@@ -201,7 +201,7 @@
 }
 
 .settingsIcon:hover {
-  background: rgb(119, 119, 119);
+  background: rgb(77, 77, 77);
 }
 
 .settingsIcon svg {
@@ -222,28 +222,29 @@
   border-radius: 9px;
   box-shadow: 0 0 10px 1px rgba(85, 85, 85, 0.603);
   overflow: hidden;
-  height:88px;
-  width:190px;
-  transition:all 60ms ease;
-
+  height: 88px;
+  width: 190px;
+  transition: all 60ms ease;
+  visibility: hidden;
+  opacity: 0;
 
   .settings_content_real {
     text-align: center;
     cursor: pointer;
     position: relative;
-    width:100%;
-    height:100%;
-   
-  
+    width: 100%;
+    height: 100%;
+
     .settings_cnt_first {
-      width:100%;
-      height:100%;
-   
+      width: 100%;
+      height: 100%;
+
       .settings_language {
         display: flex;
         align-items: center;
         padding: 7px 0;
         padding-left: 7px;
+        border-radius: 8px;
 
         span {
           width: 30px;
@@ -291,76 +292,208 @@
 
     .settings_cnt_second {
       position: absolute;
-      height:100%;
-      width:100%;
+      height: 100%;
+      width: 100%;
       z-index: 10;
       top: 0;
       right: 0;
-      visibility:hidden;
-      background:black;
-    
+      visibility: hidden;
+      background: black;
 
-      .languageCaja {
-        height: 100%;
+      .settings_cnt_second_real {
+        position: relative;
         width: 100%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
+        height: 100%;
 
-
-        .languageCaja_input {
+        .languageCaja {
+          height: 100%;
+          width: 100%;
           display: flex;
+          flex-direction: column;
           align-items: center;
           justify-content: center;
-          border:2px solid #616161;
-          border-radius: 5px;
-          transition:all 120ms ease;
-          width:90%;
-          margin:10px 0;
-         
+          position: absolute;
+          top: 0;
+          left: 0;
 
-          input {
-            height:100%;
-            width:100%;
-            background:transparent;
-            color:rgb(253, 253, 253);
-            padding:5px;
-            padding-left:10px;
+          .back_block {
+            width: 100%;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            cursor: auto;
+            padding: 5px 0 0 10px;
+
+            & > span {
+              width: 35px;
+              height: 35px;
+              background: rgb(65, 65, 65);
+              border-radius: 50%;
+              transition: all 100ms ease;
+              padding: 2px;
+              cursor: pointer;
+
+              &:hover {
+                background: rgb(92, 92, 92);
+              }
+
+              svg {
+                width: 100%;
+                height: 100%;
+                fill: white;
+              }
+            }
           }
 
-          span {
-            width: 20px;
-            height: 20px;
-            display: inline-block;
-            stroke:#c5c5c5;
-            margin-right:7px;
-          
-            svg {
-              width: 100%;
+          .languageCaja_input {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid #616161;
+            border-radius: 5px;
+            transition: all 120ms ease;
+            width: 90%;
+            margin: 10px 0;
+
+            input {
               height: 100%;
+              width: 100%;
+              background: transparent;
+              color: rgb(253, 253, 253);
+              padding: 5px;
+              padding-left: 10px;
+            }
+
+            span {
+              width: 20px;
+              height: 20px;
+              display: inline-block;
+              stroke: #c5c5c5;
+              margin-right: 7px;
+
+              svg {
+                width: 100%;
+                height: 100%;
+              }
+            }
+          }
+
+          .sugerenciasLanguage {
+            background: black;
+            width: 100%;
+            height: 90%;
+
+            & > div {
+              text-align: center;
+              padding: 10px 0;
+              transition: all 120ms ease-in;
+              padding-left: 28%;
+              display: flex;
+              border-radius: 7px;
+
+              .flagIcon {
+                height: 20px;
+                width: 20px;
+                display: grid;
+                place-items: center;
+
+                svg {
+                  width: 100%;
+                  height: 100%;
+                }
+              }
+
+              .countrieName {
+                margin-left: 13%;
+                display: grid;
+                place-items: center;
+              }
+
+              &:hover {
+                background: rgb(25, 190, 255);
+              }
             }
           }
         }
 
-        .sugerenciasLanguage{
-          background:black;
-          width:100%;
-          height:90%;
+        .monedaCaja {
+          height: 100%;
+          width: 100%;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          position: absolute;
+          top: 0;
+          left: 0;
 
-          div{
-            text-align:center;
-            padding:10px 0;
-            transition:all 100ms ease;
-            background:lightblue;
+          .back_block {
+            width: 100%;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            cursor: auto;
+            padding: 5px 0 0 10px;
 
-            &:hover{
-              background:rgb(61, 61, 61);
+            & > span {
+              width: 35px;
+              height: 35px;
+              background: rgb(65, 65, 65);
+              border-radius: 50%;
+              transition: all 100ms ease;
+              padding: 2px;
+              cursor: pointer;
+
+              &:hover {
+                background: rgb(92, 92, 92);
+              }
+
+              svg {
+                width: 100%;
+                height: 100%;
+                fill: white;
+              }
+            }
+          }
+          .monedaCaja_input {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid #616161;
+            border-radius: 5px;
+            transition: all 120ms ease;
+            width: 90%;
+            margin: 10px 0;
+
+            input {
+              height: 100%;
+              width: 100%;
+              background: transparent;
+              color: rgb(253, 253, 253);
+              padding: 5px;
+              padding-left: 10px;
+            }
+
+            span {
+              width: 20px;
+              height: 20px;
+              display: inline-block;
+              stroke: #c5c5c5;
+              margin-right: 7px;
+
+              svg {
+                width: 100%;
+                height: 100%;
+              }
             }
           }
         }
       }
     }
+  }
+
+  @media (max-width:900px){
+    display:none;
   }
 }
 
@@ -371,7 +504,7 @@
   display: grid;
   place-items: center;
   position: relative;
-  margin-right: 5px;
+  margin-right: 15px;
   transition: all 120ms ease;
   cursor: pointer;
   outline: 1px solid #393939;
@@ -435,7 +568,7 @@
 .carritoBoton {
   position: relative;
   border: 1px solid rgb(104, 104, 104);
-  padding: 9px;
+  padding: 8px;
   border-radius: 5px;
   cursor: pointer;
   transition: all 120ms ease;
@@ -1141,7 +1274,10 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  display: none;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 80ms ease;
+  display:none;
 
   .firstBlock {
     flex: 1;
@@ -1273,7 +1409,7 @@
     }
   }
 
-  @media (max-width: 900) {
-    display: block;
+  @media (max-width: 900px) {
+    display:flex;
   }
 }
