@@ -45,8 +45,11 @@ function ContainerDeslizante() {
     );
 
     const posicionScroll_X = containerD_contentElement.scrollLeft;
+   
     containerD_contentElement.scrollLeft = posicionScroll_X - pixeles_a_mover;
+
   };
+
 
   const clickRightArrow = (data) => {
     const containerD_contentElement = document.querySelector(
@@ -54,6 +57,7 @@ function ContainerDeslizante() {
     );
 
     const posicionScroll_X = containerD_contentElement.scrollLeft;
+    //posicionScroll  += pixeles_a_mover
     containerD_contentElement.scrollLeft = posicionScroll_X + pixeles_a_mover;
   };
 

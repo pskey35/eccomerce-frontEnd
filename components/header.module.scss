@@ -487,13 +487,30 @@
               }
             }
           }
+
+          .listaMonedas {
+            width: 100%;
+
+            & > div {
+              text-align: center;
+              padding: 10px 0;
+              transition: all 120ms ease-in;
+              display: flex;
+              border-radius: 7px;
+              justify-content: center;
+
+              &:hover {
+                background: rgb(25, 190, 255);
+              }
+            }
+          }
         }
       }
     }
   }
 
-  @media (max-width:900px){
-    display:none;
+  @media (max-width: 900px) {
+    display: none;
   }
 }
 
@@ -1277,7 +1294,7 @@
   opacity: 0;
   visibility: hidden;
   transition: all 80ms ease;
-  display:none;
+  display: none;
 
   .firstBlock {
     flex: 1;
@@ -1410,6 +1427,138 @@
   }
 
   @media (max-width: 900px) {
-    display:flex;
+    display: flex;
+  }
+}
+
+.cookieCaja {
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  background: white;
+  border: 2px solid rgba(128, 128, 128, 0.377);
+  width: 390px;
+  border-radius: 10px;
+  height: 180px;
+  display: flex;
+  padding: 7px 10px;
+  flex-direction: column;
+  justify-content: space-between;
+
+  .ekisCookies {
+    width: 30px;
+    height: 30px;
+    cursor:pointer;
+    align-self: end;
+    transition:all 120ms;
+    padding:7px;
+    border-radius:50%;
+  
+
+    svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    &:hover{
+      background:rgb(240, 240, 240);
+      
+    }
+  }
+
+  .cookieMensaje {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .cookieImg {
+      width: 180px;
+      height: 70px;
+      display: grid;
+      place-items: center;
+
+      @media (max-width: 900px) {
+        height: 140px;
+        width: 140px;
+      }
+    }
+
+    .cookie_realMensaje {
+      margin-left: 20px;
+      h2 {
+        text-align: center;
+        @media (max-width: 900px) {
+          font-size: 28px;
+          font-weight:700;
+          margin:10px 0;
+        }
+      }
+
+      p{
+        @media(max-width:900px){
+          font-size:17px;
+        
+        }
+      }
+    }
+
+    @media (max-width: 900px) {
+      flex-direction: column;
+    }
+  }
+
+  .opciones {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+
+    & > div {
+      width: 47%;
+      padding: 10px;
+      text-align: center;
+      cursor: pointer;
+      border-radius: 5px;
+
+      @media(max-width:900px){
+        padding:15px 0;
+        width:48%;
+      }
+    }
+
+    & > div:nth-child(1) {
+      background: #e3e3e3;
+      border: 2px solid #dddddd;
+      opacity: 0.6;
+      transition: all 150ms;
+
+      &:hover {
+        opacity: 1;
+      }
+    }
+
+    & > div:nth-child(2) {
+      background: rgb(203 236 255 / 38%);
+      border: 2px solid #73beff;
+      transition: all 150ms;
+
+      &:hover {
+        background: #24b8ff;
+        border: 2px solid #24b8ff;
+        color: white;
+      }
+    }
+
+    
+  }
+  @media (max-width: 900px) {
+    width: 100%;
+    height: 50%;
+    border-radius: 20px 20px 0 0;
+    bottom: 0;
+    right: 0;
+    border-bottom: none;
+  }
+
+  @keyframes entradaCookie {
   }
 }
