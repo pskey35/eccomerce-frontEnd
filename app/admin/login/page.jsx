@@ -4,7 +4,7 @@ import { useRef, useState,useEffect } from "react"
 import page from "./page.module.css"
 
 
-//que te extraño cada dia mas no dejo de pensar en ti mi amor song..
+
 export default function App() {
 
     const adminName = useRef()
