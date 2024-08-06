@@ -8,7 +8,7 @@ pk = primary Key
 fk = foreign key
 
 el nombre en administradores validar que no tenga numeros ni mayusculas ni caracteres especiales
-Administradores:
+***Administradores:
     id(Primary Key)           nombre(Varchar 500)         password(Varchar 500)
          1                             juan                      pass
          2                             luis                      wazapass23
@@ -24,7 +24,7 @@ esto de la decha creacion del producto que sera en time epoc lo usare para orden
 por "novedades" osea los mas recientes
 ya probe y no se puede poner un id auto_increment tiene que ser si o si un primary key() sino, no te deja.
 mejor lo dejare ahi noma haha 
-Productos:  
+**Productos:  
        id(PK)         idAdmin_que_subioProducto(FK)     nombre_producto          descripcion(TEXT)                       precio_en_dolares(DECIMAL(20,2))    categoria (TEXT)      fecha_creacion(int milisegundos epoc)
       ab354-Kl                  3                          audifonosB-12       "esto es un audifono color...."                100.00                            "vestimentas"              5803495
 
@@ -37,7 +37,7 @@ Productos:
 
 como un producto debe de tener como  5 imagenes como maximo lo mejor seria crear otra tabla llamada imagenes
 el numeroImg = se refiere ala posicion ps enbes de poner primero segundo o tercero simplemente pongo numeros
-IMAGENES:
+**IMAGENES:
   id(PK)   idProducto(foreingKey)       indiceImg       imagenURL
   1                  2                       3                 /parrot.jpg
   2                   2                      3                /ekis.svg
@@ -54,7 +54,7 @@ IMAGENES:
 en esta tabla se guardaran los productos en el carrito del usuario temporalmente se eliminaran por defecto en 10 dias
 y si vuelve a entrar ala pagina y se ve que tiene ese id en sessionStorage entonces volvemos a poner que dentro de 10 dias se borrar ese carrito
 el id tiene que ser un uuid ya que se guardara en sessionStorage del usuario
-CARRITO_TEMPORAL_DE_USUARIOS:
+**CARRITO_TEMPORAL_DE_USUARIOS:
     id           idSessionStorage                   idProducto(foreignKey)                  diasRestantes(default= 10)        cantidadProducto(default=0)
      1                 abFG32-fk                               asdf-23                                   10                              3
      2                 abFG32-fk                              asdf-23

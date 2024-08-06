@@ -132,9 +132,8 @@ export function Input() {
             const calcularHeight = 29 * e.data.giveSugerenciasInput.length;
 
             //aqui sume +2 porque si no aparecia el scroll de overflow bueno eso lo soluciona
-            sugerenciasInputRef.current.style.cssText = `visibility:visible;opacity:1;height:${
-              calcularHeight + 2
-            }px;max-height:400px;overflow:auto`;
+            sugerenciasInputRef.current.style.cssText = `visibility:visible;opacity:1;height:${calcularHeight + 2
+              }px;max-height:400px;overflow:auto`;
           }
 
           //este evento click es para determinar donde sera su siguiente click para poder cerrar ese cuadro ps xd
@@ -655,9 +654,8 @@ function CarritoPage() {
 
   return (
     <div
-      className={`${header.carritoPage} ${
-        animCarrito ? "" : header.carritoPageSalida
-      }`}
+      className={`${header.carritoPage} ${animCarrito ? "" : header.carritoPageSalida
+        }`}
     >
       <div
         className={header.carritoLeft}
@@ -667,9 +665,8 @@ function CarritoPage() {
         onClick={clickCarritoLeft}
       ></div>
       <div
-        className={`${header.carritoRight} ${
-          animCarrito ? "" : header.carritoRightSalida
-        }`}
+        className={`${header.carritoRight} ${animCarrito ? "" : header.carritoRightSalida
+          }`}
       >
         <div className={header.carrito_first}>
           <div>Mi Carrito</div>
@@ -1017,9 +1014,24 @@ function SettingsMobile() {
 //esta opcion es la de cookie si acepta o no mas que nada
 //lo hago para que se vea profesional haha
 function CookieModal() {
+
+  const { setCookieModal } = useContext(ContextHeader)
+  const clickCerrarCookies = () => {
+    const cookieModal = document.querySelector(`.${header.cookieCaja}`)
+    console.log(cookieModal)
+    cookieModal.style.animation = `${header.closeCookies} 200ms ease forwards`
+
+    setTimeout(()=>{
+     setCookieModal(false)
+    },210)
+
+
+  }
+
+
   return (
     <div className={header.cookieCaja}>
-      <div className={header.ekisCookies}>
+      <div className={header.ekisCookies} onClick={clickCerrarCookies}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           stroke="gray"
@@ -1152,7 +1164,7 @@ function CookieModal() {
         <div className={header.cookie_realMensaje}>
           <h2>Ten un Cookie ;&#41;</h2>
           <p>nuestro sitio web usa cookies si sigues navegando
-            en nuestra web tu estas aceptando las cookies 
+            en nuestra web tu estas aceptando las cookies
           </p>
         </div>
       </div>
@@ -1249,23 +1261,7 @@ export default function Header() {
   const redirect = (url) => {
     router.push(`/search?ctg=${url}`);
   };
-  const value = {
-    animCarrito,
-    setAnimCarrito,
-    setMostrarCarrito,
 
-    mostrarMenu,
-    setMostrarMenu,
-    setAnimMenu,
-    animMenu,
-
-    setConteoCar,
-    conteoCar,
-
-    dataCarrito, //esto es de contextGlobal
-
-    setMostrarSettings,
-  };
 
   const clickSettings = (elementClicked) => {
     //agrandamos la caja del language
@@ -1317,7 +1313,7 @@ export default function Header() {
   };
 
   const blurInput = (elementClicked) => {
-    º; //esto hara que simplemente cambie los colores de los inputs
+    //esto hara que simplemente cambie los colores de los inputs
 
     if (elementClicked == "idioma") {
       const languageCajaInput = document.querySelector(
@@ -1380,6 +1376,28 @@ export default function Header() {
     //actualizar este estado solo servira para mostrar el settingContainer mobil
     setMostrarSettings(true);
   };
+
+
+  const value = {
+    animCarrito,
+    setAnimCarrito,
+    setMostrarCarrito,
+
+    mostrarMenu,
+    setMostrarMenu,
+    setAnimMenu,
+    animMenu,
+
+    setConteoCar,
+    conteoCar,
+
+    dataCarrito, //esto es de contextGlobal
+
+    setMostrarSettings,
+    setCookieModal
+
+  };
+
   return (
     <ContextHeader.Provider value={value}>
       <div className={header.container}>

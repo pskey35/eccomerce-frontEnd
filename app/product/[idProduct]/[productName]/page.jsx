@@ -82,9 +82,9 @@ function ProductoLeft() {
     return (
         <div className={page.left}>
             <div className={page.contenidoImagen}>
-                <img src={`/${dataProducto.allImgs[0].imagenUrl}`} className={page.fondoImagen}></img>
+                <img src={`${dataProducto.allImgs[0].imagenUrl}`} className={page.fondoImagen}></img>
                 <div className={page.imagen}>
-                    <img src={`/${dataProducto.allImgs[0].imagenUrl}`}></img>
+                    <img src={`${dataProducto.allImgs[0].imagenUrl}`}></img>
                 </div>
                 {dataProducto.allImgs.length == 1
                     ? "" :
