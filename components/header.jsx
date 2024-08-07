@@ -504,7 +504,7 @@ function ProductoCar({ data, id, indice }) {
         <div className={header.producto_left}>
           <div className={header.cajaImagen}>
             <div className={header.imagenContainer}>
-              <img src={`/${data.imgUrl_first}`} />
+              <img src={`${data.imgUrl_first}`} />
             </div>
             <div
               className={header.ekis}

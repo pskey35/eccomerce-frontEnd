@@ -109,7 +109,7 @@ function ProductoLeft() {
                         {dataProducto.allImgs.map((dataUnidad, indice) => {
                             return (
                                 <div className={page.itemImagen} key={indice} onClick={() => clickItemImagen(indice + 1)}>
-                                    <img src={`/${dataUnidad.imagenUrl}`}></img>
+                                    <img src={`${dataUnidad.imagenUrl}`}></img>
                                 </div>
                             )
                         })}
