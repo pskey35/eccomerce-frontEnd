@@ -4,6 +4,7 @@ import Link from "next/link";
 import { ContextGlobal } from "@/app/layout";
 import io from "socket.io-client";
 import { useRouter } from "next/navigation";
+import { useTranslation } from "react-i18next";
 
 //servidor vercel back:https://back-next-eccomerce-7e7kj42g7-pskey35.vercel.app
 //const socket = io("http://localhost:9000");
@@ -1178,6 +1179,9 @@ function CookieModal() {
 }
 
 export default function Header() {
+
+  const [t,i18n] = useTranslation("global")
+
   //importamos dataCarrito donde se guarda todos los productos de ContextGlobal
   const { setDataCarrito, dataCarrito, setAbrirCarritoFuncion, modifyProduct } =
     useContext(ContextGlobal);
@@ -1285,7 +1289,7 @@ export default function Header() {
       languageCaja.style.cssText = "visibility:hidden";
       monedaCaja.style.cssText = "visibility:visible";
       settings_content.style.cssText =
-        "height:332px;width:270px;visibility:visible;opacity:1";
+        "height:372px;width:270px;visibility:visible;opacity:1";
     }
 
     const settings_cnt_second = document.querySelector(
@@ -1476,7 +1480,7 @@ export default function Header() {
                           />
                         </svg>
                       </span>
-                      <p>idioma</p>
+                      <p>{t("header.settingss")}</p>
                     </div>
                     <div
                       className={header.settings_moneda}

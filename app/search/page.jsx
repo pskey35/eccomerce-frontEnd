@@ -367,7 +367,7 @@ function CajaCenter() {
       });
 
       const resu1 = await peticion1.json();
-      console.clear();
+      //console.clear();
       console.log("numeroPagina: " + newNumeroDePagina);
       console.log(query1);
       console.log(resu1.data.getProducts);

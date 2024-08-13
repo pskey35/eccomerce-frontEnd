@@ -178,7 +178,10 @@ export function InputCaja() {
         .then((e) => e.json())
         .then((e) => {
           console.log(e);
-        });
+        }).catch((e)=>{
+
+          alert("error")
+        })
 
       // console.log(parseFloat(a))
     }

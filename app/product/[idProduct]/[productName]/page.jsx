@@ -406,7 +406,7 @@ function ProductosRelacionados() {
                 console.log("/*/---")
                 console.log(e)
                 setProductosRelacionados(e.data.getProducts)
-                console.clear()
+               // console.clear()
                 //cada vez que detecte que llego hasta abajo se hara mas peticiones
                 funcionObservador()
             })

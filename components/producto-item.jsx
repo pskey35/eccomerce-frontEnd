@@ -1,7 +1,8 @@
+"use client"
 //aqui se usara en todos lados tambien esta aqui su skeleton loader
 import producto from "./producto-item.module.css"
 import { useRouter } from "next/navigation"
-import {useState} from "react"
+import {useState,useEffect} from "react"
 export function SkeletonProductoItem() {
 
 }
@@ -18,13 +19,19 @@ export function ProductoItem({ data, delayAnimation}) {
     }
 
 
+
+    useEffect(()=>{
+        console.log("esta data es de producto-item")
+        console.log(data)
+    },[])
+
     return (
         <div className={producto.productoItem} 
         style={{/*animation:`${producto.entrada} 700ms ease forwards ${delayAnimation}ms`*/}}
         onClick={clickProducto}>
             <div className={producto.imagen}>
                {/*<img src={`/${data?.firstUrlImagen}`}/>*/}
-                <img src="/images/audi.png"></img>
+                <img src={data.firstUrlImagen}></img>
             </div>
             <div className={producto.infoBoton}>
                 <p>{data?.nombre_producto}</p>
