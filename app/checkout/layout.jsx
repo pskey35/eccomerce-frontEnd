@@ -5,7 +5,7 @@ import io from "socket.io-client"
 
 //la seccion de meter tarjeta o asi copiar el diseño de planetScale de ahi se ve piola
 //const socket = io(`${process.env.NEXT_PUBLIC_serverSockets}`)
-const socket = io(`http://localhost:9000/`)
+const socket = io(`${process.env.NEXT_PUBLIC_serverSockets}`)
 export const ContextCheckoutLayout = createContext()
 
 export default function Layouts({children}){

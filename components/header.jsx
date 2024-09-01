@@ -8,8 +8,8 @@ import { useTranslation } from "react-i18next";
 
 //servidor vercel back:https://back-next-eccomerce-7e7kj42g7-pskey35.vercel.app
 //const socket = io("http://localhost:9000");
-const socket = io("http://localhost:9000");
-
+//const socket = io("http://localhost:9000");
+const socket = io(`${process.env.NEXT_PUBLIC_serverSockets}`)
 export function Input() {
   const inputSearch = useRef();
   const router = useRouter();
