@@ -318,7 +318,7 @@ function CajaCenter() {
 
   //este loader es para la pagina de productos no usare skeleton se veria feo
   //porq mi productoItem tienen una animacion que inicia de abajo hacia arriba y si pongo skeleton se ve feo
-  const [loaderProductos, setLoaderProductos] = useState();
+  const [loaderProductos, setLoaderProductos] = useState(true);
 
   //aqui uso esto porq es dificil trabajar con eso del asincronismo de los estados de react se
   //podria hacer usando prevState y envolviendo todo eso dentro de esa funcion pero prefiero usar esto xd
@@ -339,7 +339,7 @@ function CajaCenter() {
       }
       // hacemos peticon a todos los productos como 6 por lo menos
       //aqui le puse 6 items de pagina por que creo que es lo mejor y puse 1 en numeroPagina porq es la primera pagina
-      setLoaderProductos(true);
+    setLoaderProductos(true);
       //tengo que lograr que no se sume el numero++ hasta que termine de el fetch
       // setNumeroDePagina(prev=>prev + 1)
 
@@ -439,18 +439,27 @@ function CajaCenter() {
         })}
         <div className={search.detect}></div>
       </div>
-      {itemProductos.length == 0 ? (
+      {itemProductos.length == 0 && loaderProductos == false? (
         <div className={search.notFound}>
           Oh vaya...! no se encontraron resultados :/
         </div>
       ) : (
         ""
       )}
-      {loaderProductos &&
-        (loaderProductos ? <span className={search.loader}></span> : "")}
-      <div className={search.loadMore}>
-        Cargar mas...
-      </div>
+      {
+        (loaderProductos ? 
+        <span className={search.loader}></span> 
+        : "")}
+
+
+      {loaderProductos == false && itemProductos.length > 0 ?
+        <div className={search.loadMore}>
+          Cargar mas...
+        </div>
+        : ""}
+
+
+
     </div>
   );
 }
@@ -576,7 +585,7 @@ function CajaRightMobile() {
 
 
   //redirige y ademas cambia el textContent en ordenarPor
-  const redirectSort = (urlRecibido,texto) => {
+  const redirectSort = (urlRecibido, texto) => {
     const urlActual = window.location.href;
 
     //con esto convertimos la url para poder manejarlo con metodos facilmente
@@ -590,7 +599,7 @@ function CajaRightMobile() {
 
     //finalmente redireccionamos a esa url
     //aqui no usamos window.location.href para redirigir porq sino nos recarga toda la pagina
-      router.push(nuevaURL);
+    router.push(nuevaURL);
     //router.push(`${urlActual}&sort=${url}`)
 
 
@@ -621,13 +630,13 @@ function CajaRightMobile() {
       <div className={search.rightLista}>
         <div
           className={search.orderASC}
-          onClick={() => redirectSort("price-asc","Precios: de menor a mayor")}
+          onClick={() => redirectSort("price-asc", "Precios: de menor a mayor")}
         >
           Precios: de menor a mayor
         </div>
         <div
           className={search.orderDESC}
-          onClick={() => redirectSort("price-desc","Precios: de mayor a menor")}
+          onClick={() => redirectSort("price-desc", "Precios: de mayor a menor")}
         >
           Precios: de mayor a menor{" "}
         </div>
