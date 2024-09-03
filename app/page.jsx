@@ -87,6 +87,11 @@ handleMediaQueryChange(mediaQuery);
 
   },[])
   */
+
+  useEffect(()=>{
+    console.log("cuanto de length tiene itemProductosSlider")
+    console.log(itemProductosSlider.length)
+  },[])
   return (
     <div className={page.containerDeslizante}>
       {/*el leftSlide solo se mostrara si se hizo click en rightSlide*/}
@@ -271,6 +276,14 @@ export default function App() {
       setItemProductosSlider(
         resu.data.getProducts.filter((e,ind)=>ind > 3)
       );
+
+      console.log("cuanto de length tiene en prnicipal")
+      console.log(resu.data.getProducts)
+
+
+      console.log("probando en seccion slider")
+      const prueba = resu.data.getProducts.filter((e,ind)=>ind > 3)
+      console.log(prueba)
     }
 
     dataRecoleccion();

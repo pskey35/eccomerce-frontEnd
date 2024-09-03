@@ -49,7 +49,7 @@ function Left(){
       			  			</div>
       			  			<div className={shipping.shipTo}>
       			  				<p>Ship to</p>
-      			  				<div>
+      			  				<div className="shipping_address">
       			  					<span>address,</span>
       			  					<span>apartment,</span>
       			  					<span>state</span>

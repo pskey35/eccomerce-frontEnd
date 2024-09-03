@@ -61,3 +61,11 @@ html,body,.globals{
 
 
 
+
+
+/*apartir de aqui no usare css modules*/
+.shipping_address{
+  max-width: 65%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

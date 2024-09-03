@@ -414,7 +414,8 @@ function ProductosRelacionados() {
 
     return (
         <div className={page.relacionado}>
-            <h1>Productos relacionados</h1>
+           { /*<h1>Productos relacionados</h1>*/}
+           <h1>Otros productos</h1>
             <div className={page.relacionado_content}>
                 {productosRelacionados && productosRelacionados.map((dataUnidad, indice) => {
                     return (

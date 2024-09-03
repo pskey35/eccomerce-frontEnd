@@ -1016,15 +1016,26 @@ function SettingsMobile() {
 //lo hago para que se vea profesional haha
 function CookieModal() {
 
+
+
+
+
   const { setCookieModal } = useContext(ContextHeader)
   const clickCerrarCookies = () => {
+    //si se cierra el cookie entonces en localstorage guardamos un valor para no volvera  mostrar
+    //el seccion de cookie
+    //si ya se dio click a cerrar cookies entonces para que no se muestre otra vez
+    //si el usuario va a otra seccion de la pagina 
+    localStorage.setItem("cookie", "hidden")
+
     const cookieModal = document.querySelector(`.${header.cookieCaja}`)
     console.log(cookieModal)
     cookieModal.style.animation = `${header.closeCookies} 200ms ease forwards`
 
-    setTimeout(()=>{
-     setCookieModal(false)
-    },210)
+    setTimeout(() => {
+      setCookieModal(false)
+    }, 210)
+
 
 
   }
@@ -1164,15 +1175,16 @@ function CookieModal() {
         </div>
         <div className={header.cookie_realMensaje}>
           <h2>Ten un Cookie ;&#41;</h2>
-          <p>nuestro sitio web usa cookies si sigues navegando
+          <p>Nuestro sitio web usa cookies si sigues navegando
             en nuestra web tu estas aceptando las cookies
           </p>
         </div>
       </div>
 
       <div className={header.opciones}>
-        <div>Rechazar</div>
-        <div>Acepto</div>
+        <div onClick={clickCerrarCookies}>Rechazar</div>
+        <div
+          onClick={clickCerrarCookies}>Acepto</div>
       </div>
     </div>
   );
@@ -1180,7 +1192,7 @@ function CookieModal() {
 
 export default function Header() {
 
-  const [t,i18n] = useTranslation("global")
+  const [t, i18n] = useTranslation("global")
 
   //importamos dataCarrito donde se guarda todos los productos de ContextGlobal
   const { setDataCarrito, dataCarrito, setAbrirCarritoFuncion, modifyProduct } =
@@ -1205,676 +1217,692 @@ export default function Header() {
   const [clickedBotonSettings, setClickedBotonSettings] = useState(false);
 
   //abre o cierra la cookie Caja
-  const [cookieModal, setCookieModal] = useState(true);
-  useEffect(() => {
-    //aqui cada vez que detecte un cambio en data carrito se actualizara el conteoCar
-    //actualizar el conteoCar
-    let conteoCar = 0;
-    dataCarrito.map((dataUnidad) => {
-      conteoCar += dataUnidad.cantidadProducto;
-    });
-
-    setConteoCar(conteoCar);
-  }, [dataCarrito]);
+  const [cookieModal, setCookieModal] = useState(false);
 
   useEffect(() => {
-    // console.clear()
-    // console.log("MODIFIIIII")
-
-    //si cambia el estado de esto es porque se dio a delete sumar o restar producto
-
-    const prodCar = localStorage.getItem("prodCar");
-
-    const giveAllProductsCarFunction = (dataCarro) => {
-      //  console.log("******")
-      //  console.log(dataCarro)
-      setDataCarrito(dataCarro);
-    };
-
-    //console.log("MODIFICADOOOOO")
-    if (prodCar) {
-      socket.emit("envioGiveAllProductsCar", { idCar: prodCar });
-
-      socket.on("give_all_products_car", giveAllProductsCarFunction);
-    }
-
-    return () => {
-      socket.off("give_all_products_car", giveAllProductsCarFunction);
-    };
-  }, [, modifyProduct]); //esto se renderiza la primera vez que cargue la pagina y ademas cuando cambie el modifyProduct
-
-  //este boton servira para abrir la pagina del carrito
-  const clickMostrarCarrito = () => {
-    setMostrarCarrito(true);
-    //por alguna razon esto funciona para las animaciones xd
-    setAnimCarrito(true);
-  };
-
-  const clickMostrarMenu = () => {
-    setMostrarMenu(true);
-    setAnimMenu(true);
-  };
-
-  useEffect(() => {
-    //con esto pasamo la funcion clickMostrarCarrito para ser usado en todas las  paginas
-    setAbrirCarritoFuncion(() => clickMostrarCarrito);
-  }, []);
-
-  const router = useRouter();
-
-  const redirect = (url) => {
-    router.push(`/search?ctg=${url}`);
-  };
-
-
-  const clickSettings = (elementClicked) => {
-    //agrandamos la caja del language
-    const settings_content = document.querySelector(
-      `.${header.settings_content}`
-    );
-
-    //aqui cuando se haga click se mostrara el idioma que quiere escoje
-    const languageCaja = document.querySelector(`.${header.languageCaja}`);
-    const monedaCaja = document.querySelector(`.${header.monedaCaja}`);
-
-    if (elementClicked == "idioma") {
-      //aqui si se abre la caja idioma tiene que ocultarse la monedaCaja en caso de que haya sido abierto
-
-      monedaCaja.style.cssText = "visibility:hidden";
-      languageCaja.style.cssText = "visibility:visible";
-      settings_content.style.cssText =
-        "height:382px;width:270px;visibility:visible;opacity:1";
-    } else if (elementClicked == "moneda") {
-      //ocultamos languageCaja en caso de que este visible
-      languageCaja.style.cssText = "visibility:hidden";
-      monedaCaja.style.cssText = "visibility:visible";
-      settings_content.style.cssText =
-        "height:372px;width:270px;visibility:visible;opacity:1";
-    }
-
-    const settings_cnt_second = document.querySelector(
-      `.${header.settings_cnt_second}`
-    );
-
-    settings_cnt_second.style.visibility = "visible";
-    settings_cnt_second.style.opacity = "1";
-  };
-
-  const focusInput = (elementClicked) => {
-    //solo cambiar los colores de los inputs
-    if (elementClicked == "idioma") {
-      const languageCajaInput = document.querySelector(
-        `.${header.languageCaja_input}`
-      );
-      languageCajaInput.style.cssText = "border:2px solid #02adffdb";
-    } else if (elementClicked == "moneda") {
-      const monedaCajaInput = document.querySelector(
-        `.${header.monedaCajaInput}`
-      );
-
-      monedaCajaInput.style.cssText = "border:2px solid #02adffdb";
-    }
-  };
-
-  const blurInput = (elementClicked) => {
-    //esto hara que simplemente cambie los colores de los inputs
-
-    if (elementClicked == "idioma") {
-      const languageCajaInput = document.querySelector(
-        `.${header.languageCaja_input}`
-      );
-      languageCajaInput.style.cssText = "border:2px solid #616161";
-    } else if (elementClicked == "moneda") {
-      const monedaCajaInput = document.querySelector(
-        `.${header.monedaCaja_input}`
-      );
-
-      monedaCajaInput.style.cssText = "border:2px solid #616161";
-    }
-  };
-
-  const backSettingsHome = () => {
-    const settings_content = document.querySelector(
-      `.${header.settings_content}`
-    );
-
-    //aqui cuando se haga click se mostrara el idioma que quiere escoje
-    const languageCaja = document.querySelector(`.${header.languageCaja}`);
-    const monedaCaja = document.querySelector(`.${header.monedaCaja}`);
-
-    settings_content.style.cssText = "height:88px;visibility:visible;opacity:1";
-
-    //no importa que haya cerrado a ambos elementos le pondremos hidden
-    languageCaja.style.cssText = "visibility:hidden";
-    monedaCaja.style.cssText = "visibility:hidden";
-
-    const settings_cnt_second = document.querySelector(
-      `.${header.settings_cnt_second}`
-    );
-    settings_cnt_second.style.cssText = "opacity:0";
-  };
-
-  const clickSettingsIcon = () => {
-    const settings_content = document.querySelector(
-      `.${header.settings_content}`
-    );
-    const settingsIcon = document.querySelector(`.${header.settingsIcon}`);
-    setClickedBotonSettings((prevState) => {
-      if (prevState == false) {
-        //aqui entra cuando se da click por primera vez...la tercera...quinta y asi
-
-        settings_content.style.visibility = "visible";
-        settings_content.style.opacity = "1";
-
-        settingsIcon.style.cssText = "outline:#2185ff solid 2px";
-        return true;
-      } else {
-        //aqui entra al segundo click....
-        settings_content.style.visibility = "hidden";
-        settings_content.style.opacity = "0";
-        settingsIcon.style.cssText = "outline:1px solid #393939";
-        return false;
+  
+    const getCookieStorage = localStorage.getItem("cookie")
+    if (getCookieStorage) {
+    
+      //si ya se dio click a ocultar cookie entonces no deberiamos de retornar nada
+      if (getCookieStorage == "hidden") {
+        setCookieModal(false)
       }
-    });
+    }else{
+      setCookieModal(true)
+    }
 
-    //actualizar este estado solo servira para mostrar el settingContainer mobil
-    setMostrarSettings(true);
+}, [])
+
+useEffect(() => {
+  //aqui cada vez que detecte un cambio en data carrito se actualizara el conteoCar
+  //actualizar el conteoCar
+  let conteoCar = 0;
+  dataCarrito.map((dataUnidad) => {
+    conteoCar += dataUnidad.cantidadProducto;
+  });
+
+  setConteoCar(conteoCar);
+}, [dataCarrito]);
+
+useEffect(() => {
+  // console.clear()
+  // console.log("MODIFIIIII")
+
+  //si cambia el estado de esto es porque se dio a delete sumar o restar producto
+
+  const prodCar = localStorage.getItem("prodCar");
+
+  const giveAllProductsCarFunction = (dataCarro) => {
+    //  console.log("******")
+    //  console.log(dataCarro)
+    setDataCarrito(dataCarro);
   };
 
+  //console.log("MODIFICADOOOOO")
+  if (prodCar) {
+    socket.emit("envioGiveAllProductsCar", { idCar: prodCar });
 
-  const value = {
-    animCarrito,
-    setAnimCarrito,
-    setMostrarCarrito,
+    socket.on("give_all_products_car", giveAllProductsCarFunction);
+  }
 
-    mostrarMenu,
-    setMostrarMenu,
-    setAnimMenu,
-    animMenu,
-
-    setConteoCar,
-    conteoCar,
-
-    dataCarrito, //esto es de contextGlobal
-
-    setMostrarSettings,
-    setCookieModal
-
+  return () => {
+    socket.off("give_all_products_car", giveAllProductsCarFunction);
   };
+}, [, modifyProduct]); //esto se renderiza la primera vez que cargue la pagina y ademas cuando cambie el modifyProduct
 
-  return (
-    <ContextHeader.Provider value={value}>
-      <div className={header.container}>
-        <div className={header.headerPrincipal}>
-          <div className={header.headerLeft}>
-            <div className={header.menuBoton} onClick={clickMostrarMenu}>
-              <div className={header.menu}>
-                <img src="/menu.svg" />
-              </div>
+//este boton servira para abrir la pagina del carrito
+const clickMostrarCarrito = () => {
+  setMostrarCarrito(true);
+  //por alguna razon esto funciona para las animaciones xd
+  setAnimCarrito(true);
+};
+
+const clickMostrarMenu = () => {
+  setMostrarMenu(true);
+  setAnimMenu(true);
+};
+
+useEffect(() => {
+  //con esto pasamo la funcion clickMostrarCarrito para ser usado en todas las  paginas
+  setAbrirCarritoFuncion(() => clickMostrarCarrito);
+}, []);
+
+const router = useRouter();
+
+const redirect = (url) => {
+  router.push(`/search?ctg=${url}`);
+};
+
+
+const clickSettings = (elementClicked) => {
+  //agrandamos la caja del language
+  const settings_content = document.querySelector(
+    `.${header.settings_content}`
+  );
+
+  //aqui cuando se haga click se mostrara el idioma que quiere escoje
+  const languageCaja = document.querySelector(`.${header.languageCaja}`);
+  const monedaCaja = document.querySelector(`.${header.monedaCaja}`);
+
+  if (elementClicked == "idioma") {
+    //aqui si se abre la caja idioma tiene que ocultarse la monedaCaja en caso de que haya sido abierto
+
+    monedaCaja.style.cssText = "visibility:hidden";
+    languageCaja.style.cssText = "visibility:visible";
+    settings_content.style.cssText =
+      "height:382px;width:270px;visibility:visible;opacity:1";
+  } else if (elementClicked == "moneda") {
+    //ocultamos languageCaja en caso de que este visible
+    languageCaja.style.cssText = "visibility:hidden";
+    monedaCaja.style.cssText = "visibility:visible";
+    settings_content.style.cssText =
+      "height:372px;width:270px;visibility:visible;opacity:1";
+  }
+
+  const settings_cnt_second = document.querySelector(
+    `.${header.settings_cnt_second}`
+  );
+
+  settings_cnt_second.style.visibility = "visible";
+  settings_cnt_second.style.opacity = "1";
+};
+
+const focusInput = (elementClicked) => {
+  //solo cambiar los colores de los inputs
+  if (elementClicked == "idioma") {
+    const languageCajaInput = document.querySelector(
+      `.${header.languageCaja_input}`
+    );
+    languageCajaInput.style.cssText = "border:2px solid #02adffdb";
+  } else if (elementClicked == "moneda") {
+    const monedaCajaInput = document.querySelector(
+      `.${header.monedaCajaInput}`
+    );
+
+    monedaCajaInput.style.cssText = "border:2px solid #02adffdb";
+  }
+};
+
+const blurInput = (elementClicked) => {
+  //esto hara que simplemente cambie los colores de los inputs
+
+  if (elementClicked == "idioma") {
+    const languageCajaInput = document.querySelector(
+      `.${header.languageCaja_input}`
+    );
+    languageCajaInput.style.cssText = "border:2px solid #616161";
+  } else if (elementClicked == "moneda") {
+    const monedaCajaInput = document.querySelector(
+      `.${header.monedaCaja_input}`
+    );
+
+    monedaCajaInput.style.cssText = "border:2px solid #616161";
+  }
+};
+
+const backSettingsHome = () => {
+  const settings_content = document.querySelector(
+    `.${header.settings_content}`
+  );
+
+  //aqui cuando se haga click se mostrara el idioma que quiere escoje
+  const languageCaja = document.querySelector(`.${header.languageCaja}`);
+  const monedaCaja = document.querySelector(`.${header.monedaCaja}`);
+
+  settings_content.style.cssText = "height:88px;visibility:visible;opacity:1";
+
+  //no importa que haya cerrado a ambos elementos le pondremos hidden
+  languageCaja.style.cssText = "visibility:hidden";
+  monedaCaja.style.cssText = "visibility:hidden";
+
+  const settings_cnt_second = document.querySelector(
+    `.${header.settings_cnt_second}`
+  );
+  settings_cnt_second.style.cssText = "opacity:0";
+};
+
+const clickSettingsIcon = () => {
+  const settings_content = document.querySelector(
+    `.${header.settings_content}`
+  );
+  const settingsIcon = document.querySelector(`.${header.settingsIcon}`);
+  setClickedBotonSettings((prevState) => {
+    if (prevState == false) {
+      //aqui entra cuando se da click por primera vez...la tercera...quinta y asi
+
+      settings_content.style.visibility = "visible";
+      settings_content.style.opacity = "1";
+
+      settingsIcon.style.cssText = "outline:#2185ff solid 2px";
+      return true;
+    } else {
+      //aqui entra al segundo click....
+      settings_content.style.visibility = "hidden";
+      settings_content.style.opacity = "0";
+      settingsIcon.style.cssText = "outline:1px solid #393939";
+      return false;
+    }
+  });
+
+  //actualizar este estado solo servira para mostrar el settingContainer mobil
+  setMostrarSettings(true);
+};
+
+
+const value = {
+  animCarrito,
+  setAnimCarrito,
+  setMostrarCarrito,
+
+  mostrarMenu,
+  setMostrarMenu,
+  setAnimMenu,
+  animMenu,
+
+  setConteoCar,
+  conteoCar,
+
+  dataCarrito, //esto es de contextGlobal
+
+  setMostrarSettings,
+  setCookieModal
+
+};
+
+return (
+  <ContextHeader.Provider value={value}>
+    <div className={header.container}>
+      <div className={header.headerPrincipal}>
+        <div className={header.headerLeft}>
+          <div className={header.menuBoton} onClick={clickMostrarMenu}>
+            <div className={header.menu}>
+              <img src="/menu.svg" />
             </div>
-            <Link href="/" style={{ textDecoration: "none" }}>
-              <div className={header.perfilContainer}>
-                <div className={header.perfil}>
-                  <img src="/logo.avif" />
-                </div>
-                {/*aqui pondre LN store pero de momento DIGITAL SPACE*/}
-                <span className={header.nombreTienda}>DIGITAL SPACE</span>
-              </div>
-            </Link>
-            <ul className={header.lista}>
-              <li onClick={() => redirect("tecnologia")}>Tecnología</li>
-              <li onClick={() => redirect("novedades")}>Novedades</li>
-              <li onClick={() => redirect("todo")}>Todo</li>
-            </ul>
           </div>
-          <div className={header.center}>
-            <Input></Input>
-          </div>
-          <div className={header.headerRight}>
-            <div className={header.settingsBoton}>
-              <div className={header.settingsIcon} onClick={clickSettingsIcon}>
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <circle
-                    cx="12"
-                    cy="12"
-                    r="3"
-                    stroke="white"
-                    stroke-width="1.5"
-                  />
-                  <path
-                    d="M13.7654 2.15224C13.3978 2 12.9319 2 12 2C11.0681 2 10.6022 2 10.2346 2.15224C9.74457 2.35523 9.35522 2.74458 9.15223 3.23463C9.05957 3.45834 9.0233 3.7185 9.00911 4.09799C8.98826 4.65568 8.70226 5.17189 8.21894 5.45093C7.73564 5.72996 7.14559 5.71954 6.65219 5.45876C6.31645 5.2813 6.07301 5.18262 5.83294 5.15102C5.30704 5.08178 4.77518 5.22429 4.35436 5.5472C4.03874 5.78938 3.80577 6.1929 3.33983 6.99993C2.87389 7.80697 2.64092 8.21048 2.58899 8.60491C2.51976 9.1308 2.66227 9.66266 2.98518 10.0835C3.13256 10.2756 3.3397 10.437 3.66119 10.639C4.1338 10.936 4.43789 11.4419 4.43786 12C4.43783 12.5581 4.13375 13.0639 3.66118 13.3608C3.33965 13.5629 3.13248 13.7244 2.98508 13.9165C2.66217 14.3373 2.51966 14.8691 2.5889 15.395C2.64082 15.7894 2.87379 16.193 3.33973 17C3.80568 17.807 4.03865 18.2106 4.35426 18.4527C4.77508 18.7756 5.30694 18.9181 5.83284 18.8489C6.07289 18.8173 6.31632 18.7186 6.65204 18.5412C7.14547 18.2804 7.73556 18.27 8.2189 18.549C8.70224 18.8281 8.98826 19.3443 9.00911 19.9021C9.02331 20.2815 9.05957 20.5417 9.15223 20.7654C9.35522 21.2554 9.74457 21.6448 10.2346 21.8478C10.6022 22 11.0681 22 12 22C12.9319 22 13.3978 22 13.7654 21.8478C14.2554 21.6448 14.6448 21.2554 14.8477 20.7654C14.9404 20.5417 14.9767 20.2815 14.9909 19.902C15.0117 19.3443 15.2977 18.8281 15.781 18.549C16.2643 18.2699 16.8544 18.2804 17.3479 18.5412C17.6836 18.7186 17.927 18.8172 18.167 18.8488C18.6929 18.9181 19.2248 18.7756 19.6456 18.4527C19.9612 18.2105 20.1942 17.807 20.6601 16.9999C21.1261 16.1929 21.3591 15.7894 21.411 15.395C21.4802 14.8691 21.3377 14.3372 21.0148 13.9164C20.8674 13.7243 20.6602 13.5628 20.3387 13.3608C19.8662 13.0639 19.5621 12.558 19.5621 11.9999C19.5621 11.4418 19.8662 10.9361 20.3387 10.6392C20.6603 10.4371 20.8675 10.2757 21.0149 10.0835C21.3378 9.66273 21.4803 9.13087 21.4111 8.60497C21.3592 8.21055 21.1262 7.80703 20.6602 7C20.1943 6.19297 19.9613 5.78945 19.6457 5.54727C19.2249 5.22436 18.693 5.08185 18.1671 5.15109C17.9271 5.18269 17.6837 5.28136 17.3479 5.4588C16.8545 5.71959 16.2644 5.73002 15.7811 5.45096C15.2977 5.17191 15.0117 4.65566 14.9909 4.09794C14.9767 3.71848 14.9404 3.45833 14.8477 3.23463C14.6448 2.74458 14.2554 2.35523 13.7654 2.15224Z"
-                    stroke="white"
-                    stroke-width="1.5"
-                  />
-                </svg>
+          <Link href="/" style={{ textDecoration: "none" }}>
+            <div className={header.perfilContainer}>
+              <div className={header.perfil}>
+                <img src="/logo.avif" />
               </div>
-              <div className={header.settings_content}>
-                <div className={header.settings_content_real}>
-                  <div className={header.settings_cnt_first}>
-                    <div
-                      className={header.settings_language}
-                      onClick={() => clickSettings("idioma")}
-                    >
-                      <span>
-                        <svg
-                          viewBox="0 0 24 24"
-                          fill="white"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            fill-rule="evenodd"
-                            clip-rule="evenodd"
-                            d="M14.6921 5H9.30807C8.15914 5.00635 7.0598 5.46885 6.25189 6.28576C5.44398 7.10268 4.99368 8.20708 5.00007 9.356V14.644C4.99368 15.7929 5.44398 16.8973 6.25189 17.7142C7.0598 18.5311 8.15914 18.9937 9.30807 19H14.6921C15.841 18.9937 16.9403 18.5311 17.7482 17.7142C18.5562 16.8973 19.0064 15.7929 19.0001 14.644V9.356C19.0064 8.20708 18.5562 7.10268 17.7482 6.28576C16.9403 5.46885 15.841 5.00635 14.6921 5Z"
-                            stroke="#000000"
-                            stroke-width="1.5"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                          />
-                          <path
-                            d="M8.00012 9C7.58591 9 7.25012 9.33579 7.25012 9.75C7.25012 10.1642 7.58591 10.5 8.00012 10.5V9ZM12.0001 10.5C12.4143 10.5 12.7501 10.1642 12.7501 9.75C12.7501 9.33579 12.4143 9 12.0001 9V10.5ZM11.2501 9.75C11.2501 10.1642 11.5859 10.5 12.0001 10.5C12.4143 10.5 12.7501 10.1642 12.7501 9.75H11.2501ZM12.7501 8C12.7501 7.58579 12.4143 7.25 12.0001 7.25C11.5859 7.25 11.2501 7.58579 11.2501 8H12.7501ZM12.0001 9C11.5859 9 11.2501 9.33579 11.2501 9.75C11.2501 10.1642 11.5859 10.5 12.0001 10.5V9ZM15.5001 10.5C15.9143 10.5 16.2501 10.1642 16.2501 9.75C16.2501 9.33579 15.9143 9 15.5001 9V10.5ZM15.5001 9C15.0859 9 14.7501 9.33579 14.7501 9.75C14.7501 10.1642 15.0859 10.5 15.5001 10.5V9ZM16.0001 10.5C16.4143 10.5 16.7501 10.1642 16.7501 9.75C16.7501 9.33579 16.4143 9 16.0001 9V10.5ZM16.1138 10.1811C16.3519 9.84222 16.2702 9.37443 15.9313 9.13631C15.5923 8.8982 15.1246 8.97992 14.8864 9.31885L16.1138 10.1811ZM11.2737 13.2783C10.9579 13.5464 10.9193 14.0197 11.1874 14.3354C11.4555 14.6512 11.9288 14.6898 12.2445 14.4217L11.2737 13.2783ZM9.29973 14.9003C8.96852 15.149 8.90167 15.6192 9.15041 15.9504C9.39916 16.2816 9.8693 16.3485 10.2005 16.0997L9.29973 14.9003ZM12.2569 14.407C12.5667 14.1321 12.595 13.6581 12.3201 13.3483C12.0453 13.0384 11.5712 13.0101 11.2614 13.285L12.2569 14.407ZM11.1691 14.3091C11.4249 14.6349 11.8963 14.6917 12.2222 14.436C12.548 14.1802 12.6048 13.7088 12.3491 13.3829L11.1691 14.3091ZM11.186 11.4467C11.0185 11.0678 10.5756 10.8966 10.1968 11.0641C9.81796 11.2316 9.64667 11.6745 9.8142 12.0533L11.186 11.4467ZM12.3609 13.4024C12.1137 13.07 11.6439 13.001 11.3115 13.2482C10.9792 13.4954 10.9101 13.9652 11.1573 14.2976L12.3609 13.4024ZM13.8953 16.6608C14.2602 16.8567 14.7149 16.7198 14.9109 16.3548C15.1068 15.9899 14.9699 15.5352 14.605 15.3392L13.8953 16.6608ZM8.00012 10.5H12.0001V9H8.00012V10.5ZM12.7501 9.75V8H11.2501V9.75H12.7501ZM12.0001 10.5H15.5001V9H12.0001V10.5ZM15.5001 10.5H16.0001V9H15.5001V10.5ZM14.8864 9.31885C13.8552 10.7867 12.6412 12.1172 11.2737 13.2783L12.2445 14.4217C13.7091 13.1782 15.0093 11.7532 16.1138 10.1811L14.8864 9.31885ZM10.2005 16.0997C10.7113 15.7161 11.4531 15.1201 12.2569 14.407L11.2614 13.285C10.4871 13.9719 9.77692 14.5419 9.29973 14.9003L10.2005 16.0997ZM12.3491 13.3829C11.8824 12.7884 11.4917 12.1379 11.186 11.4467L9.8142 12.0533C10.1703 12.8586 10.6255 13.6164 11.1691 14.3091L12.3491 13.3829ZM11.1573 14.2976C11.8855 15.2767 12.8203 16.0835 13.8953 16.6608L14.605 15.3392C13.7239 14.8661 12.9578 14.2048 12.3609 13.4024L11.1573 14.2976Z"
-                            fill="#000000"
-                          />
-                        </svg>
-                      </span>
-                      <p>{t("header.settingss")}</p>
-                    </div>
-                    <div
-                      className={header.settings_moneda}
-                      onClick={() => clickSettings("moneda")}
-                    >
-                      <span>
-                        <svg
-                          viewBox="0 0 24 24"
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="none"
-                        >
-                          <path
-                            stroke="#000000"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
-                            d="m14.5 10-.035-.139A2.457 2.457 0 0 0 12.082 8h-.522a1.841 1.841 0 0 0-.684 3.55l2.248.9A1.841 1.841 0 0 1 12.44 16h-.521a2.457 2.457 0 0 1-2.384-1.861L9.5 14M12 6v2m0 8v2m9-6a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
-                          />
-                        </svg>
-                      </span>
-                      <p>Moneda</p>
-                    </div>
-                  </div>
-                  <div className={header.settings_cnt_second}>
-                    <div className={header.settings_cnt_second_real}>
-                      <div className={header.languageCaja}>
-                        <div className={header.back_block}>
-                          <span onClick={backSettingsHome}>
-                            <svg
-                              fill="#000000"
-                              viewBox="0 0 32 32"
-                              data-name="Layer 2"
-                              id="Layer_2"
-                            >
-                              <title />
-                              <path d="M11.17,10.23a33.37,33.37,0,0,0-3.05,3.13c-.51.62-1.28,1.3-1.21,2.17s.81,1.24,1.35,1.76a16.3,16.3,0,0,1,2.57,3.17c.86,1.36,3,.11,2.16-1.26a21.06,21.06,0,0,0-1.82-2.48A16.16,16.16,0,0,0,10,15.52c-.22-.21-.86-1.14-.68-.49l-.13,1a17.85,17.85,0,0,1,3.72-4c1.19-1.08-.58-2.85-1.77-1.76Z" />
-                              <path d="M9.4,17a109.13,109.13,0,0,0,12.53-.1c1.59-.11,1.61-2.61,0-2.5a109.13,109.13,0,0,1-12.53.1c-1.61-.07-1.6,2.43,0,2.5Z" />
-                            </svg>
-                          </span>
-                        </div>
-                        <div className={header.languageCaja_input}>
-                          <input
-                            onFocus={() => focusInput("idioma")}
-                            onBlur={() => blurInput("idioma")}
-                          ></input>
-                          <span>
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                              stroke-width="1.5"
-                              stroke="white"
-                              aria-hidden="true"
-                              class="h-4"
-                            >
-                              <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
-                              ></path>
-                            </svg>
-                          </span>
-                        </div>
-                        <div className={header.sugerenciasLanguage}>
-                          <div>
-                            <span className={header.flagIcon}>
-                              <svg
-                                viewBox="0 0 36 36"
-                                aria-hidden="true"
-                                role="img"
-                                class="iconify iconify--twemoji"
-                                preserveAspectRatio="xMidYMid meet"
-                              >
-                                <path
-                                  fill="#C60A1D"
-                                  d="M36 27a4 4 0 0 1-4 4H4a4 4 0 0 1-4-4V9a4 4 0 0 1 4-4h28a4 4 0 0 1 4 4v18z"
-                                ></path>
-                                <path fill="#FFC400" d="M0 12h36v12H0z"></path>
-                                <path
-                                  fill="#EA596E"
-                                  d="M9 17v3a3 3 0 1 0 6 0v-3H9z"
-                                ></path>
-                                <path fill="#F4A2B2" d="M12 16h3v3h-3z"></path>
-                                <path fill="#DD2E44" d="M9 16h3v3H9z"></path>
-                                <ellipse
-                                  fill="#EA596E"
-                                  cx="12"
-                                  cy="14.5"
-                                  rx="3"
-                                  ry="1.5"
-                                ></ellipse>
-                                <ellipse
-                                  fill="#FFAC33"
-                                  cx="12"
-                                  cy="13.75"
-                                  rx="3"
-                                  ry=".75"
-                                ></ellipse>
-                                <path
-                                  fill="#99AAB5"
-                                  d="M7 16h1v7H7zm9 0h1v7h-1z"
-                                ></path>
-                                <path
-                                  fill="#66757F"
-                                  d="M6 22h3v1H6zm9 0h3v1h-3zm-8-7h1v1H7zm9 0h1v1h-1z"
-                                ></path>
-                              </svg>
-                            </span>
-                            <span className={header.countrieName}>Español</span>
-                          </div>
-                          <div>
-                            <span className={header.flagIcon}>
-                              <svg
-                                viewBox="0 0 36 36"
-                                aria-hidden="true"
-                                role="img"
-                                class="iconify iconify--twemoji"
-                                preserveAspectRatio="xMidYMid meet"
-                              >
-                                <path
-                                  fill="#B22334"
-                                  d="M35.445 7C34.752 5.809 33.477 5 32 5H18v2h17.445zM0 25h36v2H0zm18-8h18v2H18zm0-4h18v2H18zM0 21h36v2H0zm4 10h28c1.477 0 2.752-.809 3.445-2H.555c.693 1.191 1.968 2 3.445 2zM18 9h18v2H18z"
-                                ></path>
-                                <path
-                                  fill="#EEE"
-                                  d="M.068 27.679c.017.093.036.186.059.277c.026.101.058.198.092.296c.089.259.197.509.333.743L.555 29h34.89l.002-.004a4.22 4.22 0 0 0 .332-.741a3.75 3.75 0 0 0 .152-.576c.041-.22.069-.446.069-.679H0c0 .233.028.458.068.679zM0 23h36v2H0zm0-4v2h36v-2H18zm18-4h18v2H18zm0-4h18v2H18zM0 9zm.555-2l-.003.005L.555 7zM.128 8.044c.025-.102.06-.199.092-.297a3.78 3.78 0 0 0-.092.297zM18 9h18c0-.233-.028-.459-.069-.68a3.606 3.606 0 0 0-.153-.576A4.21 4.21 0 0 0 35.445 7H18v2z"
-                                ></path>
-                                <path
-                                  fill="#3C3B6E"
-                                  d="M18 5H4a4 4 0 0 0-4 4v10h18V5z"
-                                ></path>
-                                <path
-                                  fill="#FFF"
-                                  d="M2.001 7.726l.618.449l-.236.725L3 8.452l.618.448l-.236-.725L4 7.726h-.764L3 7l-.235.726zm2 2l.618.449l-.236.725l.617-.448l.618.448l-.236-.725L6 9.726h-.764L5 9l-.235.726zm4 0l.618.449l-.236.725l.617-.448l.618.448l-.236-.725l.618-.449h-.764L9 9l-.235.726zm4 0l.618.449l-.236.725l.617-.448l.618.448l-.236-.725l.618-.449h-.764L13 9l-.235.726zm-8 4l.618.449l-.236.725l.617-.448l.618.448l-.236-.725l.618-.449h-.764L5 13l-.235.726zm4 0l.618.449l-.236.725l.617-.448l.618.448l-.236-.725l.618-.449h-.764L9 13l-.235.726zm4 0l.618.449l-.236.725l.617-.448l.618.448l-.236-.725l.618-.449h-.764L13 13l-.235.726zm-6-6l.618.449l-.236.725L7 8.452l.618.448l-.236-.725L8 7.726h-.764L7 7l-.235.726zm4 0l.618.449l-.236.725l.617-.448l.618.448l-.236-.725l.618-.449h-.764L11 7l-.235.726zm4 0l.618.449l-.236.725l.617-.448l.618.448l-.236-.725l.618-.449h-.764L15 7l-.235.726zm-12 4l.618.449l-.236.725l.617-.448l.618.448l-.236-.725l.618-.449h-.764L3 11l-.235.726zM6.383 12.9L7 12.452l.618.448l-.236-.725l.618-.449h-.764L7 11l-.235.726h-.764l.618.449zm3.618-1.174l.618.449l-.236.725l.617-.448l.618.448l-.236-.725l.618-.449h-.764L11 11l-.235.726zm4 0l.618.449l-.236.725l.617-.448l.618.448l-.236-.725l.618-.449h-.764L15 11l-.235.726zm-12 4l.618.449l-.236.725l.617-.448l.618.448l-.236-.725l.618-.449h-.764L3 15l-.235.726zM6.383 16.9L7 16.452l.618.448l-.236-.725l.618-.449h-.764L7 15l-.235.726h-.764l.618.449zm3.618-1.174l.618.449l-.236.725l.617-.448l.618.448l-.236-.725l.618-.449h-.764L11 15l-.235.726zm4 0l.618.449l-.236.725l.617-.448l.618.448l-.236-.725l.618-.449h-.764L15 15l-.235.726z"
-                                ></path>
-                              </svg>
-                            </span>
-                            <span className={header.countrieName}> ingles</span>
-                          </div>
-                          <div>
-                            <span className={header.flagIcon}>
-                              <svg
-                                viewBox="0 0 36 36"
-                                aria-hidden="true"
-                                role="img"
-                                class="iconify iconify--twemoji"
-                                preserveAspectRatio="xMidYMid meet"
-                              >
-                                <path
-                                  fill="#ED2939"
-                                  d="M36 27a4 4 0 0 1-4 4h-8V5h8a4 4 0 0 1 4 4v18z"
-                                ></path>
-                                <path
-                                  fill="#002495"
-                                  d="M4 5a4 4 0 0 0-4 4v18a4 4 0 0 0 4 4h8V5H4z"
-                                ></path>
-                                <path fill="#EEE" d="M12 5h12v26H12z"></path>
-                              </svg>
-                            </span>
-                            <span className={header.countrieName}>frances</span>
-                          </div>
-                          <div>
-                            <span className={header.flagIcon}>
-                              <svg
-                                viewBox="0 0 36 36"
-                                xmlns="http://www.w3.org/2000/svg"
-                                aria-hidden="true"
-                                role="img"
-                                class="iconify iconify--twemoji"
-                                preserveAspectRatio="xMidYMid meet"
-                              >
-                                <path
-                                  fill="#FFCD05"
-                                  d="M0 27a4 4 0 0 0 4 4h28a4 4 0 0 0 4-4v-4H0v4z"
-                                ></path>
-                                <path fill="#ED1F24" d="M0 14h36v9H0z"></path>
-                                <path
-                                  fill="#141414"
-                                  d="M32 5H4a4 4 0 0 0-4 4v5h36V9a4 4 0 0 0-4-4z"
-                                ></path>
-                              </svg>
-                            </span>
-                            <span className={header.countrieName}>Aleman</span>
-                          </div>
-                          <div>
-                            <span className={header.flagIcon}>
-                              <svg
-                                viewBox="0 0 36 36"
-                                aria-hidden="true"
-                                role="img"
-                                class="iconify iconify--twemoji"
-                                preserveAspectRatio="xMidYMid meet"
-                              >
-                                <path
-                                  fill="#138808"
-                                  d="M0 27a4 4 0 0 0 4 4h28a4 4 0 0 0 4-4v-4H0v4z"
-                                ></path>
-                                <path fill="#EEE" d="M0 13h36v10H0z"></path>
-                                <path
-                                  fill="#F93"
-                                  d="M36 13V9a4 4 0 0 0-4-4H4a4 4 0 0 0-4 4v4h36z"
-                                ></path>
-                                <circle
-                                  fill="navy"
-                                  cx="18"
-                                  cy="18"
-                                  r="4"
-                                ></circle>
-                                <circle
-                                  fill="#EEE"
-                                  cx="18"
-                                  cy="18"
-                                  r="3"
-                                ></circle>
-                                <path
-                                  fill="#6666B3"
-                                  d="M18 15l.146 2.264l1.001-2.035l-.73 2.147l1.704-1.498l-1.497 1.705l2.147-.731l-2.035 1.002L21 18l-2.264.146l2.035 1.001l-2.147-.73l1.497 1.704l-1.704-1.497l.73 2.147l-1.001-2.035L18 21l-.146-2.264l-1.002 2.035l.731-2.147l-1.705 1.497l1.498-1.704l-2.147.73l2.035-1.001L15 18l2.264-.146l-2.035-1.002l2.147.731l-1.498-1.705l1.705 1.498l-.731-2.147l1.002 2.035z"
-                                ></path>
-                                <circle
-                                  fill="navy"
-                                  cx="18"
-                                  cy="18"
-                                  r="1"
-                                ></circle>
-                              </svg>
-                            </span>
-                            <span className={header.countrieName}>indio</span>
-                          </div>
-                          <div>
-                            <span className={header.flagIcon}>
-                              <svg
-                                viewBox="0 0 36 36"
-                                aria-hidden="true"
-                                role="img"
-                                class="iconify iconify--twemoji"
-                                preserveAspectRatio="xMidYMid meet"
-                              >
-                                <path
-                                  fill="#CE2028"
-                                  d="M36 27a4 4 0 0 1-4 4H4a4 4 0 0 1-4-4v-4h36v4z"
-                                ></path>
-                                <path fill="#22408C" d="M0 13h36v10H0z"></path>
-                                <path
-                                  fill="#EEE"
-                                  d="M32 5H4a4 4 0 0 0-4 4v4h36V9a4 4 0 0 0-4-4z"
-                                ></path>
-                              </svg>
-                            </span>
-                            <span className={header.countrieName}>ruso</span>
-                          </div>
-                          <div>
-                            <span className={header.flagIcon}>
-                              <svg
-                                viewBox="0 0 36 36"
-                                aria-hidden="true"
-                                role="img"
-                                class="iconify iconify--twemoji"
-                                preserveAspectRatio="xMidYMid meet"
-                              >
-                                <path
-                                  fill="#060"
-                                  d="M36 27a4 4 0 0 1-4 4H4a4 4 0 0 1-4-4V9a4 4 0 0 1 4-4h28a4 4 0 0 1 4 4v18z"
-                                ></path>
-                                <path
-                                  fill="#D52B1E"
-                                  d="M32 5H15v26h17a4 4 0 0 0 4-4V9a4 4 0 0 0-4-4z"
-                                ></path>
-                                <path
-                                  fill="#FFCC4D"
-                                  d="M15 10a8 8 0 0 0-8 8a8 8 0 1 0 16 0a8 8 0 0 0-8-8zm-6.113 4.594l1.602 1.602l-2.46 1.23a6.95 6.95 0 0 1 .858-2.832zm-.858 3.979l4.4 2.207l-2.706 1.804l.014.021a6.963 6.963 0 0 1-1.708-4.032zM14 24.92a6.945 6.945 0 0 1-2.592-.92H14v.92zM14 23h-3.099L14 20.934V23zm0-3.268l-.607.405L9.118 18l2.116-1.058L14 19.707v.025zm0-1.439l-3.543-3.543l3.543.59v2.953zm0-3.992l-4.432-.713A6.983 6.983 0 0 1 14 11.08v3.221zm7.113.293a6.95 6.95 0 0 1 .858 2.833l-2.46-1.23l1.602-1.603zM16 11.08a6.987 6.987 0 0 1 4.432 2.508L16 14.301V11.08zm0 4.26l3.543-.591L16 18.293V15.34zm0 4.367l2.765-2.765L20.882 18l-4.274 2.137l-.608-.405v-.025zm0 5.213V24h2.592a6.945 6.945 0 0 1-2.592.92zM16 23v-2.066L19.099 23H16zm4.264-.395l.014-.021l-2.706-1.804l4.4-2.207a6.976 6.976 0 0 1-1.708 4.032z"
-                                ></path>
-                                <path
-                                  fill="#D52B1E"
-                                  d="M11 13v7a4 4 0 0 0 8 0v-7h-8z"
-                                ></path>
-                                <path
-                                  fill="#FFF"
-                                  d="M12 14v6a3 3 0 0 0 6 0v-6h-6z"
-                                ></path>
-                                <path fill="#829ACD" d="M13 17h4v2h-4z"></path>
-                                <path fill="#829ACD" d="M14 16h2v4h-2z"></path>
-                                <path
-                                  fill="#039"
-                                  d="M12 17h1v2h-1zm2 0h2v2h-2zm3 0h1v2h-1zm-3 3h2v2h-2zm0-6h2v2h-2z"
-                                ></path>
-                              </svg>
-                            </span>
-                            <span className={header.countrieName}>
-                              portugues
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-                      <div className={header.monedaCaja}>
-                        <div className={header.back_block}>
-                          <span onClick={backSettingsHome}>
-                            <svg
-                              fill="#000000"
-                              viewBox="0 0 32 32"
-                              data-name="Layer 2"
-                              id="Layer_2"
-                            >
-                              <title />
-                              <path d="M11.17,10.23a33.37,33.37,0,0,0-3.05,3.13c-.51.62-1.28,1.3-1.21,2.17s.81,1.24,1.35,1.76a16.3,16.3,0,0,1,2.57,3.17c.86,1.36,3,.11,2.16-1.26a21.06,21.06,0,0,0-1.82-2.48A16.16,16.16,0,0,0,10,15.52c-.22-.21-.86-1.14-.68-.49l-.13,1a17.85,17.85,0,0,1,3.72-4c1.19-1.08-.58-2.85-1.77-1.76Z" />
-                              <path d="M9.4,17a109.13,109.13,0,0,0,12.53-.1c1.59-.11,1.61-2.61,0-2.5a109.13,109.13,0,0,1-12.53.1c-1.61-.07-1.6,2.43,0,2.5Z" />
-                            </svg>
-                          </span>
-                        </div>
-                        <div className={header.monedaCaja_input}>
-                          <input placeholder="moneda"></input>
-                          <span>
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                              stroke-width="1.5"
-                              stroke="white"
-                              aria-hidden="true"
-                              class="h-4"
-                            >
-                              <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
-                              ></path>
-                            </svg>
-                          </span>
-                        </div>
-                        <div className={header.listaMonedas}>
-                          <div>
-                            <span>USD</span>
-                            <span> (Dólar estadounidense)</span>
-                          </div>
-                          <div>
-                            <span>EUR</span>
-                            <span> (Euro)</span>
-                          </div>
-                          <div>
-                            <span>JPY</span>
-                            <span> (Yen japonés)</span>
-                          </div>
-                          <div>
-                            <span>GBP</span>
-                            <span> (Libra esterlina)</span>
-                          </div>
-                          <div>
-                            <span>AUD</span>
-                            <span> (Dólar australiano)</span>
-                          </div>
-                          <div>
-                            <span>CAD</span>
-                            <span> (Dólar canadiense)</span>
-                          </div>
-                          <div>
-                            <span>CHF</span>
-                            <span> (Franco suizo)</span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              {/*aqui pondre LN store pero de momento DIGITAL SPACE*/}
+              <span className={header.nombreTienda}>DIGITAL SPACE</span>
             </div>
-            <div className={header.registrarse}>
-              <svg width="30px" height="30px" viewBox="0 0 24 24">
-                <path
-                  d="M5 21C5 17.134 8.13401 14 12 14C15.866 14 19 17.134 19 21M16 7C16 9.20914 14.2091 11 12 11C9.79086 11 8 9.20914 8 7C8 4.79086 9.79086 3 12 3C14.2091 3 16 4.79086 16 7Z"
+          </Link>
+          <ul className={header.lista}>
+            <li onClick={() => redirect("tecnologia")}>Tecnología</li>
+            <li onClick={() => redirect("novedades")}>Novedades</li>
+            <li onClick={() => redirect("todo")}>Todo</li>
+          </ul>
+        </div>
+        <div className={header.center}>
+          <Input></Input>
+        </div>
+        <div className={header.headerRight}>
+          <div className={header.settingsBoton}>
+            <div className={header.settingsIcon} onClick={clickSettingsIcon}>
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <circle
+                  cx="12"
+                  cy="12"
+                  r="3"
                   stroke="white"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+                  stroke-width="1.5"
+                />
+                <path
+                  d="M13.7654 2.15224C13.3978 2 12.9319 2 12 2C11.0681 2 10.6022 2 10.2346 2.15224C9.74457 2.35523 9.35522 2.74458 9.15223 3.23463C9.05957 3.45834 9.0233 3.7185 9.00911 4.09799C8.98826 4.65568 8.70226 5.17189 8.21894 5.45093C7.73564 5.72996 7.14559 5.71954 6.65219 5.45876C6.31645 5.2813 6.07301 5.18262 5.83294 5.15102C5.30704 5.08178 4.77518 5.22429 4.35436 5.5472C4.03874 5.78938 3.80577 6.1929 3.33983 6.99993C2.87389 7.80697 2.64092 8.21048 2.58899 8.60491C2.51976 9.1308 2.66227 9.66266 2.98518 10.0835C3.13256 10.2756 3.3397 10.437 3.66119 10.639C4.1338 10.936 4.43789 11.4419 4.43786 12C4.43783 12.5581 4.13375 13.0639 3.66118 13.3608C3.33965 13.5629 3.13248 13.7244 2.98508 13.9165C2.66217 14.3373 2.51966 14.8691 2.5889 15.395C2.64082 15.7894 2.87379 16.193 3.33973 17C3.80568 17.807 4.03865 18.2106 4.35426 18.4527C4.77508 18.7756 5.30694 18.9181 5.83284 18.8489C6.07289 18.8173 6.31632 18.7186 6.65204 18.5412C7.14547 18.2804 7.73556 18.27 8.2189 18.549C8.70224 18.8281 8.98826 19.3443 9.00911 19.9021C9.02331 20.2815 9.05957 20.5417 9.15223 20.7654C9.35522 21.2554 9.74457 21.6448 10.2346 21.8478C10.6022 22 11.0681 22 12 22C12.9319 22 13.3978 22 13.7654 21.8478C14.2554 21.6448 14.6448 21.2554 14.8477 20.7654C14.9404 20.5417 14.9767 20.2815 14.9909 19.902C15.0117 19.3443 15.2977 18.8281 15.781 18.549C16.2643 18.2699 16.8544 18.2804 17.3479 18.5412C17.6836 18.7186 17.927 18.8172 18.167 18.8488C18.6929 18.9181 19.2248 18.7756 19.6456 18.4527C19.9612 18.2105 20.1942 17.807 20.6601 16.9999C21.1261 16.1929 21.3591 15.7894 21.411 15.395C21.4802 14.8691 21.3377 14.3372 21.0148 13.9164C20.8674 13.7243 20.6602 13.5628 20.3387 13.3608C19.8662 13.0639 19.5621 12.558 19.5621 11.9999C19.5621 11.4418 19.8662 10.9361 20.3387 10.6392C20.6603 10.4371 20.8675 10.2757 21.0149 10.0835C21.3378 9.66273 21.4803 9.13087 21.4111 8.60497C21.3592 8.21055 21.1262 7.80703 20.6602 7C20.1943 6.19297 19.9613 5.78945 19.6457 5.54727C19.2249 5.22436 18.693 5.08185 18.1671 5.15109C17.9271 5.18269 17.6837 5.28136 17.3479 5.4588C16.8545 5.71959 16.2644 5.73002 15.7811 5.45096C15.2977 5.17191 15.0117 4.65566 14.9909 4.09794C14.9767 3.71848 14.9404 3.45833 14.8477 3.23463C14.6448 2.74458 14.2554 2.35523 13.7654 2.15224Z"
+                  stroke="white"
+                  stroke-width="1.5"
                 />
               </svg>
             </div>
-            <div onClick={clickMostrarCarrito} className={header.carritoBoton}>
-              <div className={header.carritoImagen}>
-                <img src="/carrito.svg" />
+            <div className={header.settings_content}>
+              <div className={header.settings_content_real}>
+                <div className={header.settings_cnt_first}>
+                  <div
+                    className={header.settings_language}
+                    onClick={() => clickSettings("idioma")}
+                  >
+                    <span>
+                      <svg
+                        viewBox="0 0 24 24"
+                        fill="white"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          clip-rule="evenodd"
+                          d="M14.6921 5H9.30807C8.15914 5.00635 7.0598 5.46885 6.25189 6.28576C5.44398 7.10268 4.99368 8.20708 5.00007 9.356V14.644C4.99368 15.7929 5.44398 16.8973 6.25189 17.7142C7.0598 18.5311 8.15914 18.9937 9.30807 19H14.6921C15.841 18.9937 16.9403 18.5311 17.7482 17.7142C18.5562 16.8973 19.0064 15.7929 19.0001 14.644V9.356C19.0064 8.20708 18.5562 7.10268 17.7482 6.28576C16.9403 5.46885 15.841 5.00635 14.6921 5Z"
+                          stroke="#000000"
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                        <path
+                          d="M8.00012 9C7.58591 9 7.25012 9.33579 7.25012 9.75C7.25012 10.1642 7.58591 10.5 8.00012 10.5V9ZM12.0001 10.5C12.4143 10.5 12.7501 10.1642 12.7501 9.75C12.7501 9.33579 12.4143 9 12.0001 9V10.5ZM11.2501 9.75C11.2501 10.1642 11.5859 10.5 12.0001 10.5C12.4143 10.5 12.7501 10.1642 12.7501 9.75H11.2501ZM12.7501 8C12.7501 7.58579 12.4143 7.25 12.0001 7.25C11.5859 7.25 11.2501 7.58579 11.2501 8H12.7501ZM12.0001 9C11.5859 9 11.2501 9.33579 11.2501 9.75C11.2501 10.1642 11.5859 10.5 12.0001 10.5V9ZM15.5001 10.5C15.9143 10.5 16.2501 10.1642 16.2501 9.75C16.2501 9.33579 15.9143 9 15.5001 9V10.5ZM15.5001 9C15.0859 9 14.7501 9.33579 14.7501 9.75C14.7501 10.1642 15.0859 10.5 15.5001 10.5V9ZM16.0001 10.5C16.4143 10.5 16.7501 10.1642 16.7501 9.75C16.7501 9.33579 16.4143 9 16.0001 9V10.5ZM16.1138 10.1811C16.3519 9.84222 16.2702 9.37443 15.9313 9.13631C15.5923 8.8982 15.1246 8.97992 14.8864 9.31885L16.1138 10.1811ZM11.2737 13.2783C10.9579 13.5464 10.9193 14.0197 11.1874 14.3354C11.4555 14.6512 11.9288 14.6898 12.2445 14.4217L11.2737 13.2783ZM9.29973 14.9003C8.96852 15.149 8.90167 15.6192 9.15041 15.9504C9.39916 16.2816 9.8693 16.3485 10.2005 16.0997L9.29973 14.9003ZM12.2569 14.407C12.5667 14.1321 12.595 13.6581 12.3201 13.3483C12.0453 13.0384 11.5712 13.0101 11.2614 13.285L12.2569 14.407ZM11.1691 14.3091C11.4249 14.6349 11.8963 14.6917 12.2222 14.436C12.548 14.1802 12.6048 13.7088 12.3491 13.3829L11.1691 14.3091ZM11.186 11.4467C11.0185 11.0678 10.5756 10.8966 10.1968 11.0641C9.81796 11.2316 9.64667 11.6745 9.8142 12.0533L11.186 11.4467ZM12.3609 13.4024C12.1137 13.07 11.6439 13.001 11.3115 13.2482C10.9792 13.4954 10.9101 13.9652 11.1573 14.2976L12.3609 13.4024ZM13.8953 16.6608C14.2602 16.8567 14.7149 16.7198 14.9109 16.3548C15.1068 15.9899 14.9699 15.5352 14.605 15.3392L13.8953 16.6608ZM8.00012 10.5H12.0001V9H8.00012V10.5ZM12.7501 9.75V8H11.2501V9.75H12.7501ZM12.0001 10.5H15.5001V9H12.0001V10.5ZM15.5001 10.5H16.0001V9H15.5001V10.5ZM14.8864 9.31885C13.8552 10.7867 12.6412 12.1172 11.2737 13.2783L12.2445 14.4217C13.7091 13.1782 15.0093 11.7532 16.1138 10.1811L14.8864 9.31885ZM10.2005 16.0997C10.7113 15.7161 11.4531 15.1201 12.2569 14.407L11.2614 13.285C10.4871 13.9719 9.77692 14.5419 9.29973 14.9003L10.2005 16.0997ZM12.3491 13.3829C11.8824 12.7884 11.4917 12.1379 11.186 11.4467L9.8142 12.0533C10.1703 12.8586 10.6255 13.6164 11.1691 14.3091L12.3491 13.3829ZM11.1573 14.2976C11.8855 15.2767 12.8203 16.0835 13.8953 16.6608L14.605 15.3392C13.7239 14.8661 12.9578 14.2048 12.3609 13.4024L11.1573 14.2976Z"
+                          fill="#000000"
+                        />
+                      </svg>
+                    </span>
+                    <p>{t("header.settingss")}</p>
+                  </div>
+                  <div
+                    className={header.settings_moneda}
+                    onClick={() => clickSettings("moneda")}
+                  >
+                    <span>
+                      <svg
+                        viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                      >
+                        <path
+                          stroke="#000000"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="m14.5 10-.035-.139A2.457 2.457 0 0 0 12.082 8h-.522a1.841 1.841 0 0 0-.684 3.55l2.248.9A1.841 1.841 0 0 1 12.44 16h-.521a2.457 2.457 0 0 1-2.384-1.861L9.5 14M12 6v2m0 8v2m9-6a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                        />
+                      </svg>
+                    </span>
+                    <p>Moneda</p>
+                  </div>
+                </div>
+                <div className={header.settings_cnt_second}>
+                  <div className={header.settings_cnt_second_real}>
+                    <div className={header.languageCaja}>
+                      <div className={header.back_block}>
+                        <span onClick={backSettingsHome}>
+                          <svg
+                            fill="#000000"
+                            viewBox="0 0 32 32"
+                            data-name="Layer 2"
+                            id="Layer_2"
+                          >
+                            <title />
+                            <path d="M11.17,10.23a33.37,33.37,0,0,0-3.05,3.13c-.51.62-1.28,1.3-1.21,2.17s.81,1.24,1.35,1.76a16.3,16.3,0,0,1,2.57,3.17c.86,1.36,3,.11,2.16-1.26a21.06,21.06,0,0,0-1.82-2.48A16.16,16.16,0,0,0,10,15.52c-.22-.21-.86-1.14-.68-.49l-.13,1a17.85,17.85,0,0,1,3.72-4c1.19-1.08-.58-2.85-1.77-1.76Z" />
+                            <path d="M9.4,17a109.13,109.13,0,0,0,12.53-.1c1.59-.11,1.61-2.61,0-2.5a109.13,109.13,0,0,1-12.53.1c-1.61-.07-1.6,2.43,0,2.5Z" />
+                          </svg>
+                        </span>
+                      </div>
+                      <div className={header.languageCaja_input}>
+                        <input
+                          onFocus={() => focusInput("idioma")}
+                          onBlur={() => blurInput("idioma")}
+                        ></input>
+                        <span>
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke-width="1.5"
+                            stroke="white"
+                            aria-hidden="true"
+                            class="h-4"
+                          >
+                            <path
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
+                            ></path>
+                          </svg>
+                        </span>
+                      </div>
+                      <div className={header.sugerenciasLanguage}>
+                        <div>
+                          <span className={header.flagIcon}>
+                            <svg
+                              viewBox="0 0 36 36"
+                              aria-hidden="true"
+                              role="img"
+                              class="iconify iconify--twemoji"
+                              preserveAspectRatio="xMidYMid meet"
+                            >
+                              <path
+                                fill="#C60A1D"
+                                d="M36 27a4 4 0 0 1-4 4H4a4 4 0 0 1-4-4V9a4 4 0 0 1 4-4h28a4 4 0 0 1 4 4v18z"
+                              ></path>
+                              <path fill="#FFC400" d="M0 12h36v12H0z"></path>
+                              <path
+                                fill="#EA596E"
+                                d="M9 17v3a3 3 0 1 0 6 0v-3H9z"
+                              ></path>
+                              <path fill="#F4A2B2" d="M12 16h3v3h-3z"></path>
+                              <path fill="#DD2E44" d="M9 16h3v3H9z"></path>
+                              <ellipse
+                                fill="#EA596E"
+                                cx="12"
+                                cy="14.5"
+                                rx="3"
+                                ry="1.5"
+                              ></ellipse>
+                              <ellipse
+                                fill="#FFAC33"
+                                cx="12"
+                                cy="13.75"
+                                rx="3"
+                                ry=".75"
+                              ></ellipse>
+                              <path
+                                fill="#99AAB5"
+                                d="M7 16h1v7H7zm9 0h1v7h-1z"
+                              ></path>
+                              <path
+                                fill="#66757F"
+                                d="M6 22h3v1H6zm9 0h3v1h-3zm-8-7h1v1H7zm9 0h1v1h-1z"
+                              ></path>
+                            </svg>
+                          </span>
+                          <span className={header.countrieName}>Español</span>
+                        </div>
+                        <div>
+                          <span className={header.flagIcon}>
+                            <svg
+                              viewBox="0 0 36 36"
+                              aria-hidden="true"
+                              role="img"
+                              class="iconify iconify--twemoji"
+                              preserveAspectRatio="xMidYMid meet"
+                            >
+                              <path
+                                fill="#B22334"
+                                d="M35.445 7C34.752 5.809 33.477 5 32 5H18v2h17.445zM0 25h36v2H0zm18-8h18v2H18zm0-4h18v2H18zM0 21h36v2H0zm4 10h28c1.477 0 2.752-.809 3.445-2H.555c.693 1.191 1.968 2 3.445 2zM18 9h18v2H18z"
+                              ></path>
+                              <path
+                                fill="#EEE"
+                                d="M.068 27.679c.017.093.036.186.059.277c.026.101.058.198.092.296c.089.259.197.509.333.743L.555 29h34.89l.002-.004a4.22 4.22 0 0 0 .332-.741a3.75 3.75 0 0 0 .152-.576c.041-.22.069-.446.069-.679H0c0 .233.028.458.068.679zM0 23h36v2H0zm0-4v2h36v-2H18zm18-4h18v2H18zm0-4h18v2H18zM0 9zm.555-2l-.003.005L.555 7zM.128 8.044c.025-.102.06-.199.092-.297a3.78 3.78 0 0 0-.092.297zM18 9h18c0-.233-.028-.459-.069-.68a3.606 3.606 0 0 0-.153-.576A4.21 4.21 0 0 0 35.445 7H18v2z"
+                              ></path>
+                              <path
+                                fill="#3C3B6E"
+                                d="M18 5H4a4 4 0 0 0-4 4v10h18V5z"
+                              ></path>
+                              <path
+                                fill="#FFF"
+                                d="M2.001 7.726l.618.449l-.236.725L3 8.452l.618.448l-.236-.725L4 7.726h-.764L3 7l-.235.726zm2 2l.618.449l-.236.725l.617-.448l.618.448l-.236-.725L6 9.726h-.764L5 9l-.235.726zm4 0l.618.449l-.236.725l.617-.448l.618.448l-.236-.725l.618-.449h-.764L9 9l-.235.726zm4 0l.618.449l-.236.725l.617-.448l.618.448l-.236-.725l.618-.449h-.764L13 9l-.235.726zm-8 4l.618.449l-.236.725l.617-.448l.618.448l-.236-.725l.618-.449h-.764L5 13l-.235.726zm4 0l.618.449l-.236.725l.617-.448l.618.448l-.236-.725l.618-.449h-.764L9 13l-.235.726zm4 0l.618.449l-.236.725l.617-.448l.618.448l-.236-.725l.618-.449h-.764L13 13l-.235.726zm-6-6l.618.449l-.236.725L7 8.452l.618.448l-.236-.725L8 7.726h-.764L7 7l-.235.726zm4 0l.618.449l-.236.725l.617-.448l.618.448l-.236-.725l.618-.449h-.764L11 7l-.235.726zm4 0l.618.449l-.236.725l.617-.448l.618.448l-.236-.725l.618-.449h-.764L15 7l-.235.726zm-12 4l.618.449l-.236.725l.617-.448l.618.448l-.236-.725l.618-.449h-.764L3 11l-.235.726zM6.383 12.9L7 12.452l.618.448l-.236-.725l.618-.449h-.764L7 11l-.235.726h-.764l.618.449zm3.618-1.174l.618.449l-.236.725l.617-.448l.618.448l-.236-.725l.618-.449h-.764L11 11l-.235.726zm4 0l.618.449l-.236.725l.617-.448l.618.448l-.236-.725l.618-.449h-.764L15 11l-.235.726zm-12 4l.618.449l-.236.725l.617-.448l.618.448l-.236-.725l.618-.449h-.764L3 15l-.235.726zM6.383 16.9L7 16.452l.618.448l-.236-.725l.618-.449h-.764L7 15l-.235.726h-.764l.618.449zm3.618-1.174l.618.449l-.236.725l.617-.448l.618.448l-.236-.725l.618-.449h-.764L11 15l-.235.726zm4 0l.618.449l-.236.725l.617-.448l.618.448l-.236-.725l.618-.449h-.764L15 15l-.235.726z"
+                              ></path>
+                            </svg>
+                          </span>
+                          <span className={header.countrieName}> ingles</span>
+                        </div>
+                        <div>
+                          <span className={header.flagIcon}>
+                            <svg
+                              viewBox="0 0 36 36"
+                              aria-hidden="true"
+                              role="img"
+                              class="iconify iconify--twemoji"
+                              preserveAspectRatio="xMidYMid meet"
+                            >
+                              <path
+                                fill="#ED2939"
+                                d="M36 27a4 4 0 0 1-4 4h-8V5h8a4 4 0 0 1 4 4v18z"
+                              ></path>
+                              <path
+                                fill="#002495"
+                                d="M4 5a4 4 0 0 0-4 4v18a4 4 0 0 0 4 4h8V5H4z"
+                              ></path>
+                              <path fill="#EEE" d="M12 5h12v26H12z"></path>
+                            </svg>
+                          </span>
+                          <span className={header.countrieName}>frances</span>
+                        </div>
+                        <div>
+                          <span className={header.flagIcon}>
+                            <svg
+                              viewBox="0 0 36 36"
+                              xmlns="http://www.w3.org/2000/svg"
+                              aria-hidden="true"
+                              role="img"
+                              class="iconify iconify--twemoji"
+                              preserveAspectRatio="xMidYMid meet"
+                            >
+                              <path
+                                fill="#FFCD05"
+                                d="M0 27a4 4 0 0 0 4 4h28a4 4 0 0 0 4-4v-4H0v4z"
+                              ></path>
+                              <path fill="#ED1F24" d="M0 14h36v9H0z"></path>
+                              <path
+                                fill="#141414"
+                                d="M32 5H4a4 4 0 0 0-4 4v5h36V9a4 4 0 0 0-4-4z"
+                              ></path>
+                            </svg>
+                          </span>
+                          <span className={header.countrieName}>Aleman</span>
+                        </div>
+                        <div>
+                          <span className={header.flagIcon}>
+                            <svg
+                              viewBox="0 0 36 36"
+                              aria-hidden="true"
+                              role="img"
+                              class="iconify iconify--twemoji"
+                              preserveAspectRatio="xMidYMid meet"
+                            >
+                              <path
+                                fill="#138808"
+                                d="M0 27a4 4 0 0 0 4 4h28a4 4 0 0 0 4-4v-4H0v4z"
+                              ></path>
+                              <path fill="#EEE" d="M0 13h36v10H0z"></path>
+                              <path
+                                fill="#F93"
+                                d="M36 13V9a4 4 0 0 0-4-4H4a4 4 0 0 0-4 4v4h36z"
+                              ></path>
+                              <circle
+                                fill="navy"
+                                cx="18"
+                                cy="18"
+                                r="4"
+                              ></circle>
+                              <circle
+                                fill="#EEE"
+                                cx="18"
+                                cy="18"
+                                r="3"
+                              ></circle>
+                              <path
+                                fill="#6666B3"
+                                d="M18 15l.146 2.264l1.001-2.035l-.73 2.147l1.704-1.498l-1.497 1.705l2.147-.731l-2.035 1.002L21 18l-2.264.146l2.035 1.001l-2.147-.73l1.497 1.704l-1.704-1.497l.73 2.147l-1.001-2.035L18 21l-.146-2.264l-1.002 2.035l.731-2.147l-1.705 1.497l1.498-1.704l-2.147.73l2.035-1.001L15 18l2.264-.146l-2.035-1.002l2.147.731l-1.498-1.705l1.705 1.498l-.731-2.147l1.002 2.035z"
+                              ></path>
+                              <circle
+                                fill="navy"
+                                cx="18"
+                                cy="18"
+                                r="1"
+                              ></circle>
+                            </svg>
+                          </span>
+                          <span className={header.countrieName}>indio</span>
+                        </div>
+                        <div>
+                          <span className={header.flagIcon}>
+                            <svg
+                              viewBox="0 0 36 36"
+                              aria-hidden="true"
+                              role="img"
+                              class="iconify iconify--twemoji"
+                              preserveAspectRatio="xMidYMid meet"
+                            >
+                              <path
+                                fill="#CE2028"
+                                d="M36 27a4 4 0 0 1-4 4H4a4 4 0 0 1-4-4v-4h36v4z"
+                              ></path>
+                              <path fill="#22408C" d="M0 13h36v10H0z"></path>
+                              <path
+                                fill="#EEE"
+                                d="M32 5H4a4 4 0 0 0-4 4v4h36V9a4 4 0 0 0-4-4z"
+                              ></path>
+                            </svg>
+                          </span>
+                          <span className={header.countrieName}>ruso</span>
+                        </div>
+                        <div>
+                          <span className={header.flagIcon}>
+                            <svg
+                              viewBox="0 0 36 36"
+                              aria-hidden="true"
+                              role="img"
+                              class="iconify iconify--twemoji"
+                              preserveAspectRatio="xMidYMid meet"
+                            >
+                              <path
+                                fill="#060"
+                                d="M36 27a4 4 0 0 1-4 4H4a4 4 0 0 1-4-4V9a4 4 0 0 1 4-4h28a4 4 0 0 1 4 4v18z"
+                              ></path>
+                              <path
+                                fill="#D52B1E"
+                                d="M32 5H15v26h17a4 4 0 0 0 4-4V9a4 4 0 0 0-4-4z"
+                              ></path>
+                              <path
+                                fill="#FFCC4D"
+                                d="M15 10a8 8 0 0 0-8 8a8 8 0 1 0 16 0a8 8 0 0 0-8-8zm-6.113 4.594l1.602 1.602l-2.46 1.23a6.95 6.95 0 0 1 .858-2.832zm-.858 3.979l4.4 2.207l-2.706 1.804l.014.021a6.963 6.963 0 0 1-1.708-4.032zM14 24.92a6.945 6.945 0 0 1-2.592-.92H14v.92zM14 23h-3.099L14 20.934V23zm0-3.268l-.607.405L9.118 18l2.116-1.058L14 19.707v.025zm0-1.439l-3.543-3.543l3.543.59v2.953zm0-3.992l-4.432-.713A6.983 6.983 0 0 1 14 11.08v3.221zm7.113.293a6.95 6.95 0 0 1 .858 2.833l-2.46-1.23l1.602-1.603zM16 11.08a6.987 6.987 0 0 1 4.432 2.508L16 14.301V11.08zm0 4.26l3.543-.591L16 18.293V15.34zm0 4.367l2.765-2.765L20.882 18l-4.274 2.137l-.608-.405v-.025zm0 5.213V24h2.592a6.945 6.945 0 0 1-2.592.92zM16 23v-2.066L19.099 23H16zm4.264-.395l.014-.021l-2.706-1.804l4.4-2.207a6.976 6.976 0 0 1-1.708 4.032z"
+                              ></path>
+                              <path
+                                fill="#D52B1E"
+                                d="M11 13v7a4 4 0 0 0 8 0v-7h-8z"
+                              ></path>
+                              <path
+                                fill="#FFF"
+                                d="M12 14v6a3 3 0 0 0 6 0v-6h-6z"
+                              ></path>
+                              <path fill="#829ACD" d="M13 17h4v2h-4z"></path>
+                              <path fill="#829ACD" d="M14 16h2v4h-2z"></path>
+                              <path
+                                fill="#039"
+                                d="M12 17h1v2h-1zm2 0h2v2h-2zm3 0h1v2h-1zm-3 3h2v2h-2zm0-6h2v2h-2z"
+                              ></path>
+                            </svg>
+                          </span>
+                          <span className={header.countrieName}>
+                            portugues
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                    <div className={header.monedaCaja}>
+                      <div className={header.back_block}>
+                        <span onClick={backSettingsHome}>
+                          <svg
+                            fill="#000000"
+                            viewBox="0 0 32 32"
+                            data-name="Layer 2"
+                            id="Layer_2"
+                          >
+                            <title />
+                            <path d="M11.17,10.23a33.37,33.37,0,0,0-3.05,3.13c-.51.62-1.28,1.3-1.21,2.17s.81,1.24,1.35,1.76a16.3,16.3,0,0,1,2.57,3.17c.86,1.36,3,.11,2.16-1.26a21.06,21.06,0,0,0-1.82-2.48A16.16,16.16,0,0,0,10,15.52c-.22-.21-.86-1.14-.68-.49l-.13,1a17.85,17.85,0,0,1,3.72-4c1.19-1.08-.58-2.85-1.77-1.76Z" />
+                            <path d="M9.4,17a109.13,109.13,0,0,0,12.53-.1c1.59-.11,1.61-2.61,0-2.5a109.13,109.13,0,0,1-12.53.1c-1.61-.07-1.6,2.43,0,2.5Z" />
+                          </svg>
+                        </span>
+                      </div>
+                      <div className={header.monedaCaja_input}>
+                        <input placeholder="moneda"></input>
+                        <span>
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke-width="1.5"
+                            stroke="white"
+                            aria-hidden="true"
+                            class="h-4"
+                          >
+                            <path
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
+                            ></path>
+                          </svg>
+                        </span>
+                      </div>
+                      <div className={header.listaMonedas}>
+                        <div>
+                          <span>USD</span>
+                          <span> (Dólar estadounidense)</span>
+                        </div>
+                        <div>
+                          <span>EUR</span>
+                          <span> (Euro)</span>
+                        </div>
+                        <div>
+                          <span>JPY</span>
+                          <span> (Yen japonés)</span>
+                        </div>
+                        <div>
+                          <span>GBP</span>
+                          <span> (Libra esterlina)</span>
+                        </div>
+                        <div>
+                          <span>AUD</span>
+                          <span> (Dólar australiano)</span>
+                        </div>
+                        <div>
+                          <span>CAD</span>
+                          <span> (Dólar canadiense)</span>
+                        </div>
+                        <div>
+                          <span>CHF</span>
+                          <span> (Franco suizo)</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
-              {conteoCar > 0 ? (
-                <span className={header.carritoConteo}>{conteoCar}</span>
-              ) : (
-                ""
-              )}
             </div>
           </div>
+          <div className={header.registrarse}>
+            <svg width="30px" height="30px" viewBox="0 0 24 24">
+              <path
+                d="M5 21C5 17.134 8.13401 14 12 14C15.866 14 19 17.134 19 21M16 7C16 9.20914 14.2091 11 12 11C9.79086 11 8 9.20914 8 7C8 4.79086 9.79086 3 12 3C14.2091 3 16 4.79086 16 7Z"
+                stroke="white"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </div>
+          <div onClick={clickMostrarCarrito} className={header.carritoBoton}>
+            <div className={header.carritoImagen}>
+              <img src="/carrito.svg" />
+            </div>
+            {conteoCar > 0 ? (
+              <span className={header.carritoConteo}>{conteoCar}</span>
+            ) : (
+              ""
+            )}
+          </div>
         </div>
-
-        {mostrarCarrito ? <CarritoPage></CarritoPage> : ""}
-        {mostrarMenu ? <MenuPage></MenuPage> : ""}
-        {mostrarLogin ? <Login></Login> : ""}
-        {mostrarSettings ? <SettingsMobile></SettingsMobile> : ""}
-        {cookieModal ? <CookieModal></CookieModal> : ""}
       </div>
-    </ContextHeader.Provider>
-  );
+
+      {mostrarCarrito ? <CarritoPage></CarritoPage> : ""}
+      {mostrarMenu ? <MenuPage></MenuPage> : ""}
+      {mostrarLogin ? <Login></Login> : ""}
+      {mostrarSettings ? <SettingsMobile></SettingsMobile> : ""}
+      {cookieModal ? <CookieModal></CookieModal> : ""}
+    </div>
+  </ContextHeader.Provider>
+);
 }

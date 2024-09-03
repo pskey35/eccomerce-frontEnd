@@ -925,6 +925,13 @@
   backdrop-filter: blur(1px);
   border: 1px solid rgba(255, 255, 255, 0.726);
   box-shadow: 0 0 3px 0.2px red;
+  display:grid;
+  place-items:center;
+
+  svg{
+    fill:white;
+    stroke:white;
+  }
 }
 
 .producto_left .cajaImagen .ekis .boton img {
@@ -1440,9 +1447,9 @@
   right: 10px;
   background: white;
   border: 2px solid rgba(128, 128, 128, 0.377);
-  width: 390px;
+  width: 435px;
   border-radius: 10px;
-  height: 180px;
+  height: 230px;
   display: flex;
   padding: 7px 10px;
   flex-direction: column;
