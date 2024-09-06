@@ -962,9 +962,9 @@ function SettingsMobile() {
               ref={refIdiomaCmptd}
             >
               <div className={header.inputSettings_autoCmptd_content}>
-                {listaIdiomas.map((dataUnidad) => {
+                {listaIdiomas.map((dataUnidad,index) => {
                   return (
-                    <div className={header.autoCmptd_item}>{dataUnidad}</div>
+                    <div className={header.autoCmptd_item} key={index}>{dataUnidad}</div>
                   );
                 })}
               </div>
