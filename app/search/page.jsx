@@ -239,7 +239,7 @@ function CajaLeftMobile() {
     lista.style.visibility = "visible";
     lista.style.opacity = "1";
     lista.style.transform = "translateY(105%)";
-    lista.style.height = "200px";
+    lista.style.height = "230px";
 
     //este icono de aqui es la flecha del input en mobiles se gira
     const iconoAbajo = document.querySelector("#iconoAbajo1");
@@ -569,7 +569,7 @@ function CajaRightMobile() {
     lista.style.visibility = "visible";
     lista.style.opacity = "1";
     lista.style.transform = "translateY(105%)";
-    lista.style.height = "80px";
+    lista.style.height = "99px";
 
     const iconoAbajo = document.querySelector("#iconoAbajo2");
     iconoAbajo.style.transform = "rotate(-180deg)";

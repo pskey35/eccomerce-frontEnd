@@ -108,7 +108,7 @@ export function Input() {
         router.push(`/search?q=${valorRecortado}`);
       }
 
-      //aqui usaremos fetch para mostrar sugerencias hay una tecnica llamada bounce usar eso
+      //aqui usaremos fetch para mostrar sugerencias hay una tecnica llamada debounce usar eso
       const query = `query{giveSugerenciasInput(textoSearch:"${valorRecortado}"){
         nombre_producto
       }}`;
