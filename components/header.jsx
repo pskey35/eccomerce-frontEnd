@@ -997,9 +997,9 @@ function SettingsMobile() {
               ref={refMonedaAutoCmptd}
             >
               <div className={header.inputSettings_autoCmptd_content}>
-                {listaIdiomas.map((dataUnidad) => {
+                {listaIdiomas.map((dataUnidad,index) => {
                   return (
-                    <div className={header.autoCmptd_item}>{dataUnidad}</div>
+                    <div key={index} className={header.autoCmptd_item}>{dataUnidad}</div>
                   );
                 })}
               </div>
