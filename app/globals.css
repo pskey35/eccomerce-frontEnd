@@ -1,10 +1,16 @@
+@font-face {
+  font-family: Alexandria;
+  src: url("/fonts/Alexandria.ttf");
+}
+
+
 *{
   padding:0;
   margin:0;
   box-sizing:border-box;
   outline:none;
   border:none;
-  font-family: monospace;
+  font-family:Alexandria;
 }
 
 
@@ -50,4 +56,16 @@ html,body,.globals{
 ::selection{
   background:rgb(0, 163, 238);
   color:rgb(250, 250, 250);
+}
+
+
+
+
+
+
+/*apartir de aqui no usare css modules*/
+.shipping_address{
+  max-width: 65%;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }

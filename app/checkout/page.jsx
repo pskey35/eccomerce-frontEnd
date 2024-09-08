@@ -176,7 +176,7 @@ function ProductoCar({data}){
     <div className={checkout.producto}>
       <div className={checkout.producto_content}>
         <div className={checkout.image}>
-          <img src={`/${data.imgUrl_first}`}></img>
+          <img src={`${data.imgUrl_first}`}></img>
           <div className={checkout.cantidad}>{data.cantidadProducto}</div>
         </div>
         <div className={checkout.productoRight}>

@@ -589,7 +589,7 @@ function Right() {
     cajaLista.style.animation = `${page.salidaCategorias} 200ms ease forwards`;
 
     setCategoriaSeleccionado(categoriaName);
-    console.clear();
+   // console.clear();
     //si selecciona algo eliminamos en caso de que haya escrito en crear nueva categoria
     createNewCategoriaRef.current.value = "";
   };

@@ -82,9 +82,9 @@ function ProductoLeft() {
     return (
         <div className={page.left}>
             <div className={page.contenidoImagen}>
-                <img src={`/${dataProducto.allImgs[0].imagenUrl}`} className={page.fondoImagen}></img>
+                <img src={`${dataProducto.allImgs[0].imagenUrl}`} className={page.fondoImagen}></img>
                 <div className={page.imagen}>
-                    <img src={`/${dataProducto.allImgs[0].imagenUrl}`}></img>
+                    <img src={`${dataProducto.allImgs[0].imagenUrl}`}></img>
                 </div>
                 {dataProducto.allImgs.length == 1
                     ? "" :
@@ -109,7 +109,7 @@ function ProductoLeft() {
                         {dataProducto.allImgs.map((dataUnidad, indice) => {
                             return (
                                 <div className={page.itemImagen} key={indice} onClick={() => clickItemImagen(indice + 1)}>
-                                    <img src={`/${dataUnidad.imagenUrl}`}></img>
+                                    <img src={`${dataUnidad.imagenUrl}`}></img>
                                 </div>
                             )
                         })}
@@ -316,16 +316,16 @@ function ProductoRight() {
 function ProductosRelacionados() {
     const [productosRelacionados, setProductosRelacionados] = useState([])
     const { dataProducto } = useContext(ContextProduct)
-    const [loaderProductos,setLoaderProductos] = useState(false)
+    const [loaderProductos, setLoaderProductos] = useState(false)
 
-    const [numeroDePagina,setNumeroDePagina] = useState(1)
+    const [numeroDePagina, setNumeroDePagina] = useState(1)
 
-    
+
     let newNumeroDePagina = numeroDePagina
-    
-    const loadMoreProductos = async (entrada) =>{
-        if(entrada[0].isIntersecting){
-            
+
+    const loadMoreProductos = async (entrada) => {
+        if (entrada[0].isIntersecting) {
+
             //setLoaderProductos(true)
             newNumeroDePagina++
             const detect = document.querySelector(`.${page.detect}`)
@@ -343,40 +343,40 @@ function ProductosRelacionados() {
             }
         }`
 
-      
-            const peticion1 = await fetch(`${process.env.NEXT_PUBLIC_api}/graphql`,{
-                method:"POST",
-                headers:{
-                    "Content-type":"application/json"
+
+            const peticion1 = await fetch(`${process.env.NEXT_PUBLIC_api}/graphql`, {
+                method: "POST",
+                headers: {
+                    "Content-type": "application/json"
                 },
-                body:JSON.stringify({query:query1})
+                body: JSON.stringify({ query: query1 })
             })
 
             const resu1 = await peticion1.json()
-       
+
             console.log("*********")
             console.log(resu1)
-            setProductosRelacionados(prevState=>[...prevState, ...resu1.data.getProducts])
-           setLoaderProductos(false)
-            
+            setProductosRelacionados(prevState => [...prevState, ...resu1.data.getProducts])
+            setLoaderProductos(false)
+
             //si ya no encuentra nada entonces borramos todo el observer
-            if(resu1.data.getProducts.length == 0){
+            if (resu1.data.getProducts.length == 0) {
                 console.log("deleting allx d")
                 observador.unobserve(detect)
-            }else{
+            } else {
                 setNumeroDePagina(newNumeroDePagina)
                 funcionObservador()
             }
         }
     }
 
-    const observador = new IntersectionObserver(loadMoreProductos,{
-        root:null,
-        rootMargin:"0px 0px -10% 0px",
-        threshold:0
+    const observador = new IntersectionObserver(loadMoreProductos, {
+        root: null,
+        rootMargin: "0px 0px -10% 0px",
+        threshold: 0
     })
 
-    const funcionObservador = ()=>{
+    const funcionObservador = () => {
         const detect = document.querySelector(`.${page.detect}`)
         observador.observe(detect)
     }
@@ -406,7 +406,7 @@ function ProductosRelacionados() {
                 console.log("/*/---")
                 console.log(e)
                 setProductosRelacionados(e.data.getProducts)
-                console.clear()
+                // console.clear()
                 //cada vez que detecte que llego hasta abajo se hara mas peticiones
                 funcionObservador()
             })
@@ -414,20 +414,21 @@ function ProductosRelacionados() {
 
     return (
         <div className={page.relacionado}>
-            <h1>Productos relacionados</h1>
+            { /*<h1>Productos relacionados</h1>*/}
+            <h1>Otros productos</h1>
             <div className={page.relacionado_content}>
                 {productosRelacionados && productosRelacionados.map((dataUnidad, indice) => {
                     return (
-                        <div className={page.productoRelacionadoItem} key={`${dataUnidad.idProducto}-item`}>
-                            <ProductoItem key={dataUnidad.idProducto} data={dataUnidad}></ProductoItem>
-                        </div>
+
+                        <ProductoItem key={dataUnidad.idProducto} data={dataUnidad}></ProductoItem>
+
                     )
                 })}
                 <div className={page.detect}></div>
                 {
                     loaderProductos && (loaderProductos ? <div className={page.loader}></div> : "")
                 }
-                
+
             </div>
         </div>
     )

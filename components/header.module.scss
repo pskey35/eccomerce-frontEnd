@@ -228,6 +228,7 @@
   visibility: hidden;
   opacity: 0;
 
+
   .settings_content_real {
     text-align: center;
     cursor: pointer;
@@ -490,6 +491,8 @@
 
           .listaMonedas {
             width: 100%;
+            max-height: 72%;
+            overflow: auto;
 
             & > div {
               text-align: center;
@@ -922,6 +925,13 @@
   backdrop-filter: blur(1px);
   border: 1px solid rgba(255, 255, 255, 0.726);
   box-shadow: 0 0 3px 0.2px red;
+  display:grid;
+  place-items:center;
+
+  svg{
+    fill:white;
+    stroke:white;
+  }
 }
 
 .producto_left .cajaImagen .ekis .boton img {
@@ -1437,9 +1447,9 @@
   right: 10px;
   background: white;
   border: 2px solid rgba(128, 128, 128, 0.377);
-  width: 390px;
+  width: 435px;
   border-radius: 10px;
-  height: 180px;
+  height: 230px;
   display: flex;
   padding: 7px 10px;
   flex-direction: column;
@@ -1552,7 +1562,7 @@
   }
   @media (max-width: 900px) {
     width: 100%;
-    height: 50%;
+    height: 65%;
     border-radius: 20px 20px 0 0;
     bottom: 0;
     right: 0;
@@ -1560,5 +1570,21 @@
   }
 
   @keyframes entradaCookie {
+  }
+}
+
+
+
+
+@keyframes closeCookies{
+  from{
+    transform:scale(1);
+    opacity:1;
+   
+  }
+
+  to{
+   transform:scale(.7);
+   opacity:0;
   }
 }
