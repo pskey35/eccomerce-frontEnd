@@ -1447,7 +1447,7 @@ return (
                 <img src="/logo.avif" />
               </div>
               {/*aqui pondre LN store pero de momento DIGITAL SPACE*/}
-              <span className={header.nombreTienda}>DIGITAL SPACE</span>
+              <span className={header.nombreTienda}>Leaft</span>
             </div>
           </Link>
           <ul className={header.lista}>
@@ -1509,7 +1509,7 @@ return (
                         />
                       </svg>
                     </span>
-                    <p>{t("header.settingss")}</p>
+                    <p>{t("header.settings")}</p>
                   </div>
                   <div
                     className={header.settings_moneda}

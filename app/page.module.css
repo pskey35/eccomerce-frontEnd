@@ -38,7 +38,7 @@
 .ventana .productoBloque .productoContainer {
   display: grid;
   grid-template-columns: repeat(5, minmax(0px, 1fr));
-  grid-template-rows: repeat(2, minmax(400px, 1fr));
+  grid-template-rows: repeat(2, 520px);
   grid-gap: 16px;
   max-width: 1500px;
   width:100%;
