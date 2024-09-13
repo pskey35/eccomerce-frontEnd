@@ -21,7 +21,7 @@ export default function Footer() {
               <div className={footer.image}>
                 <img src="/parrot.jpg"></img>
               </div>
-              <div style={{marginLeft:"10px"}}>DIGITAL SPACE</div>
+              <div style={{marginLeft:"10px"}}>Leaft</div>
               </div>
             </div>
             <div className={footer.other}>
@@ -69,7 +69,7 @@ export default function Footer() {
             {/*contactanos falta agregar eso*/}
           </div>
           <div className={footer.second}>
-            <div style={{color:"gray"}}>© 2023 SPACE DIGITAL</div>
+            <div style={{color:"gray"}}>© 2023 Leaft</div>
             <div style={{color:"#6c84ff"}}>Created by Jayme_Ln</div>
           </div>
         </div>
