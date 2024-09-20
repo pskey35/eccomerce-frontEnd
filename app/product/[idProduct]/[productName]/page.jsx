@@ -592,7 +592,8 @@ export default function Producto(props) {
 
         if (!queryParams) {
             //si no tiene ninguna query entra aqui
-            setPrincipalImage(0)
+            router.push(`/product/${idProduct}/${productName}?indiceImg=${1}`)
+           // setPrincipalImage(0)
             //  alert("!queryparamas")
             return;
         } else if (isNaN(queryParams) || queryParams <= 0) {
