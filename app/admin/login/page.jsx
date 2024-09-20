@@ -59,7 +59,7 @@ export default function App() {
                     </div>
                     <div className={page.right}>
                         <div className={page.right_content}>
-                            <h1>Space Digital</h1>
+                            <h1>Leaft</h1>
                             <div className={page.logo}>
                                 <img src="/parrot.jpg"></img>
                             </div>

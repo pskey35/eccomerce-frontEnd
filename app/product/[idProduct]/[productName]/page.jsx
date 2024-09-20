@@ -63,39 +63,122 @@ function Relacionados() {
 //no puedo dormir si tu te vas song .....Youtube
 
 function ProductoLeft() {
-    const { dataProducto, idProduct, productName } = useContext(ContextProduct)
+    const { dataProducto, idProduct, productName, principalImage, setPrincipalImage, queryParams } = useContext(ContextProduct)
 
     const router = useRouter()
 
+
+
+    const [indiceImg, setIndiceImg] = useState()
+
+    useEffect(() => {
+        const params = new URLSearchParams(window.location.search);
+        let imgIndex = parseInt(params.get('indiceImg'))
+        setIndiceImg(imgIndex)
+    }, [])
+
     const clickItemImagen = (indiceRecibido) => {
-        const url = `product/${productName}?indiceImg=${indiceRecibido}/${idProduct}`
+        //const url = `product/${productName}?indiceImg=${indiceRecibido}/${idProduct}`
         //  alert(`/product/${productName}?indiceImg=${indiceRecibido}/${idProduct}`)
         //   router.push(`/product/${productName}?indiceImg=${indiceRecibido}%2F${idProduct}`)
         // router.push(`/product/${productName}${ind}/${idProduct}`)
         // router.push(`/product/hola?games=1`)
         router.push(`/product/${idProduct}/${productName}?indiceImg=${indiceRecibido}`)
 
-        console.log("wazaaa......")
-        //  const decodificado = decodeURIComponent(props.params.usuario);
+        //console.clear()
+        //  console.log(indiceRecibido)
+        //alert(indiceRecibido)
+        setPrincipalImage(indiceRecibido - 1)
+
+
+
     }
+
+
+
+
+    const clickFlechaNextImage = (event) => {
+
+
+        const product_flechaPrev = document.querySelector(".product_flechaPrev")
+        product_flechaPrev.style.cssText = "opacity:1;cursor:pointer;"
+
+        if (queryParams == dataProducto.allImgs.length) {
+            event.preventDefault()
+            return;
+        }
+
+        setPrincipalImage(prevState => {
+            // console.clear()
+            console.log("NEXTTT")
+            console.log("dataProducto.length", dataProducto.allImgs.length)
+            console.log("prevState", prevState)
+            console.log("queryParams", queryParams)
+            if (queryParams >= dataProducto.allImgs.length || prevState == undefined) {
+
+                const product_flechaNext = document.querySelector(".product_flechaNext")
+                //  product_flechaNext.style.cssText = "opacity:0.2;cursor:not-allowed"
+                return;
+            }
+            router.push(`/product/${idProduct}/${productName}?indiceImg=${prevState + 2}`)
+            return prevState + 1
+
+        })
+
+
+
+    }
+
+
+
+    const clickFlechaPrevImage = () => {
+        const product_flechaNext = document.querySelector(".product_flechaNext")
+        product_flechaNext.style.cssText = "opacity:1;cursor:pointer;"
+        setPrincipalImage(prevState => {
+            //console.clear()
+            console.log("PREVVV")
+            console.log(prevState)
+            if (prevState <= 0 || prevState == undefined) {
+
+                const product_flechaPrev = document.querySelector(".product_flechaPrev")
+                product_flechaPrev.style.cssText = "opacity:.2;cursor:not-allowed"
+                return;
+            }
+            router.push(`/product/${idProduct}/${productName}?indiceImg=${prevState}`)
+            return prevState - 1
+        })
+    }
+
+
+
+
+
+
 
     return (
         <div className={page.left}>
             <div className={page.contenidoImagen}>
-                <img src={`${dataProducto.allImgs[0].imagenUrl}`} className={page.fondoImagen}></img>
+                <img src={`${dataProducto.allImgs[principalImage == undefined ? 0 : principalImage].imagenUrl}`} className={page.fondoImagen}></img>
+
                 <div className={page.imagen}>
-                    <img src={`${dataProducto.allImgs[0].imagenUrl}`}></img>
+
+
+                    <img src={`${dataProducto.allImgs[principalImage == undefined ? 0 : principalImage].imagenUrl}`}></img>
+
+
+
+
                 </div>
                 {dataProducto.allImgs.length == 1
                     ? "" :
                     (
                         <div className={page.flechas}>
                             <div className={page.flechas_content}>
-                                <div>
+                                <div onClick={clickFlechaPrevImage} className="product_flechaPrev">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" class="h-5"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"></path></svg>
                                 </div>
                                 <span className={page.linea}></span>
-                                <div>
+                                <div onClick={clickFlechaNextImage} className="product_flechaNext">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" class="h-5"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"></path></svg>
                                 </div>
                             </div>
@@ -107,8 +190,11 @@ function ProductoLeft() {
                 (<div className={page.otherImages}>
                     <div className={page.otherImages_content}>
                         {dataProducto.allImgs.map((dataUnidad, indice) => {
+                            console.log("444444444444444444444444")
+                            console.log(queryParams)
+                            console.log(queryParams, indice + 1)
                             return (
-                                <div className={page.itemImagen} key={indice} onClick={() => clickItemImagen(indice + 1)}>
+                                <div className={`${page.itemImagen} ${queryParams - 1 === indice ? page.selected : ""}`} key={indice} onClick={() => clickItemImagen(indice + 1, dataUnidad.imagenUrl)}>
                                     <img src={`${dataUnidad.imagenUrl}`}></img>
                                 </div>
                             )
@@ -451,6 +537,18 @@ export default function Producto(props) {
     //esto lo usare para redirigir en clickItemImagenes usar query y poner /idProductName?imgIndice=1/idProduct
     const productName = decodeURIComponent(props.params.productName)
 
+    //este router es para redirigir en next js
+    const router = useRouter()
+
+
+    //este queryParams en si seria solo el ?indiceImg=2     necesito en si para poder cambiar de imagen con useEffect 
+    const queryParams = props.searchParams.indiceImg
+
+
+    //este es para la imagen mas grande de product 
+    const [principalImage, setPrincipalImage] = useState(queryParams)
+
+
     //esto de productName lo usare solo para ponerlo en el context y poder hacer validaciones etc....
     const idProduct = props.params.idProduct
 
@@ -476,6 +574,7 @@ export default function Producto(props) {
         }).then(e => e.json())
             .then(e => {
                 console.log("@@@@@@")
+                console.log(e)
                 //dataProducto..allImgs[0].imagenUrl
                 console.log(e.data.giveInfoProducto)
                 if (e.data.giveInfoProducto.error == true) {
@@ -488,7 +587,72 @@ export default function Producto(props) {
     }, [])
 
 
-    const value = { dataProducto, idProduct, productName }
+    useEffect(() => {
+
+
+        if (!queryParams) {
+            //si no tiene ninguna query entra aqui
+            setPrincipalImage(0)
+            //  alert("!queryparamas")
+            return;
+        } else if (isNaN(queryParams) || queryParams <= 0) {
+            router.push(`/product/${idProduct}/${productName}?indiceImg=${1}`)
+            return;
+        }
+
+
+        //se resta -1 los arrays en js se inician desde el cero pero este queryParams en la url no se va a iniciar 
+        //desde 0 sino desde el 1 para mejorar la experiencia del usuario
+        //  alert(queryParams)
+        //alert(queryParams - 1)
+        setPrincipalImage(queryParams - 1)
+        // setPrincipalImage(queryParams + 1)
+
+        // setPrincipalImage(prevState => prev)
+
+
+
+        //si las imagenes del producto son como 4 asi 
+        //tiene que ser mayor de queryParams
+        //http://localhost:3000/product/BgT/real?indiceImg=1
+
+
+        if (loadingProducto == false) {
+            //esperamos a que loadingProducto termine de cargar para recien
+            //acceder a dichos elementos , caso contrario me salia error
+            if (queryParams == 1) {
+                //si en la url indiceImg es igual a 1 entonces entra aqui
+
+                const product_flechaNext = document.querySelector(".product_flechaNext")
+                product_flechaNext.style.cssText = "opacity:1, cursor:pointer"
+
+
+                const product_flechaPrev = document.querySelector(".product_flechaPrev")
+                product_flechaPrev.style.cssText = "opacity:0.2;cursor:not-allowed"
+                return;
+            } else if (queryParams == dataProducto?.allImgs?.length) {
+                //esto sirve para ver si en la url indiceImg es el ultimo imagen para pintar la flecha
+                const product_flechaPrev = document.querySelector(".product_flechaPrev")
+                product_flechaPrev.style.cssText = "opacity:1;cursor:pointer;"
+
+                const product_flechaNext = document.querySelector(".product_flechaNext")
+                product_flechaNext.style.cssText = "opacity:0.2;cursor:not-allowed"
+                return;
+            } else if (queryParams > dataProducto?.allImgs?.length || queryParams < dataProducto?.allImgs?.length || queryParams == 0) {
+                ///real?indiceImg=1 -- aqui el queryParams vendria a ser el uno
+                router.push(`/product/${idProduct}/${productName}?indiceImg=${1}`)
+
+            }
+
+
+        }
+
+    }, [queryParams, dataProducto, loadingProducto])
+
+
+
+
+    const value = { dataProducto, idProduct, productName, principalImage, setPrincipalImage, queryParams }
     return (
         <ContextProduct.Provider value={value}>
             {

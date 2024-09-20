@@ -708,3 +708,10 @@
     background-color:hsl(0, 0%, 44%)
   }
 }
+
+
+
+.selected{
+  border:3px solid rgb(0 132 255 / 84%) !important;
+}
+

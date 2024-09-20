@@ -339,7 +339,7 @@ function CajaCenter() {
       }
       // hacemos peticon a todos los productos como 6 por lo menos
       //aqui le puse 6 items de pagina por que creo que es lo mejor y puse 1 en numeroPagina porq es la primera pagina
-    setLoaderProductos(true);
+      setLoaderProductos(true);
       //tengo que lograr que no se sume el numero++ hasta que termine de el fetch
       // setNumeroDePagina(prev=>prev + 1)
 
@@ -390,6 +390,8 @@ function CajaCenter() {
       if (resu1.data.getProducts.length == 0) {
         console.log("borrando onserber para siempre");
         observador.unobserve(detect);
+        // setLoaderProductos(false);
+
       } else {
         //en caso de que si encuentre productos entra aqui
         setNumeroDePagina(newNumeroDePagina);
@@ -418,6 +420,7 @@ function CajaCenter() {
 
     //aqui cuando cambia y da en ver por categoria se tiene que limpiar
     setItemProductos([]);
+    setLoaderProductos(false)
     funcionObservador();
   }, [, textoBuscado, textoCategoria]);
 
@@ -439,7 +442,7 @@ function CajaCenter() {
         })}
         <div className={search.detect}></div>
       </div>
-      {itemProductos.length == 0 && loaderProductos == false? (
+      {itemProductos.length == 0 && loaderProductos == false ? (
         <div className={search.notFound}>
           Oh vaya...! no se encontraron resultados :/
         </div>
@@ -447,12 +450,12 @@ function CajaCenter() {
         ""
       )}
       {
-        (loaderProductos ? 
-        <span className={search.loader}></span> 
-        : "")}
+        (loaderProductos ?
+          <span className={search.loader}></span>
+          : "")}
 
 
-      {loaderProductos == false && itemProductos.length > 0 ?
+      {loaderProductos == false && itemProductos.length == 0 ?
         <div className={search.loadMore}>
           Cargar mas...
         </div>
@@ -492,10 +495,10 @@ function CajaRightPC() {
       <p>Ordenar por:</p>
       <ul>
         {/*relevancia - tendencias*/}
-        <li onClick={() => redirectSort("price-desc")}>
+        <li onClick={() => redirectSort("price-desc")} className={search.li_price_desc}>
           Precios: de menor a mayor
         </li>
-        <li onClick={() => redirectSort("price-asc")}>
+        <li onClick={() => redirectSort("price-asc")} className={search.li_price_asc}>
           Precios: de mayor a menor
         </li>
       </ul>
@@ -666,6 +669,11 @@ export default function App(props) {
   //esto obtiene la query "ctg=valor"
   let textoCategoria = props.searchParams?.ctg;
 
+
+  let textoOrder = props.searchParams?.sort
+
+
+
   //esto obtiene la quyer = "sort=valor"
   let sortType = props.searchParams?.sort;
 
@@ -753,6 +761,44 @@ export default function App(props) {
 
     funcionAsync();
   }, []);
+
+  useEffect(() => {
+
+
+    if (loading == false) {
+   
+      //aqui formateamos todo y luego recien agregamos color celeste al LI
+      
+       
+     
+      if (textoOrder == "price-asc") {
+        //si se da click en LI price-asc entonces que se borre lo sombreado de celeste
+        //el price-desc
+        const elementOrder = document.querySelector(`.${search.li_price_asc}`)
+        elementOrder.style.cssText = "background:rgb(37, 165, 255)"
+
+        console.log("click en asc")
+        const element  = document.querySelector(`.${search.li_price_desc}`)
+        element.style.background = "none"
+
+      } else if (textoOrder == "price-desc") {
+        const elementOrder = document.querySelector(`.${search.li_price_desc}`)
+        elementOrder.style.cssText = "background:rgb(37, 165, 255)"
+
+
+        const element  = document.querySelector(`.${search.li_price_asc}`)
+        element.style.background = "none"
+
+      }
+
+
+
+
+   
+
+    }
+
+  }, [textoOrder,loading])
 
   const value = {
     itemProductos,
