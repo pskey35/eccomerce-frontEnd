@@ -31,9 +31,9 @@ export function ProductoItem({ style }) {
 */
 
 function ContainerDeslizante() {
- 
-  const {itemProductosSlider,setItemProductosSlider} = useContext(ContextHome)
- 
+
+  const { itemProductosSlider, setItemProductosSlider } = useContext(ContextHome)
+
   let posicionScroll = 0
 
   //esto le puse 330 ..porq tiene 300 de width 15px en cada lado
@@ -45,8 +45,8 @@ function ContainerDeslizante() {
     );
 
     const posicionScroll_X = containerD_contentElement.scrollLeft;
-   
-    containerD_contentElement.scrollLeft = posicionScroll_X - pixeles_a_mover;
+    containerD_contentElement.scrollLeft = posicionScroll_X - pixeles_a_mover;;
+
 
   };
 
@@ -88,10 +88,69 @@ handleMediaQueryChange(mediaQuery);
   },[])
   */
 
+  /*const containerDeslizante_content = document.querySelector(`.${page.containerDeslizante_content}`)
+
   useEffect(()=>{
+    const containerDeslizante_content = document.querySelector(`.${page.containerDeslizante_content}`)
+    if(containerDeslizante_content.scrollLeft <= 0){
+      //ocultamos la flecha izquierda boton en caso no haya mas contenido
+
+      const arrow_left = document.querySelector(`.${page.leftArrow}`)
+      arrow_left.style.cssText = "visibility:hidden"
+    }
+  },[,containerDeslizante_content.scrollLeft])*/
+
+  useEffect(() => {
+    const containerDeslizante_content = document.querySelector(`.${page.containerDeslizante_content}`)
+
+    const arrow_left = document.querySelector(`.${page.leftArrow}`)
+    arrow_left.style.cssText = "visibility:hidden"
+    const handleScroll = () => {
+
+      const scrollRight = containerDeslizante_content.scrollWidth - containerDeslizante_content.clientWidth - containerDeslizante_content.scrollLeft;
+
+
+
+
+
+      console.log(scrollRight)
+      if (containerDeslizante_content.scrollLeft <= 0) {
+        //ocultamos la flecha izquierda boton en caso no haya mas contenido
+        const arrow_right = document.querySelector(`.${page.rightArrow}`)
+        arrow_right.style.cssText = "visibility:visible"
+
+        const arrow_left = document.querySelector(`.${page.leftArrow}`)
+        arrow_left.style.cssText = "visibility:hidden"
+      } else if (containerDeslizante_content.scrollLeft > 0) {
+        //mostramos el boton left en caso si haya
+        const arrow_left = document.querySelector(`.${page.leftArrow}`)
+        arrow_left.style.cssText = "visibility:visible"
+
+        const arrow_right = document.querySelector(`.${page.rightArrow}`)
+        arrow_right.style.cssText = "visibility:visible"
+
+      }
+
+
+      if (scrollRight == 0) {
+        const arrow_right = document.querySelector(`.${page.rightArrow}`)
+        arrow_right.style.cssText = "visibility:hidden"
+      }
+
+    }
+
+
+    containerDeslizante_content.addEventListener("scroll", handleScroll)
+
+    return () => {
+      containerDeslizante_content.removeEventListener("scroll", handleScroll)
+    }
+  }, [])
+
+  useEffect(() => {
     console.log("cuanto de length tiene itemProductosSlider")
     console.log(itemProductosSlider.length)
-  },[])
+  }, [])
   return (
     <div className={page.containerDeslizante}>
       {/*el leftSlide solo se mostrara si se hizo click en rightSlide*/}
@@ -124,7 +183,7 @@ handleMediaQueryChange(mediaQuery);
           itemProductosSlider.map((dataUnidad, indice) => {
             return (
               <div key={indice}>
-                <ProductoItem  data={dataUnidad}></ProductoItem>
+                <ProductoItem data={dataUnidad}></ProductoItem>
               </div>
             );
           })}
@@ -183,7 +242,7 @@ export function InputCaja() {
         .then((e) => e.json())
         .then((e) => {
           console.log(e);
-        }).catch((e)=>{
+        }).catch((e) => {
 
           alert("error")
         })
@@ -243,7 +302,7 @@ export default function App() {
   const [itemProductosGrid, setItemProductosGrid] = useState([]);
 
   //aqui se guardaran los productos del slider
-  const [itemProductosSlider,setItemProductosSlider] = useState([])
+  const [itemProductosSlider, setItemProductosSlider] = useState([])
 
   useEffect(() => {
     async function dataRecoleccion() {
@@ -267,14 +326,14 @@ export default function App() {
       const resu = await peticion.json();
 
 
-   
+
       //aqui tengo que hacer la peticion los 8 normalmente pero recortarlo a 3
       setItemProductosGrid(
-        resu.data.getProducts.filter((e,ind)=>ind < 3)
+        resu.data.getProducts.filter((e, ind) => ind < 3)
       )
- 
+
       setItemProductosSlider(
-        resu.data.getProducts.filter((e,ind)=>ind > 3)
+        resu.data.getProducts.filter((e, ind) => ind > 3)
       );
 
       console.log("cuanto de length tiene en prnicipal")
@@ -282,15 +341,15 @@ export default function App() {
 
 
       console.log("probando en seccion slider")
-      const prueba = resu.data.getProducts.filter((e,ind)=>ind > 3)
+      const prueba = resu.data.getProducts.filter((e, ind) => ind > 3)
       console.log(prueba)
     }
 
     dataRecoleccion();
   }, []);
 
-  const value = {itemProductosSlider,setItemProductosSlider}
- 
+  const value = { itemProductosSlider, setItemProductosSlider }
+
   return (
     <ContextHome.Provider value={value}>
       <div className={page.ventana}>
