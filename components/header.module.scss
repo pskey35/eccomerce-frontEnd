@@ -40,13 +40,13 @@
   color: white;
 }
 
-.inputChild > span {
+.inputChild>span {
   width: 20px;
   height: 20px;
   margin-right: 8px;
 }
 
-.inputChild > span img {
+.inputChild>span img {
   width: 100%;
   height: 100%;
 }
@@ -81,7 +81,8 @@
 }
 
 .sugerenciasInput::-webkit-scrollbar-thumb:hover {
-  background-color: #bdbdbd; /* Color del scroll al pasar el cursor */
+  background-color: #bdbdbd;
+  /* Color del scroll al pasar el cursor */
 }
 
 .sugerenciasInput .sugerenciasInput_content {
@@ -89,7 +90,7 @@
   height: 100%;
 }
 
-.sugerenciasInput_content > div {
+.sugerenciasInput_content>div {
   text-align: center;
   padding: 7px 0;
   transition: all 200ms ease;
@@ -97,7 +98,7 @@
   cursor: pointer;
 }
 
-.sugerenciasInput_content > div:hover {
+.sugerenciasInput_content>div:hover {
   background: rgb(51, 97, 197);
 }
 
@@ -325,7 +326,7 @@
             cursor: auto;
             padding: 5px 0 0 10px;
 
-            & > span {
+            &>span {
               width: 35px;
               height: 35px;
               background: rgb(65, 65, 65);
@@ -384,7 +385,7 @@
             width: 100%;
             height: 90%;
 
-            & > div {
+            &>div {
               text-align: center;
               padding: 10px 0;
               transition: all 120ms ease-in;
@@ -436,7 +437,7 @@
             cursor: auto;
             padding: 5px 0 0 10px;
 
-            & > span {
+            &>span {
               width: 35px;
               height: 35px;
               background: rgb(65, 65, 65);
@@ -456,6 +457,7 @@
               }
             }
           }
+
           .monedaCaja_input {
             display: flex;
             align-items: center;
@@ -494,7 +496,7 @@
             max-height: 72%;
             overflow: auto;
 
-            & > div {
+            &>div {
               text-align: center;
               padding: 10px 0;
               transition: all 120ms ease-in;
@@ -541,7 +543,7 @@
 }
 
 @media (max-width: 1020px) {
-  .headerLeft .perfilContainer > .nombreTienda {
+  .headerLeft .perfilContainer>.nombreTienda {
     display: none;
   }
 }
@@ -552,6 +554,7 @@
     display: flex;
     justify-content: flex-start;
   }
+
   .headerLeft .perfilContainer span {
     display: none;
   }
@@ -564,8 +567,7 @@
     margin-right: 5px;
   }
 
-  .headerPrincipal {
-  }
+  .headerPrincipal {}
 
   .headerPrincipal .center {
     display: none;
@@ -603,8 +605,7 @@
   width: 16px;
 }
 
-.carritoBoton .carritoImagen {
-}
+.carritoBoton .carritoImagen {}
 
 .carritoBoton .carritoConteo {
   position: absolute;
@@ -639,6 +640,7 @@
   background: none;
   display: flex;
 }
+
 @keyframes entradaCarrito {
   to {
     background: rgba(0, 0, 0, 0.2);
@@ -648,6 +650,7 @@
 .carritoPageSalida {
   animation: salidaCarrito 200ms ease forwards;
 }
+
 @keyframes salidaCarrito {
   to {
     background: rgba(0, 0, 0, 0);
@@ -656,9 +659,8 @@
 }
 
 .carritoPage .carritoLeft {
-  width: calc(
-    100% - 400px
-  ); /*aqui restamos menos 400px porque es lo que mide .carritoRight*/
+  width: calc(100% - 400px);
+  /*aqui restamos menos 400px porque es lo que mide .carritoRight*/
   height: 100%;
   animation: carritoLeftEntrada 1s ease forwards;
   background: none;
@@ -689,6 +691,7 @@
   backdrop-filter: blur(7px);
   overflow: auto;
 }
+
 @keyframes rightEntrada {
   to {
     transform: translateX(0%);
@@ -700,6 +703,7 @@
   transform: translateX(0%);
   opacity: 1;
 }
+
 @keyframes rightSalida {
   to {
     transform: translateX(100%);
@@ -733,6 +737,7 @@
   width: 22px;
   transition: all 100ms ease;
 }
+
 .carrito_first .botonEkis img {
   height: 100%;
   width: 100%;
@@ -748,17 +753,17 @@
   margin-top: 70px;
 }
 
-.carritoRight .carrito_vacio > div {
+.carritoRight .carrito_vacio>div {
   height: 63px;
   width: 63px;
 }
 
-.carritoRight .carrito_vacio > div > img {
+.carritoRight .carrito_vacio>div>img {
   width: 100%;
   height: 100%;
 }
 
-.carritoRight .carrito_vacio > p {
+.carritoRight .carrito_vacio>p {
   text-align: center;
   margin-top: 7px;
   color: rgb(214, 214, 214);
@@ -777,18 +782,19 @@
 
 /*------------cajaCompras-------------------*/
 .cajaCompras {
-  height: 92%; /*le puse 92% como aproximacion mas el padding que tiene .carritoRight y mas la altura de .carrito_first */
+  height: 92%;
+  /*le puse 92% como aproximacion mas el padding que tiene .carritoRight y mas la altura de .carrito_first */
   color: white;
 }
 
 .cajaCompras .caja {
-  height: 70%; /*le puse asi en aproximacion al .cajaCompras menos .detalles */
+  height: 70%;
+  /*le puse asi en aproximacion al .cajaCompras menos .detalles */
   max-height: 77.5%;
   overflow: auto;
 }
 
-.cajaCompras .otros {
-}
+.cajaCompras .otros {}
 
 .cajaCompras .otros .otros_caja {
   display: flex;
@@ -818,9 +824,8 @@
 /*-------producto--------*/
 .productoContainer {
   margin: 10px 0;
-  height: calc(
-    62px + 16px + 16px
-  ); /*el height es 62 mas padding de .producto +16px de arriba y padding de abajo seria 16*2*/
+  height: calc(62px + 16px + 16px);
+  /*el height es 62 mas padding de .producto +16px de arriba y padding de abajo seria 16*2*/
   transform: scale(1);
   opacity: 1;
   overflow: hidden;
@@ -852,7 +857,7 @@
   width: 16px;
 }
 
-.circles > span {
+.circles>span {
   width: 3px;
   padding-right: 3px;
   height: 3px;
@@ -861,15 +866,15 @@
   background: white;
 }
 
-.cirscles > span:nth-child(1) {
+.cirscles>span:nth-child(1) {
   animation: circles-anim 1.4s infinite both 0ms;
 }
 
-.circles > span:nth-child(2) {
+.circles>span:nth-child(2) {
   animation: circles-anim 1.4s infinite both 200ms;
 }
 
-.circles > span:nth-child(3) {
+.circles>span:nth-child(3) {
   animation: circles-anim 1.4s infinite both 400ms;
 }
 
@@ -881,6 +886,7 @@
   20% {
     opacity: 1;
   }
+
   100% {
     opacity: 0.2;
   }
@@ -924,12 +930,12 @@
   background: rgba(255, 255, 255, 0.418);
   backdrop-filter: blur(1px);
   border: 1px solid rgba(255, 255, 255, 0.726);
-  display:grid;
-  place-items:center;
+  display: grid;
+  place-items: center;
 
-  svg{
-    fill:white;
-    stroke:white;
+  svg {
+    fill: white;
+    stroke: white;
   }
 }
 
@@ -942,8 +948,7 @@
   margin-left: 15px;
 }
 
-.producto_right {
-}
+.producto_right {}
 
 .producto_right .top {
   text-align: end;
@@ -1034,14 +1039,14 @@
   margin-top: 20px;
 }
 
-.menuPage .menuContainer .menu_lista > li {
+.menuPage .menuContainer .menu_lista>li {
   padding: 10px;
   padding-left: 0;
   margin-bottom: 10px;
   font-size: 18px;
 }
 
-.menuPage .menuContainer .menu_lista > li:hover {
+.menuPage .menuContainer .menu_lista>li:hover {
   color: rgb(218, 218, 218);
 }
 
@@ -1120,7 +1125,7 @@
         width: 100%;
       }
 
-      & > p {
+      &>p {
         margin-bottom: 18px;
       }
 
@@ -1307,6 +1312,7 @@
 
   .firstBlock {
     flex: 1;
+
     .ekis {
       width: 100%;
       display: flex;
@@ -1334,7 +1340,7 @@
       }
     }
 
-    & > h1 {
+    &>h1 {
       font-size: 45px;
       margin-bottom: 20px;
     }
@@ -1344,8 +1350,7 @@
       color: rgb(156, 156, 156);
     }
 
-    .idiomaContainer {
-    }
+    .idiomaContainer {}
 
     //esta clase se usa en 2 componentes
     //la de idioma y de moneda
@@ -1361,13 +1366,14 @@
         align-items: center;
         border: 1px solid rgb(179, 179, 179);
 
-        & > input {
+        &>input {
           height: 100%;
           flex: 1;
           padding: 10px;
           padding-left: 12px;
           border-radius: 5px 0 0 5px;
         }
+
         .iconoLupa {
           width: 30px;
           height: 30px;
@@ -1457,21 +1463,21 @@
   .ekisCookies {
     width: 30px;
     height: 30px;
-    cursor:pointer;
+    cursor: pointer;
     align-self: end;
-    transition:all 120ms;
-    padding:7px;
-    border-radius:50%;
-  
+    transition: all 120ms;
+    padding: 7px;
+    border-radius: 50%;
+
 
     svg {
       width: 100%;
       height: 100%;
     }
 
-    &:hover{
-      background:rgb(240, 240, 240);
-      
+    &:hover {
+      background: rgb(240, 240, 240);
+
     }
   }
 
@@ -1494,19 +1500,21 @@
 
     .cookie_realMensaje {
       margin-left: 20px;
+
       h2 {
         text-align: center;
+
         @media (max-width: 900px) {
           font-size: 28px;
-          font-weight:700;
-          margin:10px 0;
+          font-weight: 700;
+          margin: 10px 0;
         }
       }
 
-      p{
-        @media(max-width:900px){
-          font-size:17px;
-        
+      p {
+        @media(max-width:900px) {
+          font-size: 17px;
+
         }
       }
     }
@@ -1521,20 +1529,20 @@
     display: flex;
     justify-content: space-around;
 
-    & > div {
+    &>div {
       width: 47%;
       padding: 10px;
       text-align: center;
       cursor: pointer;
       border-radius: 5px;
 
-      @media(max-width:900px){
-        padding:15px 0;
-        width:48%;
+      @media(max-width:900px) {
+        padding: 15px 0;
+        width: 48%;
       }
     }
 
-    & > div:nth-child(1) {
+    &>div:nth-child(1) {
       background: #e3e3e3;
       border: 2px solid #dddddd;
       opacity: 0.6;
@@ -1545,7 +1553,7 @@
       }
     }
 
-    & > div:nth-child(2) {
+    &>div:nth-child(2) {
       background: rgb(203 236 255 / 38%);
       border: 2px solid #73beff;
       transition: all 150ms;
@@ -1557,8 +1565,9 @@
       }
     }
 
-    
+
   }
+
   @media (max-width: 900px) {
     width: 100%;
     height: 65%;
@@ -1568,22 +1577,33 @@
     border-bottom: none;
   }
 
-  @keyframes entradaCookie {
-  }
+  @keyframes entradaCookie {}
 }
 
 
 
 
-@keyframes closeCookies{
-  from{
-    transform:scale(1);
-    opacity:1;
-   
+@keyframes closeCookiesPC {
+  from {
+    transform: scale(1);
+    opacity: 1;
+
   }
 
-  to{
-   transform:scale(.7);
-   opacity:0;
+  to {
+    transform: scale(.7);
+    opacity: 0;
+  }
+}
+
+@keyframes closeCookiesMobile {
+  from {
+    height: 65%;
+    opacity: 1;
+  }
+
+  to {
+    height: 10%;
+    opacity: 0;
   }
 }
