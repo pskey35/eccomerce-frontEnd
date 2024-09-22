@@ -419,7 +419,7 @@ function ProductosRelacionados() {
 
 
 
-            const query1 = `query{getProducts(texto_a_buscar:"",categoria:"${dataProducto.categoria}",numeroDePagina:${newNumeroDePagina},itemsPorPagina:6)
+            const query1 = `query{getProducts(texto_a_buscar:"null",categoria:"${dataProducto.categoria}",numeroDePagina:${newNumeroDePagina},itemsPorPagina:6)
             {
                 nombre_producto,
                 precio_en_dolares,
@@ -470,17 +470,16 @@ function ProductosRelacionados() {
     useEffect(() => {
 
 
-
         const query = `query{getProducts(texto_a_buscar:"null",categoria:"${dataProducto.categoria}",numeroDePagina:1,itemsPorPagina:6){
             nombre_producto,
            precio_en_dolares,
            firstUrlImagen,
-           idProducto
+           idProducto,
+           categoria
         }}`
 
-        console.log("******----")
-        console.log(dataProducto)
-        console.log(query)
+        alert(query)
+        
         fetch(`${process.env.NEXT_PUBLIC_api}/graphql`, {
             method: "POST",
             headers: {
@@ -489,7 +488,8 @@ function ProductosRelacionados() {
             body: JSON.stringify({ query })
         }).then(e => e.json())
             .then(e => {
-                console.log("/*/---")
+           
+                console.log("**********************")
                 console.log(e)
                 setProductosRelacionados(e.data.getProducts)
                 // console.clear()
@@ -513,6 +513,7 @@ function ProductosRelacionados() {
                 <div className={page.detect}></div>
                 {
                      loaderProductos && (loaderProductos ? <div className={page.loader}></div> : "")
+               
                 }
 
            
