@@ -412,7 +412,7 @@ function ProductosRelacionados() {
     const loadMoreProductos = async (entrada) => {
         if (entrada[0].isIntersecting) {
 
-            //setLoaderProductos(true)
+            setLoaderProductos(true)
             newNumeroDePagina++
             const detect = document.querySelector(`.${page.detect}`)
             observador.unobserve(detect)
@@ -512,8 +512,12 @@ function ProductosRelacionados() {
                 })}
                 <div className={page.detect}></div>
                 {
-                    loaderProductos && (loaderProductos ? <div className={page.loader}></div> : "")
+                     loaderProductos && (loaderProductos ? <div className={page.loader}></div> : "")
                 }
+
+           
+
+
 
             </div>
         </div>
@@ -593,7 +597,7 @@ export default function Producto(props) {
         if (!queryParams) {
             //si no tiene ninguna query entra aqui
             router.push(`/product/${idProduct}/${productName}?indiceImg=${1}`)
-           // setPrincipalImage(0)
+            // setPrincipalImage(0)
             //  alert("!queryparamas")
             return;
         } else if (isNaN(queryParams) || queryParams <= 0) {
