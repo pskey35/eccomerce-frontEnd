@@ -260,6 +260,8 @@
 
 .bottomLeft .tableInfo .tableInfo_content > div .center{
 	width:65%;
+	overflow:hidden;
+	text-overflow:ellipsis;
 }
 
 .bottomLeft .tableInfo.tableInfo_content  > div:nth-child(1){

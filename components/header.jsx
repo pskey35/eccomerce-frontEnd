@@ -132,8 +132,8 @@ export function Input() {
             //aqui puse * 29 porq cada ItemLista mide eso con todo y padding
             const calcularHeight = 29 * e.data.giveSugerenciasInput.length;
 
-            //aqui sume +2 porque si no aparecia el scroll de overflow bueno eso lo soluciona
-            sugerenciasInputRef.current.style.cssText = `visibility:visible;opacity:1;height:${calcularHeight + 2
+            //aqui sume +10 porque si no aparecia el scroll de overflow bueno eso lo soluciona
+            sugerenciasInputRef.current.style.cssText = `visibility:visible;opacity:1;height:${calcularHeight + 10
               }px;max-height:400px;overflow:auto`;
           }
 
