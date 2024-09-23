@@ -9,12 +9,12 @@ import global_en from "../translations/en/global.json"
 
 i18next.init({
   interpolation: { escapeValue: false },
-  resources:{
-    es:{
-      global:global_es
+  resources: {
+    es: {
+      global: global_es
     },
-    en:{
-      global:global_en
+    en: {
+      global: global_en
     }
   }
 })
@@ -56,6 +56,17 @@ export default function RootLayout({ children }) {
 
   return (
     <html lang="en">
+      <head>
+        <title>Jayme Ln - Portfolio</title>
+        <meta name="google" content="notranslate" />
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content="Jayme Ln | Eccomerce" />
+        <meta property="og:description" content="hola!👋, soy jayme y este es mi Eccomerce"></meta>
+        <meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/prueba-62d11.appspot.com/o/eccomerce.png?alt=media&token=0c67e6f6-5225-422b-ab32-45ff4b40e107" />
+        <meta property="og:image:width" content="340px" />
+        <meta property="og:image:height" content="150px" />
+        <meta property="og:site_name" content="Leaft eccomerce"></meta>
+      </head>
       <body>
         <I18nextProvider i18n={i18next}>
           <ContextGlobal.Provider value={value}>

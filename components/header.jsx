@@ -1455,7 +1455,7 @@ export default function Header() {
             <Link href="/" style={{ textDecoration: "none" }}>
               <div className={header.perfilContainer}>
                 <div className={header.perfil}>
-                  <img src="/logo.avif" />
+                  <img src="/leaft.png" />
                 </div>
                 {/*aqui pondre LN store pero de momento DIGITAL SPACE*/}
                 <span className={header.nombreTienda}>Leaft</span>

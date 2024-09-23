@@ -81,6 +81,7 @@
     padding: 2px 2px 2px 10px;
     background: rgba(0, 0, 0, 0.432);
     z-index:20;
+    align-items:center;
   }
   
   .productoItem .infoBoton p {

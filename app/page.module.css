@@ -2,24 +2,23 @@
   background: rgb(14, 14, 14);
 }
 
-.ventana .cajaTop{
+.ventana .cajaTop {}
+
+
+.ventana .inputContainer {
+  width: 90%;
+  margin: auto;
+  position: sticky;
+  top: 60px;
+  z-index: 50;
+  padding-top: 10px;
+  background: rgb(14, 14, 14);
+  display: none;
 }
 
-
-.ventana .inputContainer{
-  width:90%;
-  margin:auto;
-  position:sticky;
-  top:60px;
-  z-index:50;
-  padding-top:10px;
-  background:rgb(14, 14, 14);
-  display:none;
-}
-
-@media (max-width:768px){
-  .ventana .inputContainer{
-    display:block;
+@media (max-width:768px) {
+  .ventana .inputContainer {
+    display: block;
   }
 }
 
@@ -30,9 +29,10 @@
 
 /*en esta pagina noma se vera asi el productoContainer*/
 .ventana .productoBloque {
-  display:grid;
-  place-items:center;
+  display: grid;
+  place-items: center;
   padding: 30px;
+  position: relative;
 }
 
 .ventana .productoBloque .productoContainer {
@@ -41,7 +41,34 @@
   grid-template-rows: repeat(2, 520px);
   grid-gap: 16px;
   max-width: 1500px;
-  width:100%;
+  width: 100%;
+}
+
+/* HTML: <div class="loader"></div> */
+.ventana .productoBloque .loader {
+  width: 50px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background:
+    radial-gradient(farthest-side, #ffa516 94%, #0000) top/8px 8px no-repeat,
+    conic-gradient(#0000 30%, #ffa516);
+  -webkit-mask: radial-gradient(farthest-side, #0000 calc(100% - 8px), #000 0);
+  animation: l13 1s infinite linear;
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0px;
+  margin: auto;
+  width: 50px;
+  background: radial-gradient(farthest-side, #0a77ff 94%, #0000) top / 8px 8px no-repeat, conic-gradient(#0000 30%, #215bff);
+ 
+}
+
+@keyframes l13 {
+  100% {
+    transform: rotate(1turn)
+  }
 }
 
 .ventana .productoBloque .productoContainer>div {
@@ -65,9 +92,10 @@
 }
 
 @media (max-width: 768px) {
-  .ventana .productoBloque{
-    padding-top:20px;
+  .ventana .productoBloque {
+    padding-top: 20px;
   }
+
   .ventana .productoBloque .productoContainer {
     grid-template-columns: repeat(1, 1fr);
     grid-template-rows: repeat(3, 450px);
@@ -87,22 +115,22 @@
 .containerDeslizante {
   width: 100%;
   height: auto;
-  position:relative;
+  position: relative;
 }
 
-.containerDeslizante .leftSlide{
-  height:100%;
-  position:absolute;
-  left:0;
-  top:0;
-  z-index:10;
-  display:grid;
-  place-items:center;
-  overflow:hidden;
-  cursor:pointer;
+.containerDeslizante .leftSlide {
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 10;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  cursor: pointer;
 }
 
-.containerDeslizante .leftSlide .leftArrow{
+.containerDeslizante .leftSlide .leftArrow {
   background: rgb(35 35 35);
   border-radius: 100%;
   width: 55px;
@@ -110,36 +138,36 @@
   border: 1px solid #313131;
 }
 
-.containerDeslizante .leftSlide .leftArrow:hover{
-  background:rgb(47 47 47);
+.containerDeslizante .leftSlide .leftArrow:hover {
+  background: rgb(47 47 47);
 }
 
 
-.containerDeslizante .rightSlide{
-  height:100%;
-  position:absolute;
-  right:0;
-  top:0;
-  z-index:10;
-  display:grid;
-  place-items:center;
-  overflow:hidden;
-  transition:all 300ms ease;
-  border-radius:5px;
+.containerDeslizante .rightSlide {
+  height: 100%;
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 10;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  transition: all 300ms ease;
+  border-radius: 5px;
 }
 
-.containerDeslizante .rightArrow{
+.containerDeslizante .rightArrow {
   background: rgb(35 35 35);
   border-radius: 100%;
   width: 55px;
   padding: 5px;
   border: 1px solid #313131;
-  cursor:pointer;
-  transition:all 100ms ease;
+  cursor: pointer;
+  transition: all 100ms ease;
 }
 
-.containerDeslizante .rightArrow:hover{
-  background:rgb(47 47 47);
+.containerDeslizante .rightArrow:hover {
+  background: rgb(47 47 47);
 }
 
 
@@ -147,9 +175,9 @@
   display: flex;
   overflow: hidden;
   padding: 0px 17px;
-  margin-top:30px;
-  margin-bottom:100px;
-  scroll-behavior:smooth;
+  margin-top: 30px;
+  margin-bottom: 100px;
+  scroll-behavior: smooth;
 }
 
 
@@ -157,11 +185,11 @@
 
 
 
-.containerDeslizante .containerDeslizante_content > div {
+.containerDeslizante .containerDeslizante_content>div {
   min-width: 300px;
   height: 250px;
-  margin:0 15px;
-  background:blacK;
+  margin: 0 15px;
+  background: blacK;
 }
 
 
@@ -182,6 +210,6 @@
 
 .containerDeslizante_content::-webkit-scrollbar-thumb:hover {
   background-color: #bdbdbd;
-  cursor:pointer;
+  cursor: pointer;
   /* Color del scroll al pasar el cursor */
 }

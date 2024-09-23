@@ -304,8 +304,12 @@ export default function App() {
   //aqui se guardaran los productos del slider
   const [itemProductosSlider, setItemProductosSlider] = useState([])
 
+  //este loader es porque la api esta en onrender y es lento
+  const [loaderHome, setLoaderHome] = useState(true)
+
   useEffect(() => {
     async function dataRecoleccion() {
+      setLoaderHome(true)
       const query = `query{getProducts(texto_a_buscar:"null",categoria:"novedades", numeroDePagina:1,itemsPorPagina:8)
       {
        nombre_producto
@@ -327,10 +331,12 @@ export default function App() {
 
 
 
+      setLoaderHome(false)
       //aqui tengo que hacer la peticion los 8 normalmente pero recortarlo a 3
       setItemProductosGrid(
         resu.data.getProducts.filter((e, ind) => ind < 3)
       )
+
 
       setItemProductosSlider(
         resu.data.getProducts.filter((e, ind) => ind > 3)
@@ -358,6 +364,8 @@ export default function App() {
           <Input></Input>
         </div>
         <div className={page.productoBloque}>
+
+
           <div className={page.productoContainer}>
             {itemProductosGrid &&
               itemProductosGrid.map((dataUnidad, indice) => {
@@ -368,6 +376,8 @@ export default function App() {
                 );
               })}
           </div>
+          {loaderHome ? <div className={page.loader}></div> : ""}
+
         </div>
         <ContainerDeslizante></ContainerDeslizante>
         <Footer></Footer>
