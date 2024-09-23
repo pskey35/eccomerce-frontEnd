@@ -84,7 +84,7 @@ function ProductoLeft() {
         // router.push(`/product/${productName}${ind}/${idProduct}`)
         // router.push(`/product/hola?games=1`)
         router.push(`/product/${idProduct}/${productName}?indiceImg=${indiceRecibido}`)
-
+        alert(indiceRecibido)
         //console.clear()
         //  console.log(indiceRecibido)
         //alert(indiceRecibido)
@@ -158,12 +158,12 @@ function ProductoLeft() {
     return (
         <div className={page.left}>
             <div className={page.contenidoImagen}>
-                <img src={`${dataProducto.allImgs[principalImage == undefined ? 0 : principalImage].imagenUrl}`} className={page.fondoImagen}></img>
+                <img src={`${dataProducto && dataProducto.allImgs[principalImage == undefined ? 0 : principalImage]?.imagenUrl}`} className={page.fondoImagen}></img>
 
                 <div className={page.imagen}>
 
 
-                    <img src={`${dataProducto.allImgs[principalImage == undefined ? 0 : principalImage].imagenUrl}`}></img>
+                    <img src={`${dataProducto.allImgs[principalImage == undefined ? 0 : principalImage]?.imagenUrl}`}></img>
 
 
 
@@ -190,7 +190,10 @@ function ProductoLeft() {
                 (<div className={page.otherImages}>
                     <div className={page.otherImages_content}>
                         {dataProducto.allImgs.map((dataUnidad, indice) => {
+
                             console.log("444444444444444444444444")
+                            console.log(dataProducto)
+                            console.log(dataProducto.allImgs)
                             console.log(queryParams)
                             console.log(queryParams, indice + 1)
                             return (
@@ -478,7 +481,7 @@ function ProductosRelacionados() {
            categoria
         }}`
 
-        alert(query)
+      
         
         fetch(`${process.env.NEXT_PUBLIC_api}/graphql`, {
             method: "POST",
@@ -587,7 +590,10 @@ export default function Producto(props) {
                 }
                 setDataProducto(e.data.giveInfoProducto)
                 setLoadingProducto(false)
+
             })
+
+          
 
     }, [])
 
@@ -604,8 +610,12 @@ export default function Producto(props) {
         } else if (isNaN(queryParams) || queryParams <= 0) {
             router.push(`/product/${idProduct}/${productName}?indiceImg=${1}`)
             return;
+        }else if(queryParams > dataProducto?.allImgs?.length){
+            //esto es para limitar cadenas de url y que no muestre error
+            router.push(`/product/${idProduct}/${productName}?indiceImg=${1}`)
+            return;
         }
-
+     
 
         //se resta -1 los arrays en js se inician desde el cero pero este queryParams en la url no se va a iniciar 
         //desde 0 sino desde el 1 para mejorar la experiencia del usuario
@@ -645,8 +655,9 @@ export default function Producto(props) {
                 product_flechaNext.style.cssText = "opacity:0.2;cursor:not-allowed"
                 return;
             } else if (queryParams > dataProducto?.allImgs?.length || queryParams < dataProducto?.allImgs?.length || queryParams == 0) {
+              
                 ///real?indiceImg=1 -- aqui el queryParams vendria a ser el uno
-                router.push(`/product/${idProduct}/${productName}?indiceImg=${1}`)
+               // router.push(`/product/${idProduct}/${productName}?indiceImg=${1}`)
 
             }
 

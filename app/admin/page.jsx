@@ -414,6 +414,8 @@ function Right() {
             : categoriaSeleccionado,
       };
 
+
+      alert(JSON.stringify(data))
       formData.append("json_data", JSON.stringify(data));
       fetch(`${process.env.NEXT_PUBLIC_api}/file-createProducto`, {
         method: "POST",

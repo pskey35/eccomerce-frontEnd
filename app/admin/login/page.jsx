@@ -20,7 +20,7 @@ export default function App() {
             mensaje,
             token
         }}`
-        fetch("http://localhost:8000/graphql", {
+        fetch(`${process.env.NEXT_PUBLIC_api}/graphql`, {
             method: "POST",
             headers: {
                 "Content-type": "Application/json"

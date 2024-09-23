@@ -90,7 +90,7 @@ function SkeletonSearch() {
 function CajaLeftPC() {
   const router = useRouter();
 
-  const { textoCategoria, textoBuscado } = useContext(ContextSearch);
+  const { textoCategoria, textoBuscado,setItemProductos } = useContext(ContextSearch);
 
   useEffect(() => {
     if (textoBuscado == "null" || textoBuscado == undefined) {
@@ -144,7 +144,12 @@ function CajaLeftPC() {
   }, [, textoBuscado, textoCategoria]);
 
   const clickListaItem = (categoriaRecibido) => {
+    if(textoCategoria == categoriaRecibido){
+      //si ?ctg=calzados
+      return;
+    }
     router.push(`?ctg=${categoriaRecibido}`);
+
     // console.clear()
     console.log("CLICK ITEM....");
     console.log(categoriaRecibido);
@@ -669,15 +674,24 @@ export default function App(props) {
   //esto obtiene la query "ctg=valor"
   let textoCategoria = props.searchParams?.ctg;
 
+  //de menor a mayor el ?.
+  let sort = props.searchParams?.sort
 
   let textoOrder = props.searchParams?.sort
-
-
 
   //esto obtiene la quyer = "sort=valor"
   let sortType = props.searchParams?.sort;
 
   const router = useRouter();
+
+
+  useEffect(()=>{
+      if(sort == undefined){
+        router.push(`${window.location.href}&sort=price-desc`);
+      }else{
+        //router.push(`${window.location.href}&sort=price-asc`);
+      }
+  },[sort])
   /*
   useEffect(() => {
     //  alert(textoBuscado)
@@ -766,11 +780,11 @@ export default function App(props) {
 
 
     if (loading == false) {
-   
+
       //aqui formateamos todo y luego recien agregamos color celeste al LI
-      
-       
-     
+
+
+
       if (textoOrder == "price-asc") {
         //si se da click en LI price-asc entonces que se borre lo sombreado de celeste
         //el price-desc
@@ -778,7 +792,7 @@ export default function App(props) {
         elementOrder.style.cssText = "background:rgb(37, 165, 255)"
 
         console.log("click en asc")
-        const element  = document.querySelector(`.${search.li_price_desc}`)
+        const element = document.querySelector(`.${search.li_price_desc}`)
         element.style.background = "none"
 
       } else if (textoOrder == "price-desc") {
@@ -786,7 +800,7 @@ export default function App(props) {
         elementOrder.style.cssText = "background:rgb(37, 165, 255)"
 
 
-        const element  = document.querySelector(`.${search.li_price_asc}`)
+        const element = document.querySelector(`.${search.li_price_asc}`)
         element.style.background = "none"
 
       }
@@ -794,11 +808,11 @@ export default function App(props) {
 
 
 
-   
+
 
     }
 
-  }, [textoOrder,loading])
+  }, [textoOrder, loading])
 
   const value = {
     itemProductos,
