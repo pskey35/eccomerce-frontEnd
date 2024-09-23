@@ -75,7 +75,6 @@
   background-color: hsl(0, 0%, 9%);
   animation: animLoad 1.5s linear infinite alternate 700ms;
   border-radius: 5px;
-  border: 1px solid rgb(0, 45, 59);
 }
 
 .skeletonPC .pc_right {
