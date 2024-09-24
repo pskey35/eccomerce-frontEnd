@@ -475,6 +475,8 @@ function CajaCenter() {
 function CajaRightPC() {
   const router = useRouter();
 
+  const {sortType} = useContext(ContextSearch)
+
   const redirectSort = (urlRecibido) => {
     const urlActual = window.location.href;
 
@@ -492,7 +494,12 @@ function CajaRightPC() {
     router.push(nuevaURL);
     //router.push(`${urlActual}&sort=${url}`)
   };
-
+/*
+  useEffect(()=>{
+    if(sortType == "price-desc"){
+      const li_price_desc_element = document.querySelector("")
+    }
+  },[sorType])*/
 
 
   return (
@@ -500,10 +507,10 @@ function CajaRightPC() {
       <p>Ordenar por:</p>
       <ul>
         {/*relevancia - tendencias*/}
-        <li onClick={() => redirectSort("price-desc")} className={search.li_price_desc}>
+        <li onClick={() => redirectSort("price-asc")} className={search.li_price_desc}>
           Precios: de menor a mayor
         </li>
-        <li onClick={() => redirectSort("price-asc")} className={search.li_price_asc}>
+        <li onClick={() => redirectSort("price-desc")} className={search.li_price_asc}>
           Precios: de mayor a menor
         </li>
       </ul>
@@ -785,17 +792,16 @@ export default function App(props) {
 
 
 
-      if (textoOrder == "price-asc") {
+      if (textoOrder == "price-desc") {
         //si se da click en LI price-asc entonces que se borre lo sombreado de celeste
         //el price-desc
         const elementOrder = document.querySelector(`.${search.li_price_asc}`)
         elementOrder.style.cssText = "background:rgb(37, 165, 255)"
 
-        console.log("click en asc")
         const element = document.querySelector(`.${search.li_price_desc}`)
         element.style.background = "none"
 
-      } else if (textoOrder == "price-desc") {
+      } else if (textoOrder == "price-asc") {
         const elementOrder = document.querySelector(`.${search.li_price_desc}`)
         elementOrder.style.cssText = "background:rgb(37, 165, 255)"
 

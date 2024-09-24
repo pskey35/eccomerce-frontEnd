@@ -57,7 +57,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <head>
-        <title>Jayme Ln - Portfolio</title>
+        <title>Jayme Ln - eccomerce</title>
         <meta name="google" content="notranslate" />
         <meta property="og:type" content="website" />
         <meta property="og:title" content="Jayme Ln | Eccomerce" />

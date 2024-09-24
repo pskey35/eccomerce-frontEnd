@@ -19,7 +19,7 @@ export default function Footer() {
             <div className={footer.logo}>
               <div className={footer.logo_content}>
               <div className={footer.image}>
-                <img src="/parrot.jpg"></img>
+                <img src="/leaf.png"></img>
               </div>
               <div style={{marginLeft:"10px"}}>Leaft</div>
               </div>
