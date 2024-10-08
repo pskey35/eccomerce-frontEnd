@@ -90,7 +90,7 @@ function SkeletonSearch() {
 function CajaLeftPC() {
   const router = useRouter();
 
-  const { textoCategoria, textoBuscado,setItemProductos } = useContext(ContextSearch);
+  const { textoCategoria, textoBuscado, setItemProductos, sortType } = useContext(ContextSearch);
 
   useEffect(() => {
     if (textoBuscado == "null" || textoBuscado == undefined) {
@@ -144,11 +144,14 @@ function CajaLeftPC() {
   }, [, textoBuscado, textoCategoria]);
 
   const clickListaItem = (categoriaRecibido) => {
-    if(textoCategoria == categoriaRecibido){
+    if (textoCategoria == categoriaRecibido) {
       //si ?ctg=calzados
       return;
     }
-    router.push(`?ctg=${categoriaRecibido}`);
+
+
+    //search?ctg=ropa&sort=price-desc
+    router.push(`?ctg=${categoriaRecibido}&sort=${sortType}`);
 
     // console.clear()
     console.log("CLICK ITEM....");
@@ -475,7 +478,7 @@ function CajaCenter() {
 function CajaRightPC() {
   const router = useRouter();
 
-  const {sortType} = useContext(ContextSearch)
+  const { sortType } = useContext(ContextSearch)
 
   const redirectSort = (urlRecibido) => {
     const urlActual = window.location.href;
@@ -494,12 +497,12 @@ function CajaRightPC() {
     router.push(nuevaURL);
     //router.push(`${urlActual}&sort=${url}`)
   };
-/*
-  useEffect(()=>{
-    if(sortType == "price-desc"){
-      const li_price_desc_element = document.querySelector("")
-    }
-  },[sorType])*/
+  /*
+    useEffect(()=>{
+      if(sortType == "price-desc"){
+        const li_price_desc_element = document.querySelector("")
+      }
+    },[sorType])*/
 
 
   return (
@@ -681,8 +684,6 @@ export default function App(props) {
   //esto obtiene la query "ctg=valor"
   let textoCategoria = props.searchParams?.ctg;
 
-  //de menor a mayor el ?.
-  let sort = props.searchParams?.sort
 
   let textoOrder = props.searchParams?.sort
 
@@ -692,13 +693,13 @@ export default function App(props) {
   const router = useRouter();
 
 
-  useEffect(()=>{
-      if(sort == undefined){
-        router.push(`${window.location.href}&sort=price-desc`);
-      }else{
-        //router.push(`${window.location.href}&sort=price-asc`);
-      }
-  },[sort])
+  useEffect(() => {
+
+    if (sortType == undefined) {
+      router.push(`${window.location.href}&sort=price-desc`);
+    }
+
+  }, [sortType])
   /*
   useEffect(() => {
     //  alert(textoBuscado)
@@ -828,7 +829,8 @@ export default function App(props) {
     numeroDePagina,
     textoBuscado,
     textoCategoria,
-    sortType,
+    sortType
+
   };
   //esta data es lo que se recibe en la url
   //search?q=juegos
