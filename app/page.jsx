@@ -354,6 +354,19 @@ export default function App() {
     dataRecoleccion();
   }, []);
 
+  useEffect(() => {
+    const productoBloque = document.querySelector(`.${page.productoBloque}`)
+    if (loaderHome) {
+      //si esta cargando entonces que tenga un viewport adecuado para el loader
+      productoBloque.style.cssText = "height:90vh";
+
+    } else {
+      productoBloque.style.cssText = "height:auto"
+    }
+  }, [loaderHome])
+
+
+
   const value = { itemProductosSlider, setItemProductosSlider }
 
   return (

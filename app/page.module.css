@@ -1,5 +1,6 @@
 .ventana {
   background: rgb(14, 14, 14);
+
 }
 
 .ventana .cajaTop {}
@@ -33,6 +34,8 @@
   place-items: center;
   padding: 30px;
   position: relative;
+
+  height:90vh;
 }
 
 .ventana .productoBloque .productoContainer {
